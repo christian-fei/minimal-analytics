@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal</title>
+  <style>
+  /*! normalize.css v8.0.1 | MIT License |   */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+  <style>
+    *, *:after, *:before {
+      box-sizing: border-box;
+    }
+    .debug * {
+        outline: 1px solid red;
+    }
+
+    html {
+      font-family: monospace;
+      font-size: 14px;
+    }
+    body {
+      padding: 1rem;
+      overflow-y: scroll;
+      /*
+      background-color: #111;
+      color: #fff;
+      */
+    }
+    #pageviews-chart {
+      --color: rgb(0,0,0);
+      height: 10rem;
+      margin: 1em auto;
+      /* padding-left: 3rem;
+      padding-right: 3rem; */
+      overflow: hidden;
+    }
+    @media all and (max-width: 50em) {
+      #pageviews-chart {
+        /* display: none; */
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    #pageviews-chart tr:hover {
+      background: #eee;
+    }
+    ul, ol {
+      margin-left: 0;
+      padding-left: 0;
+    }
+    li {
+      display: block;
+      list-style-type: none;
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+      word-break: break-word;
+    }
+    select {
+      display: inline-block;
+      padding: 0.5em 1em;
+      margin-bottom: 2em;
+    }
+
+    .favicon {
+      height: 1rem;
+      width: 1rem;
+      margin-right: 0.5em;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .opaque {
+      opacity: 0.7;
+    }
+
+    .grid {
+      display: flex;
+    }
+
+    .w-50 {
+      width: 50%;
+    }
+    @media all and (min-width: 60em) {
+      .grid-lg {
+        display: flex;
+      }
+      .w-50-lg {
+        width: 50%;
+      }
+    }
+    .filterable {
+      font-weight: bold;
+      margin-bottom: 0.5em;
+      padding: 0.125em 0.25em;
+      display: block;
+    }
+    .filterable:hover, .filterable:focus, .filterable:active {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    #filters {
+      position: fixed;
+      top: 0.5em;
+      right: 0.5em;
+      padding: 0.25em;
+      z-index: 100;
+      background-color: rgb(250,250,250);
+      max-width: 40em;
+      font-size: 0.8em;
+    }
+    @media all and (max-width: 40em) {
+      #filters {
+        max-width: 100%;
+      }
+    }
+    #notice {
+      border: 1px solid #000;
+      padding: 1em 0.5em;
+      position: relative;
+      max-width: 40em;
+      margin: 1em auto;
+    }
+    #notice > span {
+      position: absolute;
+      top: 0.5em;
+      right: 0.5em;
+    }
+
+    details {
+      margin-top: 1em;
+    }
+
+    .visitor {
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+    }
+    .pageview {
+      margin: 0;
+      padding: 0.5em 0;
+      border-bottom: 1px dotted #000;
+    }
+    .pageview p {
+      margin: 0;
+      padding: 0;
+    }
+    .chart {
+      height: 150px;
+      height: 7em;
+      width: 100%;
+      stroke-width: 1.5;
+      fill-opacity: 0.15;
+      stroke-opacity: 0.8;
+    }
+    .active {
+      border-bottom: 2px solid black;;
+    }
+    .charts-css .tooltip {
+      transition: none !important;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body class="debug1">
+  <div class="grid-lg">
+    <div class="w-50-lg">
+      <h4>Timeframe</h4>
+      <span class="select-timeframe" name="last-1d" id="last-1d">Last day</span>
+      <span class="select-timeframe" name="today" id="today">Today</span>
+      <span class="select-timeframe" name="last-1w" id="last-1w">Last week</span>
+      <span class="select-timeframe" name="last-1m" id="last-1m">Last month</span>
+    </div>
+    <div class="w-50-lg">
+      <h4>Resolution</h4>
+      <span class="select-resolution" name="minutes" id="minutes">Minutes</span>
+      <span class="select-resolution" name="hourly" id="hourly">Hourly</span>
+      <span class="select-resolution" name="daily" id="daily">Daily</span>
+    </div>
+  </div>
+
+  <div id="pageviews-chart">
+  </div>
+
+  <div id="filters"></div>
+
+  <div class="grid">
+    <div class="w-50">
+      <h2>Visitors</h2>
+      <div id="visitors-count"></div>
+    </div>
+    <div class="w-50">
+      <h2>Pageviews</h2>
+      <div id="pageviews-count"></div>
+    </div>
+  </div>
+
+  <h2>Live</h2>
+  <div id="live"></div>
+
+  <div id="notice"></div>
+
+  <div class="grid-lg">
+    <div class="w-50-lg" id="referrers">
+      <h2>Top Referrers</h2>
+      <ul id="top-referrers"></ul>
+    </div>
+    <div class="w-50-lg" id="pages">
+      <h2>Top Pages</h2>
+      <ul id="top-pages"></ul>
+    </div>
+  </div>
+
+  <details id="timeline-container">
+    <summary>
+      <h2 style="display: inline-block;">Timeline</h2>
+    </summary>
+    <ul id="timeline"></ul>
+  </details>
+
+  <div id="debug"></div>
+  <script>
+    ;(async () => {
+      const today = new Date().toISOString().substring(0, 10)
+      const $live = document.getElementById('live')
+      const $timelineContainer = document.getElementById('timeline-container')
+      const $timeline = document.getElementById('timeline')
+      const $filters = document.getElementById('filters')
+      const $pageviewsChart = document.getElementById('pageviews-chart')
+      const $topPages = document.getElementById('top-pages')
+      const $topReferrers = document.getElementById('top-referrers')
+      const $pages = document.getElementById('pages')
+      const $referrers = document.getElementById('referrers')
+      const $selectTimeframe = [...document.querySelectorAll('.select-timeframe')]
+      const $selectResolution = [...document.querySelectorAll('.select-resolution')]
+      const $visitorsCount = document.getElementById('visitors-count')
+      const $pageviewsCount = document.getElementById('pageviews-count')
+
+      const $notice = document.getElementById('notice')
+      if (!localStorage.ackNotice) {
+        const $closeNotice = document.createElement('span')
+        $closeNotice.innerText = '[x]'
+        $closeNotice.addEventListener('click', function () {
+          localStorage.ackNotice = 'true'
+          $notice.remove()
+        })
+        const $noticeText = document.createElement('p')
+        $noticeText.innerText = `
+Click on any "Top Referrers" and "Top Pages" to filter analytics
+        `.trim()
+        $notice.append($closeNotice)
+        $notice.append($noticeText)
+      } else {
+        $notice.remove()
+      }
+
+      let currentTimeframe = 'today'
+      let currentFilters = {resolution: 'hourly'}
+
+      const currentUrl = new URL(window.location)
+      if (['/today', '/last-1d', '/last-1w', '/last-1m'].includes(currentUrl.pathname)) {
+        currentTimeframe = currentUrl.pathname.substring(1)
+      }
+      updateResolutions()
+      if (currentUrl.search.includes('resolution=')) {
+        const parts = currentUrl.pathname.substring(1).split('=')
+        currentFilters.resolution = parts.reduce((acc, curr, i, arr) => curr === 'resolution' ? a[i + 1] : acc, undefined)
+      }
+      document.getElementById(currentTimeframe).classList.add('active')
+
+      if (window.location.search) {
+        const paramString = window.location.search.substring(1)
+        currentFilters = paramString.split('&').reduce((acc, curr) => {
+          const [type,value] = curr.split('=')
+          return {...acc, [type]: decodeURIComponent(value)}
+        }, {})
+      }
+
+      renderFilters()
+
+      setInterval(getAndRenderLive, 5000)
+
+      getData().then(render)
+      
+      setInterval(() => getData().then(render), 1000 * 15)
+
+      $selectTimeframe.forEach($t => {
+        makeClickable($t, () => {
+          $selectTimeframe.forEach($t => $t.classList.remove('active'))
+          $t.classList.add('active')
+          filterByTimeframe($t.getAttribute('id'))
+        })
+        function filterByTimeframe (timeframe) {
+          currentTimeframe = timeframe
+          updateResolutions()
+          $pageviewsChart.classList.remove('hidden')
+          const url = new URL(window.location);
+          url.pathname = '/' + currentTimeframe
+          url.searchParams.set('resolution', currentFilters);
+          Object.keys(currentFilters).forEach(k => {
+            url.searchParams.set(k, currentFilters[k]);
+          })
+          window.history.pushState({}, '', url);
+          
+          getData().then(render)
+        }
+      })
+      
+      
+      $selectResolution.forEach($r => {
+        makeClickable($r, () => {
+          $selectResolution.forEach($r => $r.classList.remove('active'))
+          $r.classList.add('active')
+          filterWithResolution($r.getAttribute('id'))
+        })
+        function filterWithResolution (resolution) {
+          $pageviewsChart.classList.remove('hidden')
+          const url = new URL(window.location);
+          url.searchParams.set('resolution', resolution);
+          window.history.pushState({}, '', url);
+          currentFilters.resolution = resolution
+          
+          setTimeout(() => getData().then(render), 200)
+        }
+      })
+
+      function updateResolutions () {
+        if (['last-1w', 'last-1m'].includes(currentTimeframe) && ['minutes'].includes(currentFilters.resolution)) {
+          currentFilters.resolution = 'hourly'
+        } else {
+          if (['last-1d', 'today'].includes(currentTimeframe) && ['daily'].includes(currentFilters.resolution)) {
+            currentFilters.resolution = 'hourly'
+          }
+        }
+        $selectResolution.forEach($r => {
+          if (['last-1d', 'today'].includes(currentTimeframe)) {
+            if (['daily'].includes($r.getAttribute('id'))) {
+              $r.classList.add('hidden')
+            } else {
+              $r.classList.remove('hidden')
+            }
+          }
+          if (['last-1w', 'last-1m'].includes(currentTimeframe)) {
+            if (['minutes'].includes($r.getAttribute('id'))) {
+              $r.classList.add('hidden')
+            } else {
+              $r.classList.remove('hidden')
+            }
+          }
+          if ($r.getAttribute('id') === currentFilters.resolution) {
+            $r.classList.add('active')
+          } else {
+            $r.classList.remove('active')
+          }
+        })
+      }
+
+      async function getLiveVisitors () {
+        const req = await window.fetch('/live')
+        const live = +await req.text()
+        return live
+      }
+
+      async function getAndRenderLive() {
+        const live = await getLiveVisitors()
+        $live.innerText = live
+      }
+
+
+      async function getData() {
+        let query = ''
+        if (Object.keys(currentFilters).length > 0) {
+          query = `?` + Object.keys(currentFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(currentFilters[curr])}`]), []).join('&')
+        }
+        const last1h = await window.fetch('/api/'+currentTimeframe + query)
+        const json = await last1h.json()
+        return json
+      }
+
+      async function render ({data, pages, referrers, chartData, visitorsCount, pageviewsCount, live}) {
+        $timeline.innerHTML = ''
+        $pageviewsChart.innerHTML = ''
+        $topPages.innerHTML = ''
+        $topReferrers.innerHTML = ''
+        $visitorsCount.innerText = visitorsCount
+        $pageviewsCount.innerText = pageviewsCount
+        $live.innerText = live
+
+
+        function createPageviewElement(d) {
+          const $pageview = document.createElement('li')
+          $pageview.classList.add('pageview')
+          const $visit = document.createElement('div')
+          $visit.classList.add('filterable')
+          $visit.innerHTML = `<time>${d.d.substring(0, 16)}</time> ${d.v} <span style="background-color: ${visitorColor(d.v)}" class="visitor"></span>`
+          makeClickable($visit, () => toggleFilter('v', d.v))
+          $pageview.append($visit)
+
+          const $page = document.createElement('div')
+          $page.classList.add('filterable')
+          $page.innerHTML = `<b>${d.p}</b>`
+          makeClickable($page, () => toggleFilter('p', d.p))
+          $pageview.append($page)
+
+          if (d.r) {
+            const $referrer = document.createElement('div')
+            $referrer.classList.add('filterable')
+            $referrer.innerHTML = `from <img class="favicon" src="https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico"/> ${d.r}`
+            makeClickable($referrer, () => toggleFilter('r', d.r))
+            $pageview.append($referrer)
+          }
+
+          return $pageview
+        }
+        data.forEach(d => {
+          const $pageview = createPageviewElement(d)
+          $timeline.append($pageview)
+        })
+
+        function createPageElement (d) {
+          const $page = document.createElement('li')
+          $page.classList.add('filterable')
+          $page.innerHTML = `<b>${d.views}</b> ${d.p}`.trim()
+          makeClickable($page, () => toggleFilter('p', d.p))
+          return $page
+        }
+        pages.slice(0, 10).forEach(d => {
+          $topPages.append(createPageElement(d))
+        })
+        if (pages.slice(10).length > 0) {
+          const $morePages = document.createElement('details')
+          $morePages.innerHTML = `<summary>More</summary>`
+          pages.slice(10).forEach(d => {
+            $morePages.append(createPageElement(d))
+          })
+          $topPages.append($morePages)
+        }
+        
+
+        function createReferrersElement (d) {
+          const $referrer = document.createElement('li')
+          $referrer.classList.add('filterable')
+          $referrer.innerHTML = `<b>${d.views}</b> <img class="favicon" src="https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico"/>${d.r}`.trim()
+          makeClickable($referrer, () => toggleFilter('r', d.r))
+          return $referrer
+        }
+        referrers.slice(0, 10).forEach(d => {
+          $topReferrers.append(createReferrersElement(d))
+        })
+        if (referrers.slice(10).length > 0) {
+          const $moreReferrers = document.createElement('details')
+          $moreReferrers.innerHTML = `<summary>More</summary>`
+          referrers.slice(10).forEach(d => {
+            $moreReferrers.append(createReferrersElement(d))
+          })
+          $topReferrers.append($moreReferrers)
+        }
+
+        const maxPageviews = Math.max(...chartData.map(d => d.views))
+
+        const chartType = chartData.length < 7 ? 'column' : 'line'
+
+        $pageviewsChart.innerHTML = `
+          <table class="charts-css ${chartType} show-primary-axis1">
+            <tbody>
+              ${chartData.map((d, i) => `
+                <tr>
+                  <td style="--start: ${i === 0 ? 0 : chartData[i - 1].views / maxPageviews}; --size: ${d.views / maxPageviews}"><span class="tooltip">${d.date.replace(':00.000Z', '')}<br>${d.views} pageviews</span> </td>
+                </tr>
+              `.trim()).join('')}
+            </tbody>
+          </table>
+        `.trim()
+      }
+
+      function baseUrl (url) {
+        if (!url) return '/'
+        var a = document.createElement('a')
+        a.href = url
+        return 'https://' +a.hostname
+      }
+
+      function domain (url) {
+        if (!url) return '/'
+        var a = document.createElement('a')
+        a.href = url
+        return a.hostname
+      }
+
+      function toggleFilter (type, value) {
+        const url = new URL(window.location);
+        if (url.searchParams.has(type)) {
+          url.searchParams.delete(type);
+          delete currentFilters[type]
+        } else {
+          url.searchParams.set(type, value);
+          currentFilters[type] = value
+        }
+        window.history.pushState({}, '', url);
+
+        renderFilters()
+        getData().then(render)
+      }
+      function renderFilters () {
+        $filters.innerHTML = ``
+        const extendedType = {p: 'page', v: 'visitor', r: 'referrer'}
+        const keys = Object.keys(currentFilters).filter(k => Object.keys(extendedType).includes(k))
+        $referrers.classList.remove('opaque')
+        $pages.classList.remove('opaque')
+        keys.forEach(type => {
+          if (extendedType[type] === 'referrer') $referrers.classList.add('opaque')
+          if (extendedType[type] === 'page') $pages.classList.add('opaque')
+        })
+        keys.forEach(type => {
+          const value = currentFilters[type]
+          const $filter = document.createElement('li')
+          $filter.innerHTML = `[x] ${extendedType[type]}: ${value}`
+          makeClickable($filter, () => toggleFilter(type))
+          $filters.append($filter)
+        })
+      }
+
+      function makeClickable ($el, fn) {
+        $el.setAttribute('tabindex', '0')
+        $el.addEventListener('click', fn)
+        $el.addEventListener('keydown', e => e.keyCode === 13 && fn())
+        return $el
+      }
+
+      function visitorColor (v) {
+        return '#' + intToRGB(hashCode(v))
+
+        // https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
+        function hashCode(str) { // java String#hashCode
+          var hash = 0;
+          for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+          }
+          return hash;
+        } 
+
+        function intToRGB(i){
+          var c = (i & 0x00FFFFFF)
+            .toString(16)
+            .toUpperCase();
+
+          return "00000".substring(0, 6 - c.length) + c;
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

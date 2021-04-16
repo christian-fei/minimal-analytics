@@ -1,0 +1,21 @@
+{
+  "name": "minimal-analytics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "touch data.ljson; node index.js",
+    "test": "ava"
+  },
+  "keywords": [],
+  "author": "Christian Fei",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^3.15.0",
+    "got": "^9.6.0"
+  },
+  "ava": {
+    "ignoredByWatcher": ["*.ljson"]
+  }
+}
