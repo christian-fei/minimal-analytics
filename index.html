@@ -110,8 +110,19 @@
         width: 50%;
       }
     }
+    .filterable::before {
+      content: '';
+      display: inline-block;
+      background-color: #000000;
+      position: absolute;
+      height: 0.5em;
+      left: 0;
+      bottom: -0.4em;
+      right: var(--data-percentage);      
+    }
     .filterable {
-      height: 1.3em;
+      position: relative;
+      height: 1.5em;
       overflow: hidden;
       text-overflow: ellipsis;
       word-break: break-all;
@@ -358,7 +369,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
       setInterval(getAndRenderLive, 5000, state)
       updateData(state).then(() => updateUI(state))
-      setInterval(() => updateData(state).then(() => updateUI(state)), 1000 * 15)
+      // setInterval(() => updateData(state).then(() => updateUI(state)), 1000 * 15)
 
       ui.$selectTimeframe.forEach($t => {
         makeClickable($t, () => {
@@ -495,41 +506,45 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           ui.$timeline.append($pageview)
         })
 
-        function createPageElement (d) {
+        function createPageElement (d, total) {
           const $page = document.createElement('li')
+          $page.style = '--data-percentage: ' + (100 - d.views * 100 / total) + '%'
           $page.innerHTML = `<b class="views">${d.views}</b> ${d.p}`.trim()
           makeClickable($page, () => toggleFilter('p', d.p))
           return $page
         }
+        const totalPageviews = pages.reduce((acc, curr) => acc + curr.views, 0)
         pages.slice(0, 10).forEach(d => {
-          ui.$topPages.append(createPageElement(d))
+          ui.$topPages.append(createPageElement(d, totalPageviews))
         })
         if (pages.slice(10).length > 0) {
           const $morePages = document.createElement('details')
           $morePages.innerHTML = `<summary>More</summary>`
           pages.slice(10).forEach(d => {
-            $morePages.append(createPageElement(d))
+            $morePages.append(createPageElement(d, totalPageviews))
           })
           ui.$topPages.append($morePages)
         }
         
 
-        function createReferrersElement (d) {
+        function createReferrersElement (d, total) {
           const $referrer = document.createElement('li')
+          $referrer.style = '--data-percentage: ' + (100 - d.views * 100 / total) + '%'
           $referrer.innerHTML = `<b class="views">${d.views}</b> <img class="favicon" src="https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico"/>${d.r}`.trim()
           makeClickable($referrer, () => {
             toggleFilter('r', d.r)
           })
           return $referrer
         }
+        const totalReferrerViews = referrers.reduce((acc, curr) => acc + curr.views, 0)
         referrers.slice(0, 10).forEach(d => {
-          ui.$topReferrers.append(createReferrersElement(d))
+          ui.$topReferrers.append(createReferrersElement(d, totalReferrerViews))
         })
         if (referrers.slice(10).length > 0) {
           const $moreReferrers = document.createElement('details')
           $moreReferrers.innerHTML = `<summary>More</summary>`
           referrers.slice(10).forEach(d => {
-            $moreReferrers.append(createReferrersElement(d))
+            $moreReferrers.append(createReferrersElement(d, totalReferrerViews))
           })
           ui.$topReferrers.append($moreReferrers)
         }
