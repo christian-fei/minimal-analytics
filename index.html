@@ -271,7 +271,6 @@
   <div id="debug"></div>
   <script>
     ;(async () => {
-      const today = new Date().toISOString().substring(0, 10)
       const ui = {
         $live: document.getElementById('live'),
         $timeline: document.getElementById('timeline'),
@@ -286,6 +285,11 @@
         $visitorsCount: document.getElementById('visitors-count'),
         $pageviewsCount: document.getElementById('pageviews-count'),
         $notice: document.getElementById('notice')
+      }
+      const state = {
+        currentTimeframe: 'past-day',
+        currentFilters: {resolution: 'hourly'},
+        currentUrl: new URL(window.location)
       }
 
       if (localStorage.ackNotice) {
@@ -305,35 +309,28 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         ui.$notice.append($noticeText)
       }
 
-      let currentTimeframe = 'past-day'
-      let currentFilters = {resolution: 'hourly'}
 
-      const currentUrl = new URL(window.location)
-      if (['/today', '/past-day', '/past-week', '/past-month'].includes(currentUrl.pathname)) {
-        currentTimeframe = currentUrl.pathname.substring(1)
+      if (['/today', '/past-day', '/past-week', '/past-month'].includes(state.currentUrl.pathname)) {
+        state.currentTimeframe = state.currentUrl.pathname.substring(1)
       }
       updateResolutions()
 
-      document.getElementById(currentTimeframe) && document.getElementById(currentTimeframe).classList.add('active')
-
-      
-      if (currentUrl.search.includes('resolution=')) {
-        const parts = currentUrl.pathname.substring(1).split('=')
-        currentFilters.resolution = parts.reduce((acc, curr, i, arr) => curr === 'resolution' ? a[i + 1] : acc, undefined)
-      }
+      document.getElementById(state.currentTimeframe) && document.getElementById(state.currentTimeframe).classList.add('active')
 
       if (window.location.search) {
         const paramString = window.location.search.substring(1)
-        currentFilters = paramString.split('&').reduce((acc, curr) => {
+        state.currentFilters = paramString.split('&').reduce((acc, curr) => {
           const [type,value] = curr.split('=')
           return {...acc, [type]: decodeURIComponent(value)}
         }, {})
       }
+      if (state.currentUrl.search.includes('resolution=')) {
+        const parts = state.currentUrl.pathname.substring(1).split('=')
+        state.currentFilters.resolution = parts.reduce((acc, curr, i, arr) => curr === 'resolution' ? a[i + 1] : acc, undefined)
+      }
 
       setInterval(getAndRenderLive, 5000)
-
       getData().then(updateUI)
-      
       setInterval(() => getData().then(updateUI), 1000 * 15)
 
       ui.$selectTimeframe.forEach($t => {
@@ -343,16 +340,17 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           filterByTimeframe($t.getAttribute('id'))
         })
         function filterByTimeframe (timeframe) {
-          currentTimeframe = timeframe
+          state.currentTimeframe = timeframe
           updateResolutions()
           ui.$pageviewsChart.classList.remove('hidden')
           const url = new URL(window.location);
-          url.pathname = '/' + currentTimeframe
-          url.searchParams.set('resolution', currentFilters);
-          Object.keys(currentFilters).forEach(k => {
-            url.searchParams.set(k, currentFilters[k]);
+          url.pathname = '/' + state.currentTimeframe
+          url.searchParams.set('resolution', state.currentFilters);
+          Object.keys(state.currentFilters).forEach(k => {
+            url.searchParams.set(k, state.currentFilters[k]);
           })
           window.history.pushState({}, '', url);
+          state.currentUrl = url
           
           getData().then(updateUI)
         }
@@ -370,36 +368,37 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           const url = new URL(window.location);
           url.searchParams.set('resolution', resolution);
           window.history.pushState({}, '', url);
-          currentFilters.resolution = resolution
+          state.currentUrl = url
+          state.currentFilters.resolution = resolution
           
           getData().then(updateUI)
         }
       })
 
       function updateResolutions () {
-        if (['past-week', 'past-month'].includes(currentTimeframe) && ['minutes'].includes(currentFilters.resolution)) {
-          currentFilters.resolution = 'hourly'
+        if (['past-week', 'past-month'].includes(state.currentTimeframe) && ['minutes'].includes(state.currentFilters.resolution)) {
+          state.currentFilters.resolution = 'hourly'
         } else {
-          if (['past-day', 'today'].includes(currentTimeframe) && ['daily'].includes(currentFilters.resolution)) {
-            currentFilters.resolution = 'hourly'
+          if (['past-day', 'today'].includes(state.currentTimeframe) && ['daily'].includes(state.currentFilters.resolution)) {
+            state.currentFilters.resolution = 'hourly'
           }
         }
         ui.$selectResolution.forEach($r => {
-          if (['past-day', 'today'].includes(currentTimeframe)) {
+          if (['past-day', 'today'].includes(state.currentTimeframe)) {
             if (['daily'].includes($r.getAttribute('id'))) {
               $r.classList.add('hidden')
             } else {
               $r.classList.remove('hidden')
             }
           }
-          if (['past-week', 'past-month'].includes(currentTimeframe)) {
+          if (['past-week', 'past-month'].includes(state.currentTimeframe)) {
             if (['minutes'].includes($r.getAttribute('id'))) {
               $r.classList.add('hidden')
             } else {
               $r.classList.remove('hidden')
             }
           }
-          if ($r.getAttribute('id') === currentFilters.resolution) {
+          if ($r.getAttribute('id') === state.currentFilters.resolution) {
             $r.classList.add('active')
           } else {
             $r.classList.remove('active')
@@ -421,10 +420,10 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
       async function getData() {
         let query = ''
-        if (Object.keys(currentFilters).length > 0) {
-          query = `?` + Object.keys(currentFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(currentFilters[curr])}`]), []).join('&')
+        if (Object.keys(state.currentFilters).length > 0) {
+          query = `?` + Object.keys(state.currentFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(state.currentFilters[curr])}`]), []).join('&')
         }
-        const last1h = await window.fetch('/api/'+currentTimeframe + query)
+        const last1h = await window.fetch('/api/'+state.currentTimeframe + query)
         const json = await last1h.json()
         return json
       }
@@ -542,22 +541,23 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         const url = new URL(window.location);
         if (url.searchParams.has(type)) {
           url.searchParams.delete(type);
-          delete currentFilters[type]
+          delete state.currentFilters[type]
         } else {
           url.searchParams.set(type, value);
-          currentFilters[type] = value
+          state.currentFilters[type] = value
         }
         window.history.pushState({}, '', url);
+        state.currentUrl = url
 
         getData().then(updateUI)
       }
       function renderFilters () {
         ui.$filters.innerHTML = ``
         const extendedType = {p: 'page', v: 'visitor', r: 'referrer'}
-        const keys = Object.keys(currentFilters).filter(k => Object.keys(extendedType).includes(k))
+        const keys = Object.keys(state.currentFilters).filter(k => Object.keys(extendedType).includes(k))
 
         keys.forEach(type => {
-          const value = currentFilters[type]
+          const value = state.currentFilters[type]
           const $filter = document.createElement('li')
           $filter.innerHTML = `[x] ${extendedType[type]}: ${value}`
           makeClickable($filter, () => toggleFilter(type))
