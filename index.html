@@ -77,6 +77,17 @@
     .opaque {
       opacity: 0.7;
     }
+    .opaque .filterable {
+      /* padding-left: 1em; */
+      text-decoration: underline;
+    }
+    .opaque .filterable::before {
+      display: inline-block;
+      height: 1rem;
+      width: 2rem;
+      content: '[x]';
+    }
+
 
     .grid {
       display: flex;
@@ -102,6 +113,13 @@
     .filterable:hover, .filterable:focus, .filterable:active {
       cursor: pointer;
       text-decoration: underline;
+      outline: none;
+      border: none;
+    }
+    .select-timeframe, .select-resolution {
+      cursor: pointer;
+      outline: none;
+      border: none;
     }
     #filters {
       position: fixed;
@@ -286,9 +304,9 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
       setInterval(getAndRenderLive, 5000)
 
-      getData().then(render)
+      getData().then(updateUI)
       
-      setInterval(() => getData().then(render), 1000 * 15)
+      setInterval(() => getData().then(updateUI), 1000 * 15)
 
       $selectTimeframe.forEach($t => {
         makeClickable($t, () => {
@@ -308,7 +326,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           })
           window.history.pushState({}, '', url);
           
-          getData().then(render)
+          getData().then(updateUI)
         }
       })
       
@@ -326,7 +344,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           window.history.pushState({}, '', url);
           currentFilters.resolution = resolution
           
-          setTimeout(() => getData().then(render), 200)
+          getData().then(updateUI)
         }
       })
 
@@ -383,7 +401,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         return json
       }
 
-      async function render ({data, pages, referrers, chartData, visitorsCount, pageviewsCount, live}) {
+      async function updateUI ({data, pages, referrers, chartData, visitorsCount, pageviewsCount, live}) {
         $timeline.innerHTML = ''
         $pageviewsChart.innerHTML = ''
         $topPages.innerHTML = ''
@@ -505,7 +523,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         window.history.pushState({}, '', url);
 
         renderFilters()
-        getData().then(render)
+        getData().then(updateUI)
       }
       function renderFilters () {
         $filters.innerHTML = ``
