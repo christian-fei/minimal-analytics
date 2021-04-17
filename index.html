@@ -287,7 +287,9 @@
       const $pageviewsCount = document.getElementById('pageviews-count')
 
       const $notice = document.getElementById('notice')
-      if (!localStorage.ackNotice) {
+      if (localStorage.ackNotice) {
+        $notice.remove()
+      } else {
         const $closeNotice = document.createElement('span')
         $closeNotice.innerText = '[x]'
         $closeNotice.addEventListener('click', function () {
@@ -300,8 +302,6 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         `.trim()
         $notice.append($closeNotice)
         $notice.append($noticeText)
-      } else {
-        $notice.remove()
       }
 
       let currentTimeframe = 'past-day'
@@ -312,11 +312,14 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         currentTimeframe = currentUrl.pathname.substring(1)
       }
       updateResolutions()
+
+      document.getElementById(currentTimeframe) && document.getElementById(currentTimeframe).classList.add('active')
+
+      
       if (currentUrl.search.includes('resolution=')) {
         const parts = currentUrl.pathname.substring(1).split('=')
         currentFilters.resolution = parts.reduce((acc, curr, i, arr) => curr === 'resolution' ? a[i + 1] : acc, undefined)
       }
-      document.getElementById(currentTimeframe).classList.add('active')
 
       if (window.location.search) {
         const paramString = window.location.search.substring(1)
