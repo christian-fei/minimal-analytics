@@ -19,8 +19,8 @@
     .contain {
       max-width: 60em;
       margin: 0 auto;
-      padding-top: 4em;
-      padding-bottom: 4em;
+      padding-top: 2em;
+      padding-bottom: 2em;
     }
 
     html {
@@ -28,13 +28,23 @@
       font-size: 14px;
     }
     body {
-      padding: 1rem;
       overflow-y: scroll;
       /*
       background-color: #111;
       color: #fff;
       */
     }
+    body > * {
+      padding: 1rem;
+    }
+    .sticky-top {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 9000;
+      box-shadow: 0 1em 2.9em #f7f7f7;
+    }
+
     #pageviews-chart {
       --color: rgb(0,0,0);
       height: 10rem;
@@ -131,7 +141,7 @@
     }
     #filters {
       position: fixed;
-      top: 0.5em;
+      bottom: 0.5em;
       right: 0.5em;
       padding: 0.25em;
       z-index: 100;
@@ -201,23 +211,24 @@
   </style>
 </head>
 <body class="debug1">
-  <div class="grid-lg contain">
-    <div class="w-50-lg">
-      <h4>Timeframe</h4>
-      <span class="select-timeframe" name="today" id="today">Today</span>
-      <span class="select-timeframe" name="past-day" id="past-day">Past day</span>
-      <span class="select-timeframe" name="past-week" id="past-week">Past week</span>
-      <span class="select-timeframe" name="past-month" id="past-month">Past month</span>
-    </div>
-    <div class="w-50-lg">
-      <h4>Resolution</h4>
-      <span class="select-resolution" name="hourly" id="hourly">Hourly</span>
-      <span class="select-resolution" name="daily" id="daily">Daily</span>
-      <span class="select-resolution" name="minutes" id="minutes">Minutes</span>
-    </div>
-  </div>
+  <div class="sticky-top">
+    <div id="pageviews-chart"></div>
 
-  <div id="pageviews-chart">
+    <div class="grid-lg contain">
+      <div class="w-50-lg">
+        <h4>Timeframe</h4>
+        <span class="select-timeframe" name="today" id="today">Today</span>
+        <span class="select-timeframe" name="past-day" id="past-day">Past day</span>
+        <span class="select-timeframe" name="past-week" id="past-week">Past week</span>
+        <span class="select-timeframe" name="past-month" id="past-month">Past month</span>
+      </div>
+      <div class="w-50-lg">
+        <h4>Resolution</h4>
+        <span class="select-resolution" name="hourly" id="hourly">Hourly</span>
+        <span class="select-resolution" name="daily" id="daily">Daily</span>
+        <span class="select-resolution" name="minutes" id="minutes">Minutes</span>
+      </div>
+    </div>
   </div>
 
   <div id="filters"></div>
