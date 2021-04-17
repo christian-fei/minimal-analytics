@@ -439,7 +439,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           const $pageview = document.createElement('li')
           $pageview.classList.add('pageview')
           const $visit = document.createElement('div')
-          $visit.innerHTML = `<time>${d.d.substring(0, 16)}</time> ${d.v} <span style="background-color: ${visitorColor(d.v)}" class="visitor"></span>`
+          $visit.innerHTML = `<time>${d.d.substring(0, 19)}</time> ${d.v} <span style="background-color: ${visitorColor(d.v)}" class="visitor"></span>`
           makeClickable($visit, () => toggleFilter('v', d.v))
           $pageview.append($visit)
 
