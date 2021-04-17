@@ -132,6 +132,7 @@ function getAnalytics (url, memory, live) {
 
   if (resolution === 'minutes' && /(\/past-week|\/past-month)/.test(url)) resolution = 'daily'
   if (resolution === 'daily' && /(\/past-day|\/today)/.test(url)) resolution = 'hourly'
+  if (!['minutes', 'hourly', 'daily'].includes(resolution)) resolution = 'hourly'
 
   let data = memory.filter(m => +new Date(m.d) > startDate).reverse()
   const keys = Object.keys(filters)

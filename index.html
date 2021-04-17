@@ -334,6 +334,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
       if (state.currentUrl.search.includes('resolution=')) {
         const parts = state.currentUrl.pathname.substring(1).split('=')
         state.currentFilters.resolution = parts.reduce((acc, curr, i, arr) => curr === 'resolution' ? a[i + 1] : acc, undefined)
+        if (!['minutes', 'hourly', 'daily'].includes(state.currentFilters.resolution)) state.currentFilters.resolution = 'hourly'
       }
 
       setInterval(getAndRenderLive, 5000, state)
@@ -419,14 +420,14 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         return live
       }
 
-      async function getAndRenderLive(state) {
+      async function getAndRenderLive(state = {}) {
         const live = await getLiveVisitors()
         state.live = live
         ui.$live.innerText = live
       }
 
 
-      async function updateData(state) {
+      async function updateData(state = {}) {
         let query = ''
         if (Object.keys(state.currentFilters).length > 0) {
           query = `?` + Object.keys(state.currentFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(state.currentFilters[curr])}`]), []).join('&')
@@ -438,7 +439,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         return json
       }
 
-      async function updateUI ({data, pages, referrers, chartData, visitorsCount, pageviewsCount, live}) {
+      async function updateUI ({data, pages, referrers, chartData, visitorsCount, pageviewsCount, live} = {}) {
         ui.$timeline.innerHTML = ''
         ui.$pageviewsChart.innerHTML = ''
         ui.$topPages.innerHTML = ''
@@ -530,7 +531,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           </table>
         `.trim()
 
-        renderFilters()
+        renderFilters(state)
       }
 
       function baseUrl (url) {
@@ -561,7 +562,8 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
         updateData(state).then(() => updateUI(state))
       }
-      function renderFilters () {
+
+      function renderFilters (state = {}) {
         ui.$filters.innerHTML = ``
         const extendedType = {p: 'page', v: 'visitor', r: 'referrer'}
         const keys = Object.keys(state.currentFilters).filter(k => Object.keys(extendedType).includes(k))
