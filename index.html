@@ -77,16 +77,6 @@
     .opaque {
       opacity: 0.7;
     }
-    .opaque .filterable {
-      /* padding-left: 1em; */
-      text-decoration: underline;
-    }
-    .opaque .filterable::before {
-      display: inline-block;
-      height: 1rem;
-      width: 2rem;
-      content: '[x]';
-    }
 
 
     .grid {
@@ -535,18 +525,20 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         $filters.innerHTML = ``
         const extendedType = {p: 'page', v: 'visitor', r: 'referrer'}
         const keys = Object.keys(currentFilters).filter(k => Object.keys(extendedType).includes(k))
-        $referrers.classList.remove('opaque')
-        $pages.classList.remove('opaque')
-        keys.forEach(type => {
-          if (extendedType[type] === 'referrer') $referrers.classList.add('opaque')
-          if (extendedType[type] === 'page') $pages.classList.add('opaque')
-        })
+
         keys.forEach(type => {
           const value = currentFilters[type]
           const $filter = document.createElement('li')
           $filter.innerHTML = `[x] ${extendedType[type]}: ${value}`
           makeClickable($filter, () => toggleFilter(type))
           $filters.append($filter)
+        })
+
+        $referrers.classList.remove('opaque')
+        $pages.classList.remove('opaque')
+        keys.forEach(type => {
+          if (extendedType[type] === 'referrer') $referrers.classList.add('opaque')
+          if (extendedType[type] === 'page') $pages.classList.add('opaque')
         })
       }
 
