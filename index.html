@@ -111,6 +111,10 @@
       }
     }
     .filterable {
+      height: 1.3em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
       font-weight: bold;
       margin-bottom: 0.5em;
       padding: 0.125em 0.25em;
@@ -141,7 +145,7 @@
     }
     #filters {
       position: fixed;
-      bottom: 0.5em;
+      top: 0.5em;
       right: 0.5em;
       padding: 0.25em;
       z-index: 100;
@@ -208,19 +212,23 @@
     h1, h2, h3, h4, h5, h6 {
       font-size: 1em;
     }
+    .views {
+      min-width: 2.5em;
+      display: inline-block;
+    }
   </style>
 </head>
 <body class="debug1">
   <div class="sticky-top1">
-    <div class="grid-lg contain">
-      <div class="w-50-lg">
+    <div class="grid contain">
+      <div class="w-50">
         <h4>Timeframe</h4>
         <span class="select-timeframe" name="today" id="today">Today</span>
         <span class="select-timeframe" name="past-day" id="past-day">Past day</span>
         <span class="select-timeframe" name="past-week" id="past-week">Past week</span>
         <span class="select-timeframe" name="past-month" id="past-month">Past month</span>
       </div>
-      <div class="w-50-lg">
+      <div class="w-50">
         <h4>Resolution</h4>
         <span class="select-resolution" name="hourly" id="hourly">Hourly</span>
         <span class="select-resolution" name="daily" id="daily">Daily</span>
@@ -489,7 +497,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
         function createPageElement (d) {
           const $page = document.createElement('li')
-          $page.innerHTML = `<b>${d.views}</b> ${d.p}`.trim()
+          $page.innerHTML = `<b class="views">${d.views}</b> ${d.p}`.trim()
           makeClickable($page, () => toggleFilter('p', d.p))
           return $page
         }
@@ -508,7 +516,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
         function createReferrersElement (d) {
           const $referrer = document.createElement('li')
-          $referrer.innerHTML = `<b>${d.views}</b> <img class="favicon" src="https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico"/>${d.r}`.trim()
+          $referrer.innerHTML = `<b class="views">${d.views}</b> <img class="favicon" src="https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico"/>${d.r}`.trim()
           makeClickable($referrer, () => {
             toggleFilter('r', d.r)
           })
@@ -579,6 +587,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         const extendedType = {p: 'page', v: 'visitor', r: 'referrer'}
         const keys = Object.keys(state.currentFilters).filter(k => Object.keys(extendedType).includes(k))
 
+        if (keys.length > 0) ui.$filters.innerHTML += 'Filtering by<br>'
         keys.forEach(type => {
           const value = state.currentFilters[type]
           const $filter = document.createElement('li')
