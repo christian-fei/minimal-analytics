@@ -46,8 +46,8 @@
     }
 
     #pageviews-chart {
-      --color: rgb(0,0,0);
-      height: 10rem;
+      --color: #222;
+      height: 7rem;
       margin: 1em auto;
       /* padding-left: 3rem;
       padding-right: 3rem; */
@@ -531,7 +531,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         const chartType = chartData.length < 7 ? 'column' : 'line'
 
         ui.$pageviewsChart.innerHTML = `
-          <table class="charts-css ${chartType} show-primary-axis1">
+          <table class="charts-css column show-primary-axis">
             <tbody>
               ${chartData.map((d, i) => `
                 <tr>
