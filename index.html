@@ -16,6 +16,12 @@
     .debug * {
         outline: 1px solid red;
     }
+    .contain {
+      max-width: 60em;
+      margin: 0 auto;
+      padding-top: 4em;
+      padding-bottom: 4em;
+    }
 
     html {
       font-family: monospace;
@@ -99,17 +105,19 @@
       margin-bottom: 0.5em;
       padding: 0.125em 0.25em;
       display: block;
+      border-bottom: 1px dotted #ccc;
     }
     .filterable:hover, .filterable:focus, .filterable:active {
       cursor: pointer;
       text-decoration: underline;
       outline: none;
-      border: none;
+      border-bottom: 1px dotted #ccc;
+      /* border: none; */
     }
     .select-timeframe, .select-resolution {
       cursor: pointer;
       outline: none;
-      border: none;
+      border-bottom: 1px dotted #000;
     }
     #filters {
       position: fixed;
@@ -183,7 +191,7 @@
   </style>
 </head>
 <body class="debug1">
-  <div class="grid-lg">
+  <div class="grid-lg contain">
     <div class="w-50-lg">
       <h4>Timeframe</h4>
       <span class="select-timeframe" name="today" id="today">Today</span>
@@ -204,7 +212,7 @@
 
   <div id="filters"></div>
 
-  <div class="grid">
+  <div class="grid contain">
     <div class="w-50">
       <h2>Visitors</h2>
       <div id="visitors-count"></div>
@@ -213,14 +221,15 @@
       <h2>Pageviews</h2>
       <div id="pageviews-count"></div>
     </div>
+    <div class="w-50">
+      <h2>Live</h2>
+      <div id="live"></div>
+    </div>
   </div>
-
-  <h2>Live</h2>
-  <div id="live"></div>
 
   <div id="notice"></div>
 
-  <div class="grid-lg">
+  <div class="grid-lg contain">
     <div class="w-50-lg" id="referrers">
       <h2>Top Referrers</h2>
       <ul id="top-referrers"></ul>
@@ -231,7 +240,7 @@
     </div>
   </div>
 
-  <details id="timeline-container">
+  <details id="timeline-container" class="contain"> 
     <summary>
       <h2 style="display: inline-block;">Timeline</h2>
     </summary>
