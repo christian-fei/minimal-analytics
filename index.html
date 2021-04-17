@@ -272,36 +272,37 @@
   <script>
     ;(async () => {
       const today = new Date().toISOString().substring(0, 10)
-      const $live = document.getElementById('live')
-      const $timelineContainer = document.getElementById('timeline-container')
-      const $timeline = document.getElementById('timeline')
-      const $filters = document.getElementById('filters')
-      const $pageviewsChart = document.getElementById('pageviews-chart')
-      const $topPages = document.getElementById('top-pages')
-      const $topReferrers = document.getElementById('top-referrers')
-      const $pages = document.getElementById('pages')
-      const $referrers = document.getElementById('referrers')
-      const $selectTimeframe = [...document.querySelectorAll('.select-timeframe')]
-      const $selectResolution = [...document.querySelectorAll('.select-resolution')]
-      const $visitorsCount = document.getElementById('visitors-count')
-      const $pageviewsCount = document.getElementById('pageviews-count')
+      const ui = {
+        $live: document.getElementById('live'),
+        $timeline: document.getElementById('timeline'),
+        $filters: document.getElementById('filters'),
+        $pageviewsChart: document.getElementById('pageviews-chart'),
+        $topPages: document.getElementById('top-pages'),
+        $topReferrers: document.getElementById('top-referrers'),
+        $pages: document.getElementById('pages'),
+        $referrers: document.getElementById('referrers'),
+        $selectTimeframe: [...document.querySelectorAll('.select-timeframe')],
+        $selectResolution: [...document.querySelectorAll('.select-resolution')],
+        $visitorsCount: document.getElementById('visitors-count'),
+        $pageviewsCount: document.getElementById('pageviews-count'),
+        $notice: document.getElementById('notice')
+      }
 
-      const $notice = document.getElementById('notice')
       if (localStorage.ackNotice) {
-        $notice.remove()
+        ui.$notice.remove()
       } else {
         const $closeNotice = document.createElement('span')
         $closeNotice.innerText = '[x]'
         $closeNotice.addEventListener('click', function () {
           localStorage.ackNotice = 'true'
-          $notice.remove()
+          ui.$notice.remove()
         })
         const $noticeText = document.createElement('p')
         $noticeText.innerText = `
 Click on any "Top Referrers" and "Top Pages" to filter analytics
         `.trim()
-        $notice.append($closeNotice)
-        $notice.append($noticeText)
+        ui.$notice.append($closeNotice)
+        ui.$notice.append($noticeText)
       }
 
       let currentTimeframe = 'past-day'
@@ -335,16 +336,16 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
       
       setInterval(() => getData().then(updateUI), 1000 * 15)
 
-      $selectTimeframe.forEach($t => {
+      ui.$selectTimeframe.forEach($t => {
         makeClickable($t, () => {
-          $selectTimeframe.forEach($t => $t.classList.remove('active'))
+          ui.$selectTimeframe.forEach($t => $t.classList.remove('active'))
           $t.classList.add('active')
           filterByTimeframe($t.getAttribute('id'))
         })
         function filterByTimeframe (timeframe) {
           currentTimeframe = timeframe
           updateResolutions()
-          $pageviewsChart.classList.remove('hidden')
+          ui.$pageviewsChart.classList.remove('hidden')
           const url = new URL(window.location);
           url.pathname = '/' + currentTimeframe
           url.searchParams.set('resolution', currentFilters);
@@ -358,14 +359,14 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
       })
       
       
-      $selectResolution.forEach($r => {
+      ui.$selectResolution.forEach($r => {
         makeClickable($r, () => {
-          $selectResolution.forEach($r => $r.classList.remove('active'))
+          ui.$selectResolution.forEach($r => $r.classList.remove('active'))
           $r.classList.add('active')
           filterWithResolution($r.getAttribute('id'))
         })
         function filterWithResolution (resolution) {
-          $pageviewsChart.classList.remove('hidden')
+          ui.$pageviewsChart.classList.remove('hidden')
           const url = new URL(window.location);
           url.searchParams.set('resolution', resolution);
           window.history.pushState({}, '', url);
@@ -383,7 +384,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
             currentFilters.resolution = 'hourly'
           }
         }
-        $selectResolution.forEach($r => {
+        ui.$selectResolution.forEach($r => {
           if (['past-day', 'today'].includes(currentTimeframe)) {
             if (['daily'].includes($r.getAttribute('id'))) {
               $r.classList.add('hidden')
@@ -414,7 +415,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
       async function getAndRenderLive() {
         const live = await getLiveVisitors()
-        $live.innerText = live
+        ui.$live.innerText = live
       }
 
 
@@ -429,13 +430,13 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
       }
 
       async function updateUI ({data, pages, referrers, chartData, visitorsCount, pageviewsCount, live}) {
-        $timeline.innerHTML = ''
-        $pageviewsChart.innerHTML = ''
-        $topPages.innerHTML = ''
-        $topReferrers.innerHTML = ''
-        $visitorsCount.innerText = visitorsCount
-        $pageviewsCount.innerText = pageviewsCount
-        $live.innerText = live
+        ui.$timeline.innerHTML = ''
+        ui.$pageviewsChart.innerHTML = ''
+        ui.$topPages.innerHTML = ''
+        ui.$topReferrers.innerHTML = ''
+        ui.$visitorsCount.innerText = visitorsCount
+        ui.$pageviewsCount.innerText = pageviewsCount
+        ui.$live.innerText = live
 
 
         function createPageviewElement(d) {
@@ -462,7 +463,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         }
         data.forEach(d => {
           const $pageview = createPageviewElement(d)
-          $timeline.append($pageview)
+          ui.$timeline.append($pageview)
         })
 
         function createPageElement (d) {
@@ -472,7 +473,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           return $page
         }
         pages.slice(0, 10).forEach(d => {
-          $topPages.append(createPageElement(d))
+          ui.$topPages.append(createPageElement(d))
         })
         if (pages.slice(10).length > 0) {
           const $morePages = document.createElement('details')
@@ -480,7 +481,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           pages.slice(10).forEach(d => {
             $morePages.append(createPageElement(d))
           })
-          $topPages.append($morePages)
+          ui.$topPages.append($morePages)
         }
         
 
@@ -493,7 +494,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           return $referrer
         }
         referrers.slice(0, 10).forEach(d => {
-          $topReferrers.append(createReferrersElement(d))
+          ui.$topReferrers.append(createReferrersElement(d))
         })
         if (referrers.slice(10).length > 0) {
           const $moreReferrers = document.createElement('details')
@@ -501,14 +502,14 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           referrers.slice(10).forEach(d => {
             $moreReferrers.append(createReferrersElement(d))
           })
-          $topReferrers.append($moreReferrers)
+          ui.$topReferrers.append($moreReferrers)
         }
 
         const maxPageviews = Math.max(...chartData.map(d => d.views))
 
         const chartType = chartData.length < 7 ? 'column' : 'line'
 
-        $pageviewsChart.innerHTML = `
+        ui.$pageviewsChart.innerHTML = `
           <table class="charts-css ${chartType} show-primary-axis1">
             <tbody>
               ${chartData.map((d, i) => `
@@ -551,7 +552,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         getData().then(updateUI)
       }
       function renderFilters () {
-        $filters.innerHTML = ``
+        ui.$filters.innerHTML = ``
         const extendedType = {p: 'page', v: 'visitor', r: 'referrer'}
         const keys = Object.keys(currentFilters).filter(k => Object.keys(extendedType).includes(k))
 
@@ -560,14 +561,14 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
           const $filter = document.createElement('li')
           $filter.innerHTML = `[x] ${extendedType[type]}: ${value}`
           makeClickable($filter, () => toggleFilter(type))
-          $filters.append($filter)
+          ui.$filters.append($filter)
         })
 
-        $referrers.classList.remove('opaque')
-        $pages.classList.remove('opaque')
+        ui.$referrers.classList.remove('opaque')
+        ui.$pages.classList.remove('opaque')
         keys.forEach(type => {
-          if (extendedType[type] === 'referrer') $referrers.classList.add('opaque')
-          if (extendedType[type] === 'page') $pages.classList.add('opaque')
+          if (extendedType[type] === 'referrer') ui.$referrers.classList.add('opaque')
+          if (extendedType[type] === 'page') ui.$pages.classList.add('opaque')
         })
       }
 
