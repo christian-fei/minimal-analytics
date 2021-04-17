@@ -53,7 +53,7 @@ function start (env = process.env, memory) {
       res.statusCode = 200
       return res.end('' + Object.keys(live).length)
     }
-    if (req.method === 'GET' && /\/api(\/last-1d|\/today|\/last-1w|\/last-1m)/.test(req.url)) {
+    if (req.method === 'GET' && /\/api(\/past-day|\/today|\/past-week|\/past-month)/.test(req.url)) {
       const analytics = getAnalytics(req.url, memory, live)
       res.setHeader('Content-type', 'application/json')
       res.statusCode = 200
@@ -126,14 +126,14 @@ function getAnalytics (url, memory, live) {
   let resolution = parseResolution(url)
 
   if (/\/today/.test(url)) startDate = +new Date(new Date().toISOString().substring(0, 10) + 'T00:00:00.000Z')
-  if (/\/last-1d/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24
-  if (/\/last-1w/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24 * 7
-  if (/\/last-1m/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24 * 31
+  if (/\/past-day/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24
+  if (/\/past-week/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24 * 7
+  if (/\/past-month/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24 * 31
 
   if (!resolution) {
     resolution = 'minutes'
-    if (/\/last-1w/.test(url)) resolution = 'daily'
-    if (/\/last-1m/.test(url)) resolution = 'daily'
+    if (/\/past-week/.test(url)) resolution = 'daily'
+    if (/\/past-month/.test(url)) resolution = 'daily'
   }
 
   let data = memory.filter(m => +new Date(m.d) > startDate).reverse()

@@ -190,10 +190,10 @@
   <div class="grid-lg">
     <div class="w-50-lg">
       <h4>Timeframe</h4>
-      <span class="select-timeframe" name="last-1d" id="last-1d">Last day</span>
       <span class="select-timeframe" name="today" id="today">Today</span>
-      <span class="select-timeframe" name="last-1w" id="last-1w">Last week</span>
-      <span class="select-timeframe" name="last-1m" id="last-1m">Last month</span>
+      <span class="select-timeframe" name="past-day" id="past-day">Past day</span>
+      <span class="select-timeframe" name="past-week" id="past-week">Past week</span>
+      <span class="select-timeframe" name="past-month" id="past-month">Past month</span>
     </div>
     <div class="w-50-lg">
       <h4>Resolution</h4>
@@ -282,7 +282,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
       let currentFilters = {resolution: 'hourly'}
 
       const currentUrl = new URL(window.location)
-      if (['/today', '/last-1d', '/last-1w', '/last-1m'].includes(currentUrl.pathname)) {
+      if (['/today', '/past-day', '/past-week', '/past-month'].includes(currentUrl.pathname)) {
         currentTimeframe = currentUrl.pathname.substring(1)
       }
       updateResolutions()
@@ -349,22 +349,22 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
       })
 
       function updateResolutions () {
-        if (['last-1w', 'last-1m'].includes(currentTimeframe) && ['minutes'].includes(currentFilters.resolution)) {
+        if (['past-week', 'past-month'].includes(currentTimeframe) && ['minutes'].includes(currentFilters.resolution)) {
           currentFilters.resolution = 'hourly'
         } else {
-          if (['last-1d', 'today'].includes(currentTimeframe) && ['daily'].includes(currentFilters.resolution)) {
+          if (['past-day', 'today'].includes(currentTimeframe) && ['daily'].includes(currentFilters.resolution)) {
             currentFilters.resolution = 'hourly'
           }
         }
         $selectResolution.forEach($r => {
-          if (['last-1d', 'today'].includes(currentTimeframe)) {
+          if (['past-day', 'today'].includes(currentTimeframe)) {
             if (['daily'].includes($r.getAttribute('id'))) {
               $r.classList.add('hidden')
             } else {
               $r.classList.remove('hidden')
             }
           }
-          if (['last-1w', 'last-1m'].includes(currentTimeframe)) {
+          if (['past-week', 'past-month'].includes(currentTimeframe)) {
             if (['minutes'].includes($r.getAttribute('id'))) {
               $r.classList.add('hidden')
             } else {
