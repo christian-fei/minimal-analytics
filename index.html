@@ -47,7 +47,7 @@
 
     #pageviews-chart {
       --color: #222;
-      height: 7rem;
+      height: 15rem;
       margin: 1em auto;
       /* padding-left: 3rem;
       padding-right: 3rem; */
@@ -209,10 +209,13 @@
       fill-opacity: 0.15;
       stroke-opacity: 0.8;
     }
-    .charts-css.line tbody tr:first-of-type .tooltip {
+    .charts-css td {
+      color: #fff;
+    }
+    .charts-css tbody tr:first-of-type .tooltip {
       left: 6em;
     }
-    .charts-css.line tbody tr:last-of-type .tooltip {
+    .charts-css tbody tr:last-of-type .tooltip {
       left: -3em;
     }
     .active {
@@ -555,11 +558,26 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
         const chartType = chartData.length < 7 ? 'column' : 'line'
 
         ui.$pageviewsChart.innerHTML = `
-          <table class="charts-css column show-primary-axis">
+          <table class="charts-css column show-labels show-primary-axis">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Pageviews</th>
+              </tr>
+            </thead>
+
             <tbody>
               ${chartData.map((d, i) => `
                 <tr>
-                  <td style="--start: ${i === 0 ? 0 : chartData[i - 1].views / maxPageviews}; --size: ${d.views / maxPageviews}"><span class="tooltip">${d.date.replace(':00.000Z', '')}<br>${d.views} pageviews</span> </td>
+                  <!--<th scope="row">${d.date}</th>-->
+                  <td style="--start: ${i === 0 ? 0 : chartData[i - 1].views / maxPageviews}; --size: ${d.views / maxPageviews}">
+                    ${chartData.length < 25 ? 
+                      `<span class="data">${d.views}</span>`: ''
+                    }
+                    <span class="tooltip">
+                      ${d.date.replace(':00.000Z', '')}<br>${d.views} pageviews
+                    </span>
+                  </td>
                 </tr>
               `.trim()).join('')}
             </tbody>
