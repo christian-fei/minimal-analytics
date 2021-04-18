@@ -512,20 +512,20 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
         function createPageElement (d, total) {
           const $page = document.createElement('li')
-          $page.style = '--data-percentage: ' + (100 - d.views * 100 / total) + '%'
+          $page.style = '--data-percentage: ' + (100 - d.views * 80 / total) + '%'
           $page.innerHTML = `<b class="views">${d.views}</b> ${d.p}`.trim()
           makeClickable($page, () => toggleFilter('p', d.p))
           return $page
         }
-        const totalPageviews = pages.reduce((acc, curr) => acc + curr.views, 0)
+        const maxPages = pages.reduce((acc, curr) => Math.max(...[acc, curr.views]), 0)
         pages.slice(0, 10).forEach(d => {
-          ui.$topPages.append(createPageElement(d, totalPageviews))
+          ui.$topPages.append(createPageElement(d, maxPages))
         })
         if (pages.slice(10).length > 0) {
           const $morePages = document.createElement('details')
           $morePages.innerHTML = `<summary>More</summary>`
           pages.slice(10).forEach(d => {
-            $morePages.append(createPageElement(d, totalPageviews))
+            $morePages.append(createPageElement(d, maxPages))
           })
           ui.$topPages.append($morePages)
         }
@@ -533,22 +533,22 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
         function createReferrersElement (d, total) {
           const $referrer = document.createElement('li')
-          $referrer.style = '--data-percentage: ' + (100 - d.views * 100 / total) + '%'
+          $referrer.style = '--data-percentage: ' + (100 - d.views * 80 / total) + '%'
           $referrer.innerHTML = `<b class="views">${d.views}</b> <img class="favicon" src="https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico"/>${d.r}`.trim()
           makeClickable($referrer, () => {
             toggleFilter('r', d.r)
           })
           return $referrer
         }
-        const totalReferrerViews = referrers.reduce((acc, curr) => acc + curr.views, 0)
+        const maxReferrerViews = referrers.reduce((acc, curr) => Math.max(...[acc, curr.views]), 0)
         referrers.slice(0, 10).forEach(d => {
-          ui.$topReferrers.append(createReferrersElement(d, totalReferrerViews))
+          ui.$topReferrers.append(createReferrersElement(d, maxReferrerViews))
         })
         if (referrers.slice(10).length > 0) {
           const $moreReferrers = document.createElement('details')
           $moreReferrers.innerHTML = `<summary>More</summary>`
           referrers.slice(10).forEach(d => {
-            $moreReferrers.append(createReferrersElement(d, totalReferrerViews))
+            $moreReferrers.append(createReferrersElement(d, maxReferrerViews))
           })
           ui.$topReferrers.append($moreReferrers)
         }
