@@ -373,7 +373,7 @@ Click on any "Top Referrers" and "Top Pages" to filter analytics
 
       setInterval(getAndRenderLive, 5000, state)
       updateData(state).then(() => updateUI(state))
-      // setInterval(() => updateData(state).then(() => updateUI(state)), 1000 * 15)
+      setInterval(() => updateData(state).then(() => updateUI(state)), 1000 * 15)
 
       ui.$selectTimeframe.forEach($t => {
         makeClickable($t, () => {
