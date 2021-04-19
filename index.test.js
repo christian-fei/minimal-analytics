@@ -2,19 +2,19 @@ const { serial: test } = require('ava')
 const got = require('got')
 const app = require('.')
 
-const HTTP_PORT = 8081
+const HTTP_PORT = 3001
 const STATS_BASE_URL = `http://localhost:${HTTP_PORT}`
 const SITE_BASE_URL = `http://localhost:${HTTP_PORT}`
 
 let server, memory
-test.beforeEach(() => {
-  const result = app.start({ HTTP_PORT, STATS_BASE_URL, SITE_BASE_URL, DATA_PATH: 'test.ljson' }, [])
+test.beforeEach(async () => {
+  const result = await app.start({ HTTP_PORT, STATS_BASE_URL, SITE_BASE_URL, DATA_PATH: 'test.ljson' }, [])
   server = result.server
   memory = result.memory
 })
 test.afterEach(() => server.close())
 
-test('starts server (port 8081)', async t => {
+test('starts server (port 3001)', async t => {
   t.is(server.address().port, HTTP_PORT)
   const response = await got(`http://localhost:${HTTP_PORT}`)
   t.is(response.statusCode, 200)
@@ -34,9 +34,7 @@ test('tracks pageview', async t => {
   })
   t.is(response.statusCode, 200)
   t.is(memory.length, 1)
-  t.is(memory[0].type, 'pageview')
   t.is(memory[0].w, 1280)
-  t.is(memory[0].u, 'foo-user-agent')
   t.is(memory[0].p, 'http://foo.bar/baz')
   t.truthy(memory[0].d)
 })

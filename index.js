@@ -8,6 +8,7 @@ const parseFilters = require('./lib/parse-filters')
 const parseResolution = require('./lib/parse-resolution')
 const parseOptions = require('./lib/parse-options')
 const analytics = require('./lib/analytics')
+const migrate = require('./lib/migrate')
 
 module.exports = {
   start
@@ -17,11 +18,13 @@ if (require.main === module) {
   start(process.env)
 }
 
-function start (env = process.env, memory) {
+async function start (env = process.env, memory) {
   const options = parseOptions(env)
 
   if (!options.STATS_BASE_URL) throw new Error('MISSING_STATS_BASE_URL')
   if (!options.SITE_BASE_URL) throw new Error('MISSING_SITE_BASE_URL')
+
+  if (env.MIGRATE) await migrate(options)
 
   const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
   const INDEX_HTML = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8').replace(/\{\{SITE_BASE_URL\}\}/g, options.SITE_BASE_URL)
@@ -98,11 +101,11 @@ function trackPageview (req, res, options, memory, live) {
         }
         const userAgent = req.headers['user-agent']
         const visitor = visitorFromRequest(req)
-        const data = { ...body, type: body.t || 'pageview', v: visitor, u: userAgent, d: new Date().toISOString() }
+        const data = { ...body, v: visitor, d: new Date().toISOString() }
 
         live[visitor] = Date.now()
 
-        if (data.type === 'pageview') {
+        if (body.t === 'pageview' || !body.t) {
           memory.push(data)
           fs.appendFile(options.DATA_PATH, JSON.stringify(data) + '\n', (err) => {
             if (err) console.error('failed to write data', err)
