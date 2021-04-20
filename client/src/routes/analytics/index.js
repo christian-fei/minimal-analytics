@@ -5,12 +5,16 @@ export default class Analytics extends Component {
   state = {
     data: {},
     timeframe: 'today',
+    resolution: 'hourly',
     loading: false
   }
   async getData () {
     console.log('getting data', this.state.timeframe)
     this.setState({ loading: true })
-    const query = ''
+    let query = '?'
+    if (this.state.resolution) {
+      query += `resolution=${this.state.resolution}`
+    }
     const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
     const req = await window.fetch(host + '/api/' + this.state.timeframe + query)
     const data = await req.json()
@@ -18,17 +22,14 @@ export default class Analytics extends Component {
   }
 
   componentDidMount () {
-    this.setState({
-      data: {},
-      timeframe: 'today',
-      loading: false
-    })
     this.getData()
   }
 
   updateTimeframe (timeframe) {
-    console.log('setting', timeframe)
     this.setState({ timeframe }, () => this.getData())
+  }
+  updateResolution (resolution) {
+    this.setState({ resolution }, () => this.getData())
   }
 
   render (props, { data, loading } = {}) {
@@ -42,16 +43,16 @@ export default class Analytics extends Component {
         <div class='grid-lg contain'>
           <div class='w-50-lg'>
             <h4>Timeframe</h4>
-            <span onClick={() => this.updateTimeframe('today')} class='select-timeframe filterable' name='today' id='today'>Today</span>
-            <span onClick={() => this.updateTimeframe('past-day')} class='select-timeframe filterable' name='past-day' id='past-day'>Past day</span>
-            <span onClick={() => this.updateTimeframe('past-week')} class='select-timeframe filterable' name='past-week' id='past-week'>Past week</span>
-            <span onClick={() => this.updateTimeframe('past-month')} class='select-timeframe filterable' name='past-month' id='past-month'>Past month</span>
+            <span onClick={() => this.updateTimeframe('today')} class={`select-timeframe filterable ${this.state.timeframe === 'today' && 'active'}`} name='today' id='today'>Today</span>
+            <span onClick={() => this.updateTimeframe('past-day')} class={`select-timeframe filterable ${this.state.timeframe === 'past-day' && 'active'}`} name='past-day' id='past-day'>Past day</span>
+            <span onClick={() => this.updateTimeframe('past-week')} class={`select-timeframe filterable ${this.state.timeframe === 'past-week' && 'active'}`} name='past-week' id='past-week'>Past week</span>
+            <span onClick={() => this.updateTimeframe('past-month')} class={`select-timeframe filterable ${this.state.timeframe === 'past-month' && 'active'}`} name='past-month' id='past-month'>Past month</span>
           </div>
           <div class='w-50-lg'>
             <h4>Resolution</h4>
-            <span class='select-resolution filterable' name='hourly' id='hourly'>Hourly</span>
-            <span class='select-resolution filterable' name='daily' id='daily'>Daily</span>
-            <span class='select-resolution filterable' name='minutes' id='minutes'>Minutes</span>
+            <span onClick={() => this.updateResolution('hourly')} class={`select-resolution filterable ${this.state.resolution === 'hourly' && 'active'}`} name='hourly' id='hourly'>Hourly</span>
+            {['past-week', 'past-month'].includes(this.state.timeframe) && <span onClick={() => this.updateResolution('daily')} class={`select-resolution filterable ${this.state.resolution === 'daily' && 'active'}`} name='daily' id='daily'>Daily</span>}
+            {['today', 'past-day'].includes(this.state.timeframe) && <span onClick={() => this.updateResolution('minutes')} class={`select-resolution filterable ${this.state.resolution === 'minutes' && 'active'}`} name='minutes' id='minutes'>Minutes</span>}
           </div>
         </div>
 
