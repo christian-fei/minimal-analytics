@@ -1,5 +1,6 @@
 import { h, Component } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
+import { route } from 'preact-router';
 
 export default class Analytics extends Component {
   state = {
@@ -16,8 +17,6 @@ export default class Analytics extends Component {
     if (Object.keys(this.state.filters).length > 0) {
       query = `?` + Object.keys(this.state.filters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(this.state.filters[curr])}`]), []).join('&')
     }
-    console.log(query, this.state.filters)
-
     const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
     const req = await window.fetch(host + '/api/' + query)
     const data = await req.json()
@@ -25,26 +24,41 @@ export default class Analytics extends Component {
   }
 
   componentDidMount () {
-    this.getData()
+    if (window.location.search) {
+      const query = window.location.search.substring(1)
+      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
+      this.setState({ filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
+    } else {
+      this.getData()
+    }
     setInterval(() => this.getData(), 10000)
   }
 
   updateTimeframe (timeframe) {
     const newFilters = Object.assign({}, this.state.filters, { timeframe })
+    if (['today', 'past-day'].includes(timeframe) && newFilters.resolution === 'daily') {
+      newFilters.resolution = 'hourly'
+    }
+    if (['past-week', 'past-month'].includes(timeframe) && newFilters.resolution === 'minutes') {
+      newFilters.resolution = 'hourly'
+    }
+    route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     this.setState({ filters: newFilters }, () => this.getData())
   }
   updateResolution (resolution) {
     const newFilters = Object.assign({}, this.state.filters, { resolution })
+    route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     this.setState({ filters: newFilters }, () => this.getData())
   }
   toggleFilter (type, value) {
-    const filters = Object.assign({}, this.state.filters)
-    if (this.state.filters[type] === value) {
-      delete filters[type]
+    const newFilters = Object.assign({}, this.state.filters)
+    if (newFilters[type] === value) {
+      delete newFilters[type]
     } else {
-      filters[type] = value
+      newFilters[type] = value
     }
-    this.setState({ filters }, () => this.getData())
+    route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
+    this.setState({ filters: newFilters }, () => this.getData())
   }
 
   render (props, { data, loading } = {}) {
@@ -52,8 +66,6 @@ export default class Analytics extends Component {
     const maxReferrers = Math.max(...data.referrers.map(r => r.views))
     const maxPages = Math.max(...data.pages.map(r => r.views))
     const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
-
-    console.log(this.state.filters)
 
     return (
       <div>
@@ -124,7 +136,7 @@ export default class Analytics extends Component {
                 return <li onClick={() => this.toggleFilter('r', d.r)} class={`filterable ${this.state.filters.r === d.r && 'active'}`} style={{
                   '--data-percentage': (100 - d.views * 80 / maxReferrers) + '%'
                 }}>
-                  <b class="views">{d.views}</b> <img loading="lazy" class="favicon" src={favicon}/>{d.r}
+                  <b class="views">{d.views}</b> <img loading="lazy" class="favicon" src={favicon}/>{d.r.replace('https://', '').replace('http://', '')}
                 </li>
               })}
             </ul>
@@ -158,7 +170,7 @@ export default class Analytics extends Component {
                   <b>{d.p}</b>
                 </div>
                 {d.r && <div class={`filterable ${this.state.filters.r === d.r && 'active'}`} onClick={() => this.toggleFilter('r', d.r)}>
-                  from <img class="favicon" src={`https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`}/> {d.r}
+                  from <img class="favicon" src={`https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`}/> {d.r.replace('https://', '').replace('http://', '')}
                 </div>}
               </li>
             })}
