@@ -13,4 +13,5 @@
         - .:/app
         - /app/node_modules
         - /app/client/node_modules
+        - /app/client/build
       
