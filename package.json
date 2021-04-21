@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "touch data.ljson; node index.js",
-    "test": "ava"
+    "test": "ava lib/**/*.test.js"
   },
   "keywords": [],
   "author": "Christian Fei",

@@ -9,6 +9,7 @@ const parseResolution = require('./lib/parse-resolution')
 const parseOptions = require('./lib/parse-options')
 const analytics = require('./lib/analytics')
 const migrate = require('./lib/migrate')
+const parseTimeframe = require('./lib/parse-timeframe')
 
 module.exports = {
   start
@@ -56,7 +57,7 @@ async function start (env = process.env, memory) {
       res.statusCode = 200
       return res.end('' + Object.keys(live).length)
     }
-    if (req.method === 'GET' && /\/api(\/past-day|\/today|\/past-week|\/past-month)/.test(req.url)) {
+    if (req.method === 'GET' && /^\/api/.test(req.url)) {
       const analytics = getAnalytics(req.url, memory, live)
       res.setHeader('Content-type', 'application/json')
       res.statusCode = 200
@@ -125,17 +126,8 @@ function trackPageview (req, res, options, memory, live) {
 
 function getAnalytics (url, memory, live) {
   const filters = parseFilters(url)
-  let startDate = Date.now() - 1000 * 60 * 60
-  let resolution = parseResolution(url)
-
-  if (/\/today/.test(url)) startDate = +new Date(new Date().toISOString().substring(0, 10) + 'T00:00:00.000Z')
-  if (/\/past-day/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24
-  if (/\/past-week/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24 * 7
-  if (/\/past-month/.test(url)) startDate = Date.now() - 1000 * 60 * 60 * 24 * 31
-
-  if (resolution === 'minutes' && /(\/past-week|\/past-month)/.test(url)) resolution = 'daily'
-  if (resolution === 'daily' && /(\/past-day|\/today)/.test(url)) resolution = 'hourly'
-  if (!['minutes', 'hourly', 'daily'].includes(resolution)) resolution = 'hourly'
+  const { startDate } = parseTimeframe(url)
+  const resolution = parseResolution(url)
 
   let data = memory.filter(m => +new Date(m.d) > startDate).reverse()
   const keys = Object.keys(filters)
