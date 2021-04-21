@@ -26,6 +26,7 @@ export default class Analytics extends Component {
 
   componentDidMount () {
     this.getData()
+    setInterval(this.getData, 10000)
   }
 
   updateTimeframe (timeframe) {
