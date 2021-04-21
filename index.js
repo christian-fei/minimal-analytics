@@ -26,7 +26,7 @@ async function start (env = process.env, memory) {
   if (!options.STATS_BASE_URL) throw new Error('MISSING_STATS_BASE_URL')
   if (!options.SITE_BASE_URL) throw new Error('MISSING_SITE_BASE_URL')
 
-  if (env.MIGRATE) await migrate(options)
+  await migrate(options)
 
   const file = new (nodeStatic.Server)(path.resolve(__dirname, 'client', 'build'))
 
@@ -105,7 +105,6 @@ function trackPageview (req, res, options, memory, live) {
           res.statusCode = 422
           return res.end()
         }
-        const userAgent = req.headers['user-agent']
         const visitor = visitorFromRequest(req)
         const data = { ...body, v: visitor, d: new Date().toISOString() }
 
@@ -116,7 +115,7 @@ function trackPageview (req, res, options, memory, live) {
           fs.appendFile(options.DATA_PATH, JSON.stringify(data) + '\n', (err) => {
             if (err) console.error('failed to write data', err)
           })
-          console.log(data.type, data.d, data.p, visitor, userAgent)
+          console.log(data.d, data.p, visitor)
         }
 
         res.statusCode = 200
