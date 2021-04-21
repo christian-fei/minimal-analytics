@@ -50,7 +50,7 @@ export default class Analytics extends Component {
     if (Object.keys(data).length === 0) return null
     const maxReferrers = Math.max(...data.referrers.map(r => r.views))
     const maxPages = Math.max(...data.pages.map(r => r.views))
-    const chartMaxPageviews = Math.max(...data.chartData.map(d => d.views))
+    const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
 
     console.log(this.state.filters)
 
@@ -84,12 +84,12 @@ export default class Analytics extends Component {
             <tbody>
               {data.chartData.map((d, i) => 
                 <tr>
-                  <td style={{'--start': i === 0 ? 0 : data.chartData[i - 1].views / chartMaxPageviews, '--size': d.views / chartMaxPageviews}}>
+                  <td style={{'--start': i === 0 ? 0 : data.chartData[i - 1][1] / chartMaxPageviews, '--size': d[1] / chartMaxPageviews}}>
                     {data.chartData.length < 25 &&
-                      <span class="data">{d.views}</span>
+                      <span class="data">{d[1]}</span>
                     }
                     <span class="tooltip">
-                      {d.date.replace(':00.000Z', '')}<br/>{d.views} pageviews
+                      {d[0].replace(':00.000Z', '')}<br/>{d[1]} pageviews
                     </span>
                   </td>
                 </tr>
