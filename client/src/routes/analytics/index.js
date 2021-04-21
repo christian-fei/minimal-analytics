@@ -158,7 +158,7 @@ export default class Analytics extends Component {
                   <b>{d.p}</b>
                 </div>
                 {d.r && <div class={`filterable ${this.state.filters.r === d.r && 'active'}`} onClick={() => this.toggleFilter('r', d.r)}>
-                  from <img class="favicon" src={`https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`}/> ${d.r}
+                  from <img class="favicon" src={`https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`}/> {d.r}
                 </div>}
               </li>
             })}
