@@ -1,5 +1,5 @@
 ;(async () => {
-  if (/localhost|127.0.0.1/.test(window.location.host)) return
+  if (/(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.host)) return
   const STATS_BASE_URL = '{{STATS_BASE_URL}}'
   setTimeout(() => {
     window.fetch(STATS_BASE_URL + '/p', {
