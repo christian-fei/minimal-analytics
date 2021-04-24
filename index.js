@@ -8,6 +8,7 @@ const trackPageview = require('./lib/track-pageview')
 const parseOptions = require('./lib/parse-options')
 const analytics = require('./lib/analytics')
 const migrate = require('./lib/migrate')
+const parsePageview = require('./lib/parse-pageview')
 
 module.exports = {
   start
@@ -48,7 +49,13 @@ async function start (env = process.env, memory) {
     }
 
     if (req.method === 'POST' && req.url === '/p') {
-      return trackPageview(req, res, options, memory, live)
+      parsePageview(req, (err, pageview) => {
+        if (err) return console.error('error parsing pageview', err.message)
+        trackPageview(pageview, options, memory, live)
+        console.log(pageview.d, pageview.p, pageview.v)
+      })
+      res.writeHead(200)
+      return res.end()
     }
     if (req.method === 'GET' && req.url === '/live') {
       res.setHeader('Content-type', 'text/plain')
