@@ -9,7 +9,7 @@ RUN npm install
 RUN cd client && npm install
 
 COPY ./ /app
-RUN cd client && npm run build
+RUN cd client && rm -rf build && npm run build
 
 EXPOSE 8080
 
