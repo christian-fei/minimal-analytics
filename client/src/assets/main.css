@@ -200,6 +200,16 @@ details {
 .charts-css td {
   color: #fff;
 }
+.charts-css.column tbody tr td {
+  position: static;
+}
+.charts-css tr:hover td {
+  background: #333 !important;
+}
+.charts-css tr:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
 .charts-css tbody tr:first-of-type .tooltip {
   left: 6em;
 }
@@ -211,6 +221,11 @@ details {
 }
 .charts-css .tooltip {
   transition: none !important;
+  top: 0;
+  bottom: auto;
+}
+.charts-css .tooltip::after {
+  display: none;
 }
 h1, h2, h3, h4, h5, h6 {
   font-size: 1em;
