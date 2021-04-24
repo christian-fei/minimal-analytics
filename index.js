@@ -4,7 +4,7 @@ const nodeStatic = require('node-static')
 const fs = require('fs')
 const path = require('path')
 const isBot = userAgent => /(bot|check|cloud|crawler|download|monitor|preview|scan|spider|google|qwantify|yahoo|HeadlessChrome)/i.test(userAgent)
-const visitorFromRequest = require('./lib/visitor-from-request')
+const trackPageview = require('./lib/track-pageview')
 const parseFilters = require('./lib/parse-filters')
 const parseResolution = require('./lib/parse-resolution')
 const parseOptions = require('./lib/parse-options')
@@ -82,47 +82,6 @@ async function start (env = process.env, memory) {
   console.log(`listening on http://127.0.0.1:${options.HTTP_PORT}`)
   server.listen(options.HTTP_PORT)
   return { server, memory }
-}
-
-function trackPageview (req, res, options, memory, live) {
-  const requestData = []
-  return req
-    .on('error', (err) => {
-      console.error(err)
-      res.statusCode = 500
-      res.end()
-    })
-    .on('data', (chunk) => {
-      requestData.push(chunk)
-    })
-    .on('end', () => {
-      try {
-        const body = JSON.parse(Buffer.concat(requestData).toString())
-        if (Object.keys(body).length > 4 || Object.keys(body).find(k => !['r', 'w', 'p', 't'].includes(k))) {
-          res.statusCode = 422
-          return res.end()
-        }
-        const visitor = visitorFromRequest(req)
-        const data = { ...body, v: visitor, d: new Date().toISOString() }
-
-        live[visitor] = Date.now()
-
-        if (body.t === 'pageview' || !body.t) {
-          memory.push(data)
-          fs.appendFile(options.DATA_PATH, JSON.stringify(data) + '\n', (err) => {
-            if (err) console.error('failed to write data', err)
-          })
-          console.log(data.d, data.p, visitor)
-        }
-
-        res.statusCode = 200
-        res.end()
-      } catch (err) {
-        console.error(err)
-        res.statusCode = 422
-        res.end()
-      }
-    })
 }
 
 function getAnalytics (url, memory, live) {
