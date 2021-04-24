@@ -21,6 +21,20 @@ test('starts server (port 3001)', async t => {
   t.is(response.headers['content-type'], 'text/html')
 })
 
+test('blocks bot', async t => {
+  const response = await got.post(`http://localhost:${HTTP_PORT}/p`, {
+    headers: {
+      'User-Agent': 'HeadlessChrome User Agent'
+    },
+    body: JSON.stringify({
+      r: undefined,
+      p: 'http://foo.bar/baz',
+      w: 1280
+    })
+  })
+  t.is(response.statusCode, 401)
+})
+
 test('tracks pageview', async t => {
   const response = await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {

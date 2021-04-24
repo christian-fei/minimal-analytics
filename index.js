@@ -38,7 +38,7 @@ async function start (env = process.env, memory) {
 
   const server = http.createServer(function (req, res) {
     if (isBot(req.headers['user-agent'])) {
-      res.statusCode = 401
+      res.writeHead(401)
       return res.end()
     }
 
@@ -48,8 +48,7 @@ async function start (env = process.env, memory) {
     res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'OPTIONS') {
       res.writeHead(200)
-      res.end()
-      return
+      return res.end()
     }
 
     if (req.method === 'POST' && req.url === '/p') {
@@ -72,8 +71,6 @@ async function start (env = process.env, memory) {
     }
     console.log('serve static', req.url)
     return file.serve(req, res)
-    // res.setHeader('Content-type', 'text/html')
-    // return res.end(INDEX_HTML)
   })
 
   setInterval(() => {
