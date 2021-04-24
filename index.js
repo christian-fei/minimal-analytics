@@ -35,7 +35,7 @@ async function start (env = process.env, memory) {
 
   const server = http.createServer(function (req, res) {
     if (isBot(req.headers['user-agent'])) {
-      res.writeHead(401)
+      res.statusCode = 200
       return res.end()
     }
 
@@ -44,7 +44,7 @@ async function start (env = process.env, memory) {
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
     res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'OPTIONS') {
-      res.writeHead(200)
+      res.statusCode = 200
       return res.end()
     }
 
@@ -54,7 +54,7 @@ async function start (env = process.env, memory) {
         trackPageview(pageview, options, memory, live)
         console.log(pageview.d, pageview.p, pageview.v)
       })
-      res.writeHead(200)
+      res.statusCode = 200
       return res.end()
     }
     if (req.method === 'GET' && req.url === '/live') {
