@@ -35,18 +35,10 @@ body > * {
 
 #pageviews-chart {
   --color: #222;
-  height: 15rem;
+  height: 20rem;
   margin: 1em auto;
-  /* padding-left: 3rem;
-  padding-right: 3rem; */
   overflow: hidden;
-}
-@media all and (max-width: 50em) {
-  #pageviews-chart {
-    /* display: none; */
-    padding-left: 0;
-    padding-right: 0;
-  }
+  padding-top: 4em;
 }
 #pageviews-chart tr:hover {
   background: #eee;
@@ -221,7 +213,7 @@ details {
 }
 .charts-css .tooltip {
   transition: none !important;
-  top: 0;
+  top: -4em;
   bottom: auto;
 }
 .charts-css .tooltip::after {
