@@ -46,6 +46,7 @@ async function start (env = process.env, memory) {
       res.statusCode = 200
       return res.end()
     }
+    console.log(new Date().toISOString(),req.method, req.url)
 
     if (req.method === 'POST' && req.url === '/p') {
       parsePageview(req, (err, pageview) => {
