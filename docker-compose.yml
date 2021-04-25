@@ -11,6 +11,7 @@
         SITE_BASE_URL: 'http://127.0.0.1:8080'
       volumes:
         - ./data.ljson:/app/data.ljson
+        - ./data.ljson.bkp:/app/data.ljson.bkp
         - /app/node_modules
         - /app/client/node_modules
         - /app/client/build
