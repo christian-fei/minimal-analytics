@@ -9,6 +9,7 @@
   margin: 0 auto;
   padding-top: 2em;
   padding-bottom: 2em;
+  transition: opacity 0.2 ease;
 }
 
 html {
@@ -205,10 +206,19 @@ details {
 .charts-css .tooltip::after {
   display: none;
 }
+
+.charts-css td {
+  /* transition: all 0.15s ease; */
+}
 h1, h2, h3, h4, h5, h6 {
   font-size: 1em;
 }
 .views {
   min-width: 2.5em;
   display: inline-block;
+}
+
+.loading {
+  transition: opacity 0.3s ease;
+  opacity: 0.5;
 }

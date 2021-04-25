@@ -85,7 +85,7 @@ export default class Analytics extends Component {
           </div>
         </div>
 
-        <div id="pageviews-chart">
+        <div id="pageviews-chart" class={`${loading && 'loading'}`}>
           <table class="charts-css column show-labels show-primary-axis">
             <thead>
               <tr>
@@ -111,7 +111,7 @@ export default class Analytics extends Component {
           </table>
         </div>
 
-        <div class='grid contain'>
+        <div class={`grid contain ${loading && 'loading'}`}>
           <div class='w-50'>
             <h2>Visitors</h2>
             <div id='visitors-count'>{data.visitorsCount}</div>
@@ -126,7 +126,7 @@ export default class Analytics extends Component {
           </div>
         </div>
 
-        <div class='grid-lg contain'>
+        <div class={`grid contain ${loading && 'loading'}`}>
           {data.referrers && 
           <div class='w-50-lg' id='referrers'>
             <h2>Top Referrers</h2>
@@ -159,7 +159,7 @@ export default class Analytics extends Component {
           }
         </div>
 
-        <div class="contain">
+        <div class={`contain ${loading && 'loading'}`}>
           <ul>
             {data.data.map(d => {
               return <li class="pageview">
