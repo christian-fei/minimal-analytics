@@ -8,6 +8,7 @@ const trackPageview = require('./lib/track-pageview')
 const parseOptions = require('./lib/parse-options')
 const analytics = require('./lib/analytics')
 const migrate = require('./lib/migrate')
+const backup = require('./lib/backup')
 const parsePageview = require('./lib/parse-pageview')
 
 module.exports = {
@@ -24,7 +25,8 @@ async function start (env = process.env, memory) {
   if (!options.STATS_BASE_URL) throw new Error('MISSING_STATS_BASE_URL')
   if (!options.SITE_BASE_URL) throw new Error('MISSING_SITE_BASE_URL')
 
-  await migrate(options)
+  await migrate.start(options)
+  backup.start(options)
 
   const file = new (nodeStatic.Server)(path.resolve(__dirname, 'client', 'build'))
 
