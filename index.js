@@ -22,9 +22,6 @@ if (require.main === module) {
 async function start (env = process.env, memory) {
   const options = parseOptions(env)
 
-  if (!options.STATS_BASE_URL) throw new Error('MISSING_STATS_BASE_URL')
-  if (!options.SITE_BASE_URL) throw new Error('MISSING_SITE_BASE_URL')
-
   await migrate.start(options)
   backup.start(options)
 
