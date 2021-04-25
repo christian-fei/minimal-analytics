@@ -2,6 +2,10 @@ import { h, Component } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import { route } from 'preact-router';
 import Filters from '../../components/filters'
+import PageviewsChart from '../../components/pageviews-chart'
+import Stats from '../../components/stats'
+import Breakdown from '../../components/breakdown'
+import History from '../../components/history'
 
 export default class Analytics extends Component {
   state = {
@@ -64,138 +68,36 @@ export default class Analytics extends Component {
 
   render (props, { data, loading } = {}) {
     if (Object.keys(data).length === 0) return null
-    const maxReferrers = Math.max(...data.referrers.map(r => r.views))
-    const maxPages = Math.max(...data.pages.map(r => r.views))
-    const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
 
     return (
-      <div>
+      <div class={`${loading && 'loading'}`}>
         <Filters 
           updateResolution={this.updateResolution.bind(this)}
           updateTimeframe={this.updateTimeframe.bind(this)}
           filters={this.state.filters}
         ></Filters>
 
-        <div id="pageviews-chart" class={`${loading && 'loading'}`}>
-          <table class="charts-css column show-labels show-primary-axis">
-            <thead>
-              <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Pageviews</th>
-              </tr>
-            </thead>
+        <PageviewsChart
+          data={this.state.data}
+        ></PageviewsChart>
 
-            <tbody>
-              {data.chartData.map((d, i) => 
-                <tr>
-                  <td style={{'--start': i === 0 ? 0 : data.chartData[i - 1][1] / chartMaxPageviews, '--size': d[1] / chartMaxPageviews}}>
-                    {data.chartData.length < 25 &&
-                      <span class="data">{d[1]}</span>
-                    }
-                    <span class="tooltip">
-                      {d[0].replace(':00.000Z', '')}<br/>{d[1]} pageviews
-                    </span>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <Stats
+          data={this.state.data}
+        ></Stats>
 
-        <div class={`grid contain ${loading && 'loading'}`}>
-          <div class='w-50'>
-            <h2>Visitors</h2>
-            <div id='visitors-count'>{data.visitorsCount}</div>
-          </div>
-          <div class='w-50'>
-            <h2>Pageviews</h2>
-            <div id='pageviews-count'>{data.pageviewsCount}</div>
-          </div>
-          <div class='w-50'>
-            <h2>Live</h2>
-            <div id='live'>{data.live}</div>
-          </div>
-        </div>
+        <Breakdown
+          data={this.state.data}
+          filters={this.state.filters}
+          toggleFilter={this.toggleFilter.bind(this)}
+        ></Breakdown>
 
-        <div class={`grid contain ${loading && 'loading'}`}>
-          {data.referrers && 
-          <div class='w-50-lg' id='referrers'>
-            <h2>Top Referrers</h2>
-            <ul id='top-referrers'>
-              {data.referrers.map((d, i, referrers) => {
-                const favicon = `https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`
-                return <li onClick={() => this.toggleFilter('r', d.r)} class={`filterable ${this.state.filters.r === d.r && 'active'}`} style={{
-                  '--data-percentage': (100 - d.views * 80 / maxReferrers) + '%'
-                }}>
-                  <b class="views">{d.views}</b> <img loading="lazy" class="favicon" src={favicon}/>{d.r.replace('https://', '').replace('http://', '')}
-                </li>
-              })}
-            </ul>
-          </div>
-          }
-          {data.pages && 
-          <div class='w-50-lg' id='pages'>
-            <h2>Top Pages</h2>
-            <ul id='top-pages'>
-            {data.pages.map((d, i, pages) => {
-                return <li onClick={() => this.toggleFilter('p', d.p)} class={`filterable ${this.state.filters.p === d.p && 'active'}`} style={{
-                  '--data-percentage': (100 - d.views * 80 / maxPages) + '%'
-                }}>
-                  <b class="views">{d.views}</b> {d.p}
-                </li>
-              })}
+        <History
+          data={this.state.data}
+          filters={this.state.filters}
+          toggleFilter={this.toggleFilter.bind(this)}
+        ></History>
 
-            </ul>
-          </div>
-          }
-        </div>
-
-        <div class={`contain ${loading && 'loading'}`}>
-          <ul>
-            {data.data.map(d => {
-              return <li class="pageview">
-                <div class={`filterable ${this.state.filters.v === d.v && 'active'}`} onClick={() => this.toggleFilter('v', d.v)}>
-                  <time>{d.d.substring(0, 19)}</time> {d.v} <span style={{'background-color': visitorColor(d.v)}} class="visitor"></span>
-                </div>
-                <div class={`filterable ${this.state.filters.p === d.p && 'active'}`} onClick={() => this.toggleFilter('p', d.p)}>
-                  <b>{d.p}</b>
-                </div>
-                {d.r && <div class={`filterable ${this.state.filters.r === d.r && 'active'}`} onClick={() => this.toggleFilter('r', d.r)}>
-                  from <img class="favicon" src={`https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`}/> {d.r.replace('https://', '').replace('http://', '')}
-                </div>}
-              </li>
-            })}
-          </ul>
-        </div>
       </div>
     )
-  }
-}
-
-function domain (url) {
-  if (!url) return '/'
-  var a = document.createElement('a')
-  a.href = url
-  return a.hostname
-}
-
-function visitorColor (v) {
-  return '#' + intToRGB(hashCode(v))
-
-  // https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
-  function hashCode(str) { // java String#hashCode
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
-  } 
-
-  function intToRGB(i){
-    var c = (i & 0x00FFFFFF)
-      .toString(16)
-      .toUpperCase();
-
-    return "00000".substring(0, 6 - c.length) + c;
   }
 }
