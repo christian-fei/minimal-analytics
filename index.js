@@ -72,7 +72,6 @@ async function start (env = process.env, memory) {
       res.setHeader('Content-type', 'text/javascript')
       return res.end(CLIENT_JS)
     }
-    console.log('serve static', req.url)
     return file.serve(req, res)
   })
 
