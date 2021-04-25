@@ -22,6 +22,8 @@ if (require.main === module) {
 async function start (env = process.env, memory) {
   const options = parseOptions(env)
 
+  console.log('starting', options)
+
   await migrate.start(options)
   backup.start(options)
 
@@ -46,7 +48,7 @@ async function start (env = process.env, memory) {
       res.statusCode = 200
       return res.end()
     }
-    console.log(new Date().toISOString(),req.method, req.url)
+    console.log(new Date().toISOString(), req.method, req.url)
 
     if (req.method === 'POST' && req.url === '/p') {
       parsePageview(req, (err, pageview) => {
