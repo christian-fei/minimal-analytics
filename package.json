@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "touch data.ljson; node index.js",
+    "start": "touch data/data.ljson; node index.js",
     "test": "APPEND_SYNC=1 ava lib/**/*.test.js"
   },
   "keywords": [],
