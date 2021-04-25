@@ -17,7 +17,7 @@
   function h (i = 0) {
     if (i > 100) return
     setTimeout(h, 10000, i++)
-    if (document.visibilityState !== 'visible') { return }
+    if (document.visibilityState && document.visibilityState !== 'visible') { return }
     window.fetch(STATS_BASE_URL + '/p', {
       method: 'POST',
       body: JSON.stringify({
