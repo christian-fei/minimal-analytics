@@ -1,4 +1,4 @@
-export default function ({ data }) {
+export default function ({ data, resolution }) {
   const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
 
   return (
@@ -13,12 +13,12 @@ export default function ({ data }) {
 
         <tbody>
           {data.chartData.map((d, i) =>
-            <tr key={d[0].replace(':00.000Z', '')}>
+            <tr key={formatDate(d[0], resolution)}>
               <td style={{ '--start': i === 0 ? 0 : data.chartData[i - 1][1] / chartMaxPageviews, '--size': d[1] / chartMaxPageviews }}>
                 {data.chartData.length < 25 &&
                   <span class='data'>{d[1]}</span>}
                 <span class='tooltip'>
-                  {d[0].replace(':00.000Z', '')}<br />{d[1]} pageviews
+                  {formatDate(d[0], resolution)}<br />{d[1]} pageviews
                 </span>
               </td>
             </tr>
@@ -27,4 +27,9 @@ export default function ({ data }) {
       </table>
     </div>
   )
+
+  function formatDate (d, resolution) {
+    if (resolution === 'daily') return new Date(d).toLocaleDateString()
+    return new Date(d).toLocaleString()
+  }
 }

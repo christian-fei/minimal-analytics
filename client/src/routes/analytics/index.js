@@ -78,6 +78,7 @@ export default class Analytics extends Component {
         ></Filters>
 
         <PageviewsChart
+          resolution={this.state.filters.resolution}
           data={this.state.data}
         ></PageviewsChart>
 
