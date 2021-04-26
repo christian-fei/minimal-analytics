@@ -6,8 +6,7 @@ export default function ({ data, resolution }) {
       <div id='pageviews-chart' style={{ 'text-align': 'center' }}>
         Insufficient data to show chart..
         <br />
-        <br />
-        :(
+        Try to change timeframe or resolution.
       </div>
     )
   }
