@@ -61,13 +61,15 @@ export default class App extends Component {
     if (['past-year'].includes(timeframe) && ['minutes', 'hourly'].includes(newFilters.resolution)) {
       newFilters.resolution = 'monthly'
     }
-    route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
-    this.setState({ filters: newFilters }, () => this.getData())
+    this.setState({ filters: newFilters }, () => 
+      route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
+    )
   }
   updateResolution (resolution) {
     const newFilters = Object.assign({}, this.state.filters, { resolution })
-    route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
-    this.setState({ filters: newFilters }, () => this.getData())
+    this.setState({ filters: newFilters }, () => 
+      route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
+    )
   }
   toggleFilter (type, value) {
     const newFilters = Object.assign({}, this.state.filters)
@@ -76,8 +78,9 @@ export default class App extends Component {
     } else {
       newFilters[type] = value
     }
-    route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
-    this.setState({ filters: newFilters }, () => this.getData())
+    this.setState({ filters: newFilters }, () => 
+      route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
+    )
   }
 
   render () {
