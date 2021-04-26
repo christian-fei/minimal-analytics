@@ -1,7 +1,7 @@
 export default function ({ data, resolution }) {
   const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
 
-  if (data.chartData.length < 5) {
+  if (data.chartData.length < 2) {
     return (
       <div id='pageviews-chart' style={{ 'text-align': 'center' }}>
         Insufficient data to show chart..
