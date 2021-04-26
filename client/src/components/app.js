@@ -24,7 +24,7 @@ export default class App extends Component {
     setInterval(() => this.getData(), 10000)
   }
 
-  async handleRoute(e) {
+  handleRoute(e) {
     console.log('handle route', e.url)
     if (window.location.search) {
       const query = window.location.search.substring(1)
