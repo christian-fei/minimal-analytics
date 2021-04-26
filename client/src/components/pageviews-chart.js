@@ -1,4 +1,4 @@
-export default function ({ data, resolution }) {
+export default function ({ data, filters }) {
   const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
 
   if (data.chartData.length < 2) {
@@ -11,7 +11,6 @@ export default function ({ data, resolution }) {
     )
   }
 
-  console.log('chartData.length', data.chartData.length)
   return (
     <div id='pageviews-chart'>
       <table class='charts-css column show-labels show-primary-axis'>
@@ -29,7 +28,7 @@ export default function ({ data, resolution }) {
                 {data.chartData.length < 25 &&
                   <span class='data'>{d[1]}</span>}
                 <span class='tooltip'>
-                  {formatDate(d[0], resolution)}<br />{d[1]} pageviews
+                  {formatDate(d[0], filters.resolution)}<br />{d[1]} pageviews
                 </span>
               </td>
             </tr>
