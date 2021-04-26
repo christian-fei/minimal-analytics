@@ -6,6 +6,7 @@ import Analytics from '../routes/analytics'
 export default class App extends Component {
   state = {
     data: {},
+    mounted: false,
     loading: false,
     filters: {
       timeframe: 'today',
@@ -14,18 +15,19 @@ export default class App extends Component {
   }
 
   componentDidMount () {
+    console.log('mount window.location.search', window.location.search)
     if (window.location.search) {
       const query = window.location.search.substring(1)
       const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
-      this.setState({ filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
-    } else {
-      this.getData()
+      this.setState({ mounted: true, filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
     }
+    this.setState({ mounted: true })
     setInterval(() => this.getData(), 10000)
   }
 
   async handleRoute(e) {
     console.log('handle route', e.url)
+    if (!this.state.mounted) return
     if (window.location.search) {
       const query = window.location.search.substring(1)
       const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
