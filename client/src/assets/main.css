@@ -129,6 +129,7 @@ select {
   cursor: pointer;
   outline: none;
   border-bottom: 1px dotted #000;
+  display: inline-block;
 }
 #filters {
   position: fixed;
