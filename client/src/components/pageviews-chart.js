@@ -29,7 +29,7 @@ export default function ({ data, resolution }) {
   )
 
   function formatDate (d, resolution) {
-    if (resolution === 'daily') return new Date(d).toLocaleDateString()
+    if (resolution === 'daily' || resolution === 'monthly') return new Date(d).toLocaleDateString()
     return new Date(d).toLocaleString()
   }
 }

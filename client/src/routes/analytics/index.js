@@ -41,11 +41,14 @@ export default class Analytics extends Component {
 
   updateTimeframe (timeframe) {
     const newFilters = Object.assign({}, this.state.filters, { timeframe })
-    if (['today', 'past-day'].includes(timeframe) && newFilters.resolution === 'daily') {
+    if (['today', 'past-day'].includes(timeframe) && ['monthly', 'daily'].includes(newFilters.resolution)) {
       newFilters.resolution = 'hourly'
     }
-    if (['past-week', 'past-month'].includes(timeframe) && newFilters.resolution === 'minutes') {
-      newFilters.resolution = 'hourly'
+    if (['past-week', 'past-month'].includes(timeframe) && ['minutes', 'hourly', 'monthly'].includes(newFilters.resolution)) {
+      newFilters.resolution = 'daily'
+    }
+    if (['past-year'].includes(timeframe) && ['minutes', 'hourly', 'daily'].includes(newFilters.resolution)) {
+      newFilters.resolution = 'monthly'
     }
     route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     this.setState({ filters: newFilters }, () => this.getData())
