@@ -47,7 +47,7 @@ export default class Analytics extends Component {
     if (['past-week', 'past-month'].includes(timeframe) && ['minutes', 'hourly', 'monthly'].includes(newFilters.resolution)) {
       newFilters.resolution = 'daily'
     }
-    if (['past-year'].includes(timeframe) && ['minutes', 'hourly', 'daily'].includes(newFilters.resolution)) {
+    if (['past-year'].includes(timeframe) && ['minutes', 'hourly'].includes(newFilters.resolution)) {
       newFilters.resolution = 'monthly'
     }
     route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
