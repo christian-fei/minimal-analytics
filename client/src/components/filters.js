@@ -11,8 +11,8 @@ export default function ({ updateTimeframe, updateResolution, filters }) {
       </div>
       <div class='w-50-lg'>
         <h4>Resolution</h4>
-        {['past-week', 'past-month', 'past-year'].includes(filters.timeframe) && <span onClick={() => updateResolution('daily')} class={`select-resolution filterable ${filters.resolution === 'daily' && 'active'}`} name='daily' id='daily'>Daily</span>}
         {['past-year'].includes(filters.timeframe) && <span onClick={() => updateResolution('monthly')} class={`select-resolution filterable ${filters.resolution === 'monthly' && 'active'}`} name='monthly' id='monthly'>Monthly</span>}
+        {['past-week', 'past-month', 'past-year'].includes(filters.timeframe) && <span onClick={() => updateResolution('daily')} class={`select-resolution filterable ${filters.resolution === 'daily' && 'active'}`} name='daily' id='daily'>Daily</span>}
         {['today', 'past-day'].includes(filters.timeframe) && <span onClick={() => updateResolution('hourly')} class={`select-resolution filterable ${filters.resolution === 'hourly' && 'active'}`} name='hourly' id='hourly'>Hourly</span>}
         {['today', 'past-day'].includes(filters.timeframe) && <span onClick={() => updateResolution('minutes')} class={`select-resolution filterable ${filters.resolution === 'minutes' && 'active'}`} name='minutes' id='minutes'>Minutes</span>}
       </div>
