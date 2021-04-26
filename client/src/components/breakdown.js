@@ -17,7 +17,7 @@ export default function ({ data, loading, filters, toggleFilter }) {
                     '--data-percentage': (100 - d.views * 80 / maxReferrers) + '%'
                   }}
                 >
-                  <b class='views'>{d.views}</b> <img loading='lazy' class='favicon' src={favicon} />{d.r.replace('https://', '').replace('http://', '')}
+                  <b class='views'>{d.views}</b> <img loading='lazy' class='favicon' src={favicon} />{d.r.replace('https://', '').replace('http://', '') || 'none'}
                 </li>
               )
             })}
