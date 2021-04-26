@@ -3,7 +3,7 @@ export default function ({ data, loading, filters, toggleFilter }) {
   const maxPages = Math.max(...data.pages.map(r => r.views))
 
   return (
-    <div class={`grid contain ${loading && 'loading'}`}>
+    <div class={`grid-lg contain ${loading && 'loading'}`}>
       {data.referrers &&
         <div class='w-50-lg' id='referrers'>
           <h2>Top Referrers</h2>
