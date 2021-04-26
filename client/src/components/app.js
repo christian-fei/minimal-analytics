@@ -13,6 +13,28 @@ export default class App extends Component {
     }
   }
 
+  componentDidMount () {
+    if (window.location.search) {
+      const query = window.location.search.substring(1)
+      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
+      this.setState({ filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
+    } else {
+      this.getData()
+    }
+    setInterval(() => this.getData(), 10000)
+  }
+
+  async handleRoute(e) {
+    console.log('handle route', e.url)
+    if (window.location.search) {
+      const query = window.location.search.substring(1)
+      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
+      this.setState({ filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
+    } else {
+      this.getData()
+    }
+  }
+
   async getData () {
     this.setState({ loading: true })
     let query = ''
@@ -25,16 +47,6 @@ export default class App extends Component {
     this.setState({ data, loading: false })
   }
 
-  componentDidMount () {
-    if (window.location.search) {
-      const query = window.location.search.substring(1)
-      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
-      this.setState({ filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
-    } else {
-      this.getData()
-    }
-    setInterval(() => this.getData(), 10000)
-  }
 
   updateTimeframe (timeframe) {
     const newFilters = Object.assign({}, this.state.filters, { timeframe })
@@ -69,7 +81,7 @@ export default class App extends Component {
   render () {
     return (
       <div id='app'>
-        <Router>
+        <Router onChange={this.handleRoute.bind(this)}>
           <Analytics 
             data={this.state.data}
             filters={this.state.filters}
