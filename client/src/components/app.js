@@ -20,8 +20,9 @@ export default class App extends Component {
       const query = window.location.search.substring(1)
       const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
       this.setState({ mounted: true, filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
+    } else {
+      this.setState({ mounted: true }, () => this.getData())
     }
-    this.setState({ mounted: true })
     setInterval(() => this.getData(), 10000)
   }
 
@@ -38,6 +39,7 @@ export default class App extends Component {
   }
 
   async getData () {
+    if (this.state.loading) return
     this.setState({ loading: true })
     let query = ''
     if (Object.keys(this.state.filters).length > 0) {
