@@ -59,11 +59,6 @@ async function start (env = process.env, memory) {
       res.statusCode = 200
       return res.end()
     }
-    if (req.method === 'GET' && req.url === '/live') {
-      res.setHeader('Content-type', 'text/plain')
-      res.statusCode = 200
-      return res.end('' + Object.keys(live).length)
-    }
     if (req.method === 'GET' && /^\/api/.test(req.url)) {
       const result = analytics.getAll(req.url, memory, live)
       res.setHeader('Content-type', 'application/json')

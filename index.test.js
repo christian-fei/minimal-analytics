@@ -8,7 +8,7 @@ const SITE_BASE_URL = `http://localhost:${HTTP_PORT}`
 
 let server, memory
 test.beforeEach(async () => {
-  const result = await app.start({ HTTP_PORT, STATS_BASE_URL, SITE_BASE_URL, DATA_PATH: 'test.ljson' }, [])
+  const result = await app.start({ HTTP_PORT, STATS_BASE_URL, SITE_BASE_URL, DATA_PATH: 'data/test.ljson' }, [])
   server = result.server
   memory = result.memory
 })
@@ -32,7 +32,8 @@ test('blocks bot', async t => {
       w: 1280
     })
   })
-  t.is(response.statusCode, 401)
+  t.is(response.statusCode, 200)
+  t.deepEqual(memory, [])
 })
 
 test('tracks pageview', async t => {
@@ -85,9 +86,9 @@ test('returns pageviews last h', async t => {
   const body = JSON.parse(response.body)
   t.is(body.data.length, 1)
   t.is(body.pages.length, 1)
-  t.is(body.referrers.length, 0)
+  t.is(body.referrers.length, 1)
   t.is(body.chartData.length, 0)
-  t.is(body.live, 1)
+  t.is(Object.keys(body.live).length, 1)
 })
 
 test('returns live visitors', async t => {
@@ -102,9 +103,10 @@ test('returns live visitors', async t => {
     })
   })
 
-  const response = await got(`http://localhost:${HTTP_PORT}/live`)
+  const response = await got(`http://localhost:${HTTP_PORT}/api`)
   t.is(response.statusCode, 200)
-  t.is(response.body, '1')
+  const body = JSON.parse(response.body)
+  t.is(Object.keys(body.live).length, 1)
 })
 
 test('returns tracker script', async t => {
