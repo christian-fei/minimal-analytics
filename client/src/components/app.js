@@ -23,7 +23,8 @@ export default class App extends Component {
     } else {
       this.setState({ mounted: true }, () => this.getData())
     }
-    setInterval(() => this.getData(), 10000)
+    setInterval(() => this.getLive(), 10 * 1000)
+    setInterval(() => this.getData(), 60 * 1000)
   }
 
   async handleRoute(e) {
@@ -49,6 +50,15 @@ export default class App extends Component {
     const req = await window.fetch(host + '/api/' + query)
     const data = await req.json()
     this.setState({ data, loading: false })
+  }
+
+  async getLive () {
+    if (this.state.loading) return
+    this.setState({ loading: true })
+    const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
+    const req = await window.fetch(host + '/live')
+    const live = await req.json()
+    this.setState({ data: Object.assign({}, this.state.data, {live}), loading: false })
   }
 
 

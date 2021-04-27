@@ -103,10 +103,10 @@ test('returns live visitors', async t => {
     })
   })
 
-  const response = await got(`http://localhost:${HTTP_PORT}/api`)
+  const response = await got(`http://localhost:${HTTP_PORT}/live`)
   t.is(response.statusCode, 200)
   const body = JSON.parse(response.body)
-  t.is(Object.keys(body.live).length, 1)
+  t.is(Object.keys(body).length, 1)
 })
 
 test('returns tracker script', async t => {
