@@ -37,6 +37,15 @@ body > * {
   overflow: hidden;
   padding-top: 4em;
 }
+@media all and (max-width: 50em) {
+  #pageviews-chart {
+    overflow-x: scroll;
+  }
+  .charts-css {
+    min-width: 150vw;
+  }
+}
+
 #pageviews-chart tr:hover {
   background: #eee;
 }
