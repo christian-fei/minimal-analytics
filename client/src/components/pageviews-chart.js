@@ -25,7 +25,7 @@ export default function ({ data, filters }) {
           {data.chartData.map((d, i) =>
             <tr key={d[0]}>
               <td style={{ '--start': i === 0 ? 0 : data.chartData[i - 1][1] / chartMaxPageviews, '--size': d[1] / chartMaxPageviews }}>
-                {data.chartData.length < 25 &&
+                {data.chartData.length < 50 &&
                   <span class='data'>{d[1]}</span>}
                 <span class='tooltip'>
                   {formatDate(d[0], filters.resolution)}<br />{d[1]} pageviews
