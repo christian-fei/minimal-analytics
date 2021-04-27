@@ -35,7 +35,9 @@ export default function ({ data, filters, toggleFilter }) {
                 return acc
               }
               return acc.concat([{ p: live[curr].pageview.p, c: 1 }])
-            }, []).map(({ p, c }) => <li class={`filterable ${filters.p === p && 'active'}`} onClick={() => toggleFilter('p', p)} key={p}>{c} &middot; {p}</li>)}
+            }, [])
+              .sort((a, b) => a.c - b.c)
+              .map(({ p, c }) => <li class={`filterable ${filters.p === p && 'active'}`} onClick={() => toggleFilter('p', p)} key={p}>{c} &middot; {p}</li>)}
           </ul>
         </div>}
     </div>
