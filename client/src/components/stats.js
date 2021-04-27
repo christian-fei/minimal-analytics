@@ -1,4 +1,4 @@
-export default function ({ data }) {
+export default function ({ data, toggleFilter }) {
   return (
     <div>
       <div class='grid contain'>
@@ -26,7 +26,7 @@ export default function ({ data }) {
                 return acc
               }
               return acc.concat([{ p: data.live[curr].pageview.p, c: 1 }])
-            }, []).map(({ p, c }) => <li key={p}>{c} &middot; {p}</li>)}
+            }, []).map(({ p, c }) => <li onClick={() => toggleFilter('p', p)} key={p}>{c} &middot; {p}</li>)}
           </ul>
         </div>}
     </div>

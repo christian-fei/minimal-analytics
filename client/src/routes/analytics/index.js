@@ -23,6 +23,7 @@ export default class Analytics extends Component {
         />
 
         <Stats
+          toggleFilter={toggleFilter}
           data={data}
         />
 
