@@ -20,13 +20,13 @@ export default function ({ data }) {
           <h2>Live pages</h2>
           <ul>
             {Object.keys(data.live).reduce((acc, curr) => {
-              const existing = acc.find(({ p }) => p === curr.pageview.p)
+              const existing = acc.find(({ p }) => p === data.live[curr].pageview.p)
               if (existing) {
                 existing.c++
                 return acc
               }
-              return acc.concat([{ p: curr.pageview.p, c: 1 }])
-            }, []).map(({ p, c }) => <li>{p} - {c}</li>)}
+              return acc.concat([{ p: data.live[curr].pageview.p, c: 1 }])
+            }, []).map(({ p, c }) => <li key={p}>{p} - {c}</li>)}
           </ul>
         </div>}
     </div>
