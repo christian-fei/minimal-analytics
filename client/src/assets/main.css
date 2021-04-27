@@ -227,6 +227,14 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0.75;
 }
 
+.dot {
+  display: inline-block;
+  height: 0.5em;
+  width: 0.5em;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
 .live-dot {
   display: inline-block;
   height: 0.5em;

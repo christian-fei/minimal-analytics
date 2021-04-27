@@ -6,7 +6,7 @@ export default function ({ data, filters, toggleFilter }) {
           return (
             <li class='pageview' key={d.d}>
               <div class={`filterable ${filters.v === d.v && 'active'}`} onClick={() => toggleFilter('v', d.v)}>
-                <time>{d.d.substring(0, 19)}</time> {d.v} <span style={{ 'background-color': visitorColor(d.v) }} class='visitor' />
+                <time>{d.d.substring(0, 19)}</time> {d.v} <span style={{ 'background-color': visitorColor(d.v) }} class='visitor dot' />
               </div>
               <div class={`filterable ${filters.p === d.p && 'active'}`} onClick={() => toggleFilter('p', d.p)}>
                 <b>{d.p}</b>
