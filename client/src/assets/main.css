@@ -115,6 +115,21 @@ select {
 .filterable.active {
   background: #fe1;
 }
+.filterable:not(.static-filter) {
+  padding-left: 2em;
+}
+.filterable:not(.static-filter).active::after {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 1em;
+  width: 1.5em;
+  vertical-align: middle;
+  content: '[x]';
+  background-color: transparent !important;
+}
 .filterable:hover, .filterable:focus, .filterable:active {
   background: #fe1;
   cursor: pointer;
