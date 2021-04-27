@@ -26,7 +26,7 @@ export default function ({ data }) {
                 return acc
               }
               return acc.concat([{ p: data.live[curr].pageview.p, c: 1 }])
-            }, []).map(({ p, c }) => <li key={p}>{p} - {c}</li>)}
+            }, []).map(({ p, c }) => <li key={p}>{c} &middot; {p}</li>)}
           </ul>
         </div>}
     </div>
