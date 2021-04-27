@@ -18,7 +18,7 @@ export default function ({ updateTimeframe, updateResolution, filters }) {
         <h4>Resolution</h4>
         {['past-year'].includes(filters.timeframe) && <span onClick={() => updateResolution('monthly')} class={`select-resolution filterable static-filter ${filters.resolution === 'monthly' && 'active'}`} name='monthly' id='monthly'>Monthly</span>}
         {['past-week', 'past-month', 'past-6-months', 'past-year'].includes(filters.timeframe) && <span onClick={() => updateResolution('daily')} class={`select-resolution filterable static-filter ${filters.resolution === 'daily' && 'active'}`} name='daily' id='daily'>Daily</span>}
-        {['today', 'past-day'].includes(filters.timeframe) && <span onClick={() => updateResolution('hourly')} class={`select-resolution filterable static-filter ${filters.resolution === 'hourly' && 'active'}`} name='hourly' id='hourly'>Hourly</span>}
+        {['today', 'past-day', 'past-week', 'past-month'].includes(filters.timeframe) && <span onClick={() => updateResolution('hourly')} class={`select-resolution filterable static-filter ${filters.resolution === 'hourly' && 'active'}`} name='hourly' id='hourly'>Hourly</span>}
         {['today', 'past-day'].includes(filters.timeframe) && <span onClick={() => updateResolution('minutes')} class={`select-resolution filterable static-filter ${filters.resolution === 'minutes' && 'active'}`} name='minutes' id='minutes'>Minutes</span>}
       </div>
     </div>
