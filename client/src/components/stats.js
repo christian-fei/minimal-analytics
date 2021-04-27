@@ -1,4 +1,11 @@
 export default function ({ data, filters, toggleFilter }) {
+  let live = data.live
+  if (Object.keys(filters).length > 2) {
+    live = Object.keys(live).reduce((acc, key) => {
+      if (!Object.keys(filters).filter(k => !['timeframe', 'resolution'].includes(k)).every(k => live[key].pageview[k] === filters[k])) return acc
+      return Object.assign(acc, { [key]: live[key] })
+    }, {})
+  }
   return (
     <div>
       <div class='grid contain'>
