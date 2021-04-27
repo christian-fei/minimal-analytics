@@ -17,7 +17,7 @@ export default function ({ data }) {
       </div>
       {Object.keys(data.live).length > 0 &&
         <div class='contain'>
-          <h2>Live pages</h2>
+          <h2>Live pages <span class='live-dot' /></h2>
           <ul>
             {Object.keys(data.live).reduce((acc, curr) => {
               const existing = acc.find(({ p }) => p === data.live[curr].pageview.p)
