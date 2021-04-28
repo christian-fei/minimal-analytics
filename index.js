@@ -31,7 +31,7 @@ async function start (env = process.env, memory) {
 
   const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
 
-  memory = memory !== undefined ? memory : fs.readFileSync(options.DATA_PATH).toString('utf-8').split('\n').filter(Boolean).map(l => JSON.parse(l))
+  memory = memory !== undefined ? memory : fs.readFileSync(options.DATA_PATH).toString('utf-8').split('\n').filter(Boolean).map(l => JSON.parse(l)).filter((({d}) => +new Date(d) > (+new Date() - 1000 * 60 * 60 * 24 * 180)))
   const live = {}
 
   const server = http.createServer(function (req, res) {
