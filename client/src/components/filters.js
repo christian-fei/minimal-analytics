@@ -13,7 +13,7 @@ export default function ({ updateTimeframe, updateResolution, filters }) {
         <div>
           <span onClick={() => updateTimeframe('past-month')} class={`select-timeframe filterable static-filter ${filters.timeframe === 'past-month' && 'active'}`} name='past-month' id='past-month'>Past month</span>
           <span onClick={() => updateTimeframe('past-6-months')} class={`select-timeframe filterable static-filter ${filters.timeframe === 'past-6-months' && 'active'}`} name='past-6-months' id='past-6-months'>Past 6 months</span>
-          <span onClick={() => updateTimeframe('past-year')} class={`select-timeframe filterable static-filter ${filters.timeframe === 'past-year' && 'active'}`} name='past-year' id='past-year'>Past year</span>
+          {/* <span onClick={() => updateTimeframe('past-year')} class={`select-timeframe filterable static-filter ${filters.timeframe === 'past-year' && 'active'}`} name='past-year' id='past-year'>Past year</span> */}
         </div>
       </div>
       <div class='w-50-lg'>
