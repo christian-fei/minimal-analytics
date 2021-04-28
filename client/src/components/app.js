@@ -54,11 +54,10 @@ export default class App extends Component {
 
   async getLive () {
     if (this.state.loading) return
-    this.setState({ loading: true })
     const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
     const req = await window.fetch(host + '/live')
     const live = await req.json()
-    this.setState({ data: Object.assign({}, this.state.data, {live}), loading: false })
+    this.setState({ data: Object.assign({}, this.state.data, {live}) })
   }
 
 
