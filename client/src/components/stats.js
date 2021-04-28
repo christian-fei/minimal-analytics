@@ -24,8 +24,9 @@ export default function ({ data, filters, toggleFilter }) {
           <div id='live'>{Object.keys(live).length}</div>
         </div>
       </div>
-      {Object.keys(live).length > 0 &&
-        <div class='contain'>
+      {
+      Object.keys(live).length > 0 &&
+        <div class='contain' id='live-pages'>
           <h2>Live pages <span class='live-dot' /></h2>
           <ul>
             {Object.keys(live).reduce((acc, curr) => {
@@ -39,7 +40,12 @@ export default function ({ data, filters, toggleFilter }) {
               .sort((a, b) => a.c - b.c)
               .map(({ p, c }) => <li class={`filterable ${filters.p === p && 'active'}`} onClick={() => toggleFilter('p', p)} key={p}>{c} &middot; {p}</li>)}
           </ul>
-        </div>}
+        </div>
+      }
+      {
+      Object.keys(live).length === 0 &&
+        <div class='contain' id='live-pages' />
+      }
     </div>
   )
 }
