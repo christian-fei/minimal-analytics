@@ -129,15 +129,15 @@ select {
 }
 .filterable:not(.static-filter).active::after {
   position: absolute;
-  display: inline-block;
+  display: block;
   left: 0;
   top: 0;
   bottom: 0;
-  height: 1em;
-  width: 1.5em;
+  height: 100%;
+  width: 1.8em;
   vertical-align: middle;
   content: '[x]';
-  background-color: transparent !important;
+  background-color: white !important;
 }
 .filterable:hover, .filterable:focus, .filterable:active {
   background: #fe1;
