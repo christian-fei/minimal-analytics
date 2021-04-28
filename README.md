@@ -4,6 +4,8 @@
 
 Read more about the project at [cri.dev - "Making Minimal Analytics"](https://cri.dev/posts/2021-04-28-fullstack-nodejs-preact-minimal-web-analytics-introduction/)
 
+See [Minimal Analytics in action](https://s.cri.dev)
+
 ## installation
 
 create the `data` directory with 
