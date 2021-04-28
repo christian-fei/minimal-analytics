@@ -1,5 +1,11 @@
-export default function ({ data, filters, toggleFilter }) {
-  let live = data.live
+import { h } from 'preact'
+
+export default function ({ data, filters = {}, toggleFilter }) {
+  if (!data) return null
+  if (!Number.isFinite(data.visitorsCount)) return null
+  if (!Number.isFinite(data.pageviewsCount)) return null
+
+  let live = data.live || {}
   if (Object.keys(filters).length > 2) {
     live = Object.keys(live).reduce((acc, key) => {
       const filterKeys = Object.keys(filters).filter(k => !['timeframe', 'resolution'].includes(k))

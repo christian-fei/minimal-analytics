@@ -1,3 +1,5 @@
+import { h } from 'preact'
+
 export default function ({ updateTimeframe, updateResolution, filters }) {
   return (
     <div class='grid-lg contain'>

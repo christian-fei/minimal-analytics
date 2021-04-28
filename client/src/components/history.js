@@ -1,4 +1,8 @@
-export default function ({ data, filters, toggleFilter }) {
+import { h } from 'preact'
+
+export default function ({ data, filters = {}, toggleFilter }) {
+  if (!data) return null
+  if (!Array.isArray(data.data)) return null
   return (
     <div class='contain'>
       <ul>

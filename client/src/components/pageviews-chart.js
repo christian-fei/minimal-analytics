@@ -1,4 +1,9 @@
-export default function ({ data, filters }) {
+import { h } from 'preact'
+
+export default function ({ data, filters = {} }) {
+  if (!data) return null
+  if (!Array.isArray(data.chartData)) return null
+
   const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
 
   if (data.chartData.length < 2) {

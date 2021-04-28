@@ -1,14 +1,19 @@
-export default function ({ data, loading, filters, toggleFilter }) {
-  const maxReferrers = Math.max(...data.referrers.map(r => r.views))
-  const maxPages = Math.max(...data.pages.map(r => r.views))
+import { h } from 'preact'
+
+export default function ({ data, loading, filters = {}, toggleFilter }) {
+  if (!data) return null
+  const { referrers = [] } = data
+  const { pages = [] } = data
+  const maxReferrers = Math.max(...referrers.map(r => r.views))
+  const maxPages = Math.max(...pages.map(r => r.views))
 
   return (
     <div class={`grid-lg contain ${loading && 'loading'}`}>
-      {data.referrers &&
+      {referrers &&
         <div class='w-50-lg' id='referrers'>
           <h2>Top Referrers</h2>
           <ul id='top-referrers'>
-            {data.referrers.map((d) => {
+            {referrers.map((d) => {
               const favicon = `https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`
               return (
                 <li
@@ -23,11 +28,11 @@ export default function ({ data, loading, filters, toggleFilter }) {
             })}
           </ul>
         </div>}
-      {data.pages &&
+      {pages &&
         <div class='w-50-lg' id='pages'>
           <h2>Top Pages</h2>
           <ul id='top-pages'>
-            {data.pages.map((d) => {
+            {pages.map((d) => {
               return (
                 <li
                   key={d.p}
@@ -47,7 +52,7 @@ export default function ({ data, loading, filters, toggleFilter }) {
 
 function domain (url) {
   if (!url) return '/'
-  let a = document.createElement('a')
+  const a = document.createElement('a')
   a.href = url
   return a.hostname
 }
