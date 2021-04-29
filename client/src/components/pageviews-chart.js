@@ -4,8 +4,6 @@ export default function ({ data, filters = {} }) {
   if (!data) return null
   if (!Array.isArray(data.chartData)) return null
 
-  const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
-
   if (data.chartData.length < 2) {
     return (
       <div id='pageviews-chart' style={{ 'text-align': 'center' }}>
@@ -16,6 +14,7 @@ export default function ({ data, filters = {} }) {
     )
   }
 
+  const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
   return (
     <div id='pageviews-chart'>
       <table class='charts-css column show-labels show-primary-axis'>
