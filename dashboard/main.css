@@ -204,8 +204,12 @@ details {
   margin: 0;
   padding: 0;
 }
+.charts-css tr {
+  position: relative;
+}
 .charts-css td {
   color: #fff;
+  position: inherit;
 }
 .charts-css.column tbody tr td {
   position: static;
