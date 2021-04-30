@@ -1,4 +1,4 @@
-import { h } from '../preact.js'
+import { h } from '../modules/preact.js'
 
 export default function ({ updateTimeframe, updateResolution, filters }) {
   return h('div', { class: 'grid-lg contain' }, [

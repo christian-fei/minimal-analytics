@@ -1,4 +1,4 @@
-import { h } from '../preact.js'
+import { h } from '../modules/preact.js'
 
 export default function ({ data, filters = {} }) {
   if (!data) return null

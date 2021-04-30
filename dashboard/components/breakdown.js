@@ -1,4 +1,4 @@
-import { h } from '../preact.js'
+import { h } from '../modules/preact.js'
 
 export default function ({ data, loading, filters = {}, toggleFilter }) {
   if (!data) return null
