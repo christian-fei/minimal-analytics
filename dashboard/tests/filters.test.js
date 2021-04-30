@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import Filters from '../src/components/filters'
+import Filters from '../components/filters'
 // See: https://github.com/preactjs/enzyme-adapter-preact-pure
 import { shallow } from 'enzyme'
 

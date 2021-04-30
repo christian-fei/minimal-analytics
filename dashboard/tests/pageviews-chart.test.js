@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import PageviewsChart from '../src/components/pageviews-chart'
+import PageviewsChart from '../components/pageviews-chart'
 // See: https://github.com/preactjs/enzyme-adapter-preact-pure
 import { shallow } from 'enzyme'
 

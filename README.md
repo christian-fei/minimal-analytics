@@ -38,14 +38,10 @@ docker-compose up -d --build --remove-orphans --renew-anon-volumes
 
 Install the dependencies for the server with `npm i`.
 
-`cd client` and install the dependencies for the client with `npm i`.
-
-Run `npm run build` in the client directory, to build the static frontend.
-
 Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run it, e.g.
 
 ```bash
 SITE_BASE_URL=http://0.0.0.0:8081 STATS_BASE_URL=http://127.0.0.1:8080 npm start
 ```
 
-If you want to develop on the client, run `npm run dev -- --port 8081`
+If you want to run the client dashboard tests, `npm t` in the `dashboard` directory

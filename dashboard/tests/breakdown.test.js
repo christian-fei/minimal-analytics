@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import Breakdown from '../src/components/breakdown'
+import Breakdown from '../components/breakdown'
 // See: https://github.com/preactjs/enzyme-adapter-preact-pure
 import { shallow } from 'enzyme'
 

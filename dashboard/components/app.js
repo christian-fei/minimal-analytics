@@ -1,7 +1,7 @@
-import { h, Component } from 'preact'
-import { Router, route } from 'preact-router'
+import { h, Component } from '../preact.js'
+import { Router, route } from '../preact-router.js'
 
-import Analytics from '../routes/analytics'
+import Analytics from './analytics.js'
 
 export default class App extends Component {
   state = {
@@ -101,19 +101,18 @@ export default class App extends Component {
   }
 
   render () {
-    return (
-      <div id='app'>
-        <Router onChange={this.handleRoute.bind(this)}>
-          <Analytics 
-            data={this.state.data}
-            filters={this.state.filters}
-            loading={this.state.loading}
-            updateResolution={this.updateResolution.bind(this)}
-            updateTimeframe={this.updateTimeframe.bind(this)}
-            toggleFilter={this.toggleFilter.bind(this)}
-            path='/' />
-        </Router>
-      </div>
-    )
+    return h('div', {id: 'app'}, [
+      h(Router, {onChange: this.handleRoute.bind(this)}, [
+        h(Analytics, {          
+          data: this.state.data,
+          filters: this.state.filters,
+          loading: this.state.loading,
+          updateResolution: this.updateResolution.bind(this),
+          updateTimeframe: this.updateTimeframe.bind(this),
+          toggleFilter: this.toggleFilter.bind(this),
+          path: '/'
+        }, [])
+      ])
+    ])
   }
 }

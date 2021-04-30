@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import History from '../src/components/history'
+import History from '../components/history'
 // See: https://github.com/preactjs/enzyme-adapter-preact-pure
 import { shallow } from 'enzyme'
 

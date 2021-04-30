@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import Stats from '../src/components/stats'
+import Stats from '../components/stats'
 // See: https://github.com/preactjs/enzyme-adapter-preact-pure
 import { shallow } from 'enzyme'
 

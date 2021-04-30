@@ -12,5 +12,3 @@
       volumes:
         - ./data:/app/data
         - /app/node_modules
-        - /app/client/node_modules
-        - /app/client/build

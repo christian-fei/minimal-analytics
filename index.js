@@ -28,7 +28,8 @@ async function start (env = process.env, memory) {
   await migrate.start(options)
   backup.start(options)
 
-  const file = new (nodeStatic.Server)(path.resolve(__dirname, 'client', 'build'))
+  const file = new (nodeStatic.Server)(path.resolve(__dirname, 'dashboard'))
+  // const file = new (nodeStatic.Server)(path.resolve(__dirname, 'client', 'build'))
 
   const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
 
