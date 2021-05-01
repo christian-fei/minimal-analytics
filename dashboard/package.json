@@ -18,10 +18,7 @@
     "jest": "^26.6.3",
     "jest-preset-preact": "^4.0.2"
   },
-  "dependencies": {
-    "preact": "^10.5.13",
-    "preact-render-to-string": "^5.1.19"
-  },
+  "dependencies": {},
   "jest": {
     "preset": "jest-preset-preact",
     "setupFiles": [
