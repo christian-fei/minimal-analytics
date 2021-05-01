@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { h } from '../modules/preact.js'
 import PageviewsChart from '../components/pageviews-chart'
 // See: https://github.com/preactjs/enzyme-adapter-preact-pure
 import { shallow } from 'enzyme'
