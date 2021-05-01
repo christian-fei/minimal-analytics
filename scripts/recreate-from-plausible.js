@@ -46,6 +46,7 @@ async function main () {
         pages = sitemapXml.body.split('\n').filter(Boolean).filter(line => line.trim().startsWith('<loc>')).map(line => line.trim().replace('<loc>', '').replace('</loc>', '').replace(`https://${domain}`, ''))
       }
       for (let date = new Date(argv.start); date < new Date(argv.end); date = new Date(1000 * 60 * 60 * 24 + +new Date(date))) {
+        console.log('aggregating', date)
         for (const page of pages) {
           queue.push({ page, date, domain })
             .catch(err => {
