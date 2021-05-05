@@ -26,7 +26,6 @@ async function main () {
         describe: 'resolution'
       })
     }, async function (argv) {
-      console.log(argv)
       const url = `?timeframe=${encodeURIComponent(argv.timeframe)}&resolution=${encodeURIComponent(argv.resolution)}`
       const memory = readMemory({ DATA_PATH: path.resolve(__dirname, '..', 'data', 'data.ljson') })
       const result = analytics.getAll(url, memory, {})

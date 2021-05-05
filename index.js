@@ -26,7 +26,7 @@ async function start (env = process.env, memory) {
   if (!options.STATS_BASE_URL) throw new Error('MISSING_STATS_BASE_URL')
   if (!options.SITE_BASE_URL) throw new Error('MISSING_SITE_BASE_URL')
 
-  console.log('starting', options)
+  console.log('starting', JSON.stringify(options))
 
   await migrate.start(options)
   backup.start(options)

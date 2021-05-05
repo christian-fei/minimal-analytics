@@ -15,7 +15,6 @@ export default class App extends Component {
   }
 
   componentDidMount () {
-    console.log('mount window.location.search', window.location.search)
     if (window.location.search) {
       const query = window.location.search.substring(1)
       const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
@@ -28,7 +27,6 @@ export default class App extends Component {
   }
 
   async handleRoute(e) {
-    console.log('handle route', e.url)
     if (!this.state.mounted) return
     if (window.location.search) {
       const query = window.location.search.substring(1)
