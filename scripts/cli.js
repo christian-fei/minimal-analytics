@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
 const path = require('path')
-const parseTimeframe = require('../lib/parse-timeframe')
-const parseResolution = require('../lib/parse-resolution')
 const readMemory = require('../lib/read-memory')
 const analytics = require('../lib/analytics')
 
