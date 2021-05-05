@@ -1,31 +1,32 @@
 ;(async () => {
   if (/(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.host)) return
-  const STATS_BASE_URL = '{{STATS_BASE_URL}}'
-  setTimeout(() => {
-    window.fetch(STATS_BASE_URL + '/p', {
-      method: 'POST',
-      body: JSON.stringify({
-        r: document.referrer,
-        p: window.location.pathname,
-        w: window.innerWidth
-      })
+  setTimeout(function () {
+    track({
+      r: document.referrer,
+      p: window.location.pathname,
+      w: window.innerWidth
     })
-  }, 3000)
+  }, 1000)
 
-  h()
+  heartbeat()
 
-  function h (i = 0) {
-    if (i > 100) return
-    setTimeout(h, 10000, i++)
+  function heartbeat (i = 0) {
+    if (i > 30) return
+    setTimeout(heartbeat, 10000, i++)
     if (document.visibilityState && document.visibilityState !== 'visible') { return }
-    window.fetch(STATS_BASE_URL + '/p', {
-      method: 'POST',
-      body: JSON.stringify({
-        t: 'heartbeat',
-        r: document.referrer,
-        p: window.location.pathname,
-        w: window.innerWidth
-      })
+    track({
+      t: 'heartbeat',
+      r: document.referrer,
+      p: window.location.pathname,
+      w: window.innerWidth
     })
+  }
+
+  function track (data) {
+    const req = new window.XMLHttpRequest()
+    req.open('POST', '{{STATS_BASE_URL}}/p', true)
+    req.setRequestHeader('Content-Type', 'text/plain')
+    req.send(JSON.stringify(data))
+    req.onreadystatechange = Function.prototype
   }
 })()
