@@ -19,9 +19,8 @@ export default function ({ data, filters = {}, toggleFilter }) {
           d.r &&
             h('div', { class: `filterable ${filters.r === d.r && 'active'}`, onClick: () => toggleFilter('r', d.r) }, [
               'from ',
-              h('img', { class: 'favicon', src: `https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico` }, [
-                d.r.replace('https://', '').replace('http://', '')
-              ])
+              h('img', { class: 'favicon', src: `https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico` }),
+              d.r.replace('https://', '').replace('http://', '')
             ])
         ].filter(Boolean))
       ))
