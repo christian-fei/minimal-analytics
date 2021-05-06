@@ -3,16 +3,22 @@ import { Router, route } from '../modules/preact-router.js'
 
 import Analytics from './analytics.js'
 
-export default class App extends Component {
-  state = {
-    data: {},
-    mounted: false,
-    loading: false,
-    filters: {
-      timeframe: 'today',
-      resolution: 'hourly'  
-    }
+const initialState = {
+  data: {},
+  mounted: false,
+  loading: false,
+  filters: {
+    timeframe: 'today',
+    resolution: 'hourly'  
   }
+}
+
+if (localStorage.getItem('state')) {
+  Object.assign(initialState, JSON.parse(localStorage.getItem('state')))
+}
+
+export default class App extends Component {
+  state = initialState
 
   componentDidMount () {
     if (window.location.search) {
@@ -47,7 +53,7 @@ export default class App extends Component {
     const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
     const req = await window.fetch(host + '/api/' + query)
     const data = await req.json()
-    this.setState({ data, loading: false })
+    this.setState({ data, loading: false }, () => localStorage.setItem('state', JSON.stringify(this.state)))
   }
 
   async getLive () {
