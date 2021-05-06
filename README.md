@@ -41,7 +41,12 @@ Install the dependencies for the server with `npm i`.
 Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run it, e.g.
 
 ```bash
-SITE_BASE_URL=http://0.0.0.0:8081 STATS_BASE_URL=http://127.0.0.1:8080 npm start
+SITE_BASE_URL=http://127.0.0.1:8081 STATS_BASE_URL=http://127.0.0.1:8080 npm start
 ```
+
+
+## tests
+
+Run `npm t` in the root of the project to run the server tests. 
 
 If you want to run the client dashboard tests, `npm t` in the `dashboard` directory
