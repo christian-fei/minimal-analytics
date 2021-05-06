@@ -41,19 +41,14 @@ async function start (env = process.env, memory) {
   const live = {}
 
   const server = http.createServer(function (req, res) {
-    if (isBot(req.headers['user-agent'])) {
-      res.statusCode = 200
-      return res.end()
-    }
+    if (isBot(req.headers['user-agent'])) return res.end()
 
     res.setHeader('Access-Control-Allow-Origin', options.SITE_BASE_URL)
     res.setHeader('Access-Control-Request-Method', 'POST,GET')
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
     res.setHeader('Access-Control-Allow-Headers', '*')
-    if (req.method === 'OPTIONS') {
-      res.statusCode = 200
-      return res.end()
-    }
+    if (req.method === 'OPTIONS') return res.end()
+
     console.log(new Date().toISOString(), req.method, req.url)
 
     if (req.method === 'POST' && req.url === '/p') {
@@ -62,18 +57,15 @@ async function start (env = process.env, memory) {
         trackPageview(pageview, options, memory, live)
         console.log(pageview.d, pageview.p, pageview.v)
       })
-      res.statusCode = 200
       return res.end()
     }
     if (req.method === 'GET' && /^\/live/.test(req.url)) {
       res.setHeader('Content-type', 'application/json')
-      res.statusCode = 200
       return res.end(JSON.stringify(live))
     }
     if (req.method === 'GET' && /^\/api/.test(req.url)) {
       const result = analyticsCache.getAll(req.url, memory, live)
       res.setHeader('Content-type', 'application/json')
-      res.statusCode = 200
       return res.end(JSON.stringify(result))
     }
     if (req.method === 'GET' && req.url === '/client.js') {
