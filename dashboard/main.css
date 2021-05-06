@@ -211,7 +211,11 @@ details {
   color: #fff;
   position: inherit;
 }
-.charts-css.column tbody tr td {
+.charts-css.line .data {
+  /* display: none; */
+  color: #333;
+}
+.charts-css tbody tr td {
   position: static;
 }
 .charts-css tr:hover td {
