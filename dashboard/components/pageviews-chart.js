@@ -29,8 +29,7 @@ export default function ({ data, filters = {} }) {
           h('td', {
             style: { '--start': i === 0 ? 0 : data.chartData[i - 1][1] / chartMaxPageviews, '--size': d[1] / chartMaxPageviews }
           }, [
-            data.chartData.length < 50 &&
-              h('span', { class: 'data' }, d[1]),
+            data.chartData.length < 50 && h('span', { class: 'data' }, d[1]),
             h('span', { class: 'tooltip' }, [
               formatDate(d[0], filters.resolution),
               h('br', {}, null),
