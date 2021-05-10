@@ -28,8 +28,21 @@ export default class App extends Component {
     } else {
       this.setState({ mounted: true }, () => this.getData())
     }
-    setInterval(() => this.getLive(), 10 * 1000)
     setInterval(() => this.getData(), 60 * 1000)
+
+    const eventSource = new window.EventSource('/sse')
+
+    eventSource.onmessage = (message) => {
+      if (!message || !message.data) return console.error('skipping empty message')
+      try {
+        const live = JSON.parse(message.data, {})
+        console.log('sse live', live)
+        this.setState({ data: Object.assign({}, this.state.data, {live}) })
+
+      } catch (err) {
+        console.error('sse parse error', err)
+      }
+    }
   }
 
   async handleRoute(e) {

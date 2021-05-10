@@ -32,13 +32,13 @@ async function start (env = process.env, memory) {
   backup.start(options)
 
   const file = new (nodeStatic.Server)(path.resolve(__dirname, 'dashboard'))
-  // const file = new (nodeStatic.Server)(path.resolve(__dirname, 'client', 'build'))
 
   const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
 
   memory = readMemory(options, memory)
 
   const live = {}
+  const connections = []
 
   const server = http.createServer(function (req, res) {
     if (isBot(req.headers['user-agent'])) return res.end()
@@ -72,6 +72,11 @@ async function start (env = process.env, memory) {
       res.setHeader('Content-type', 'text/javascript')
       return res.end(CLIENT_JS)
     }
+    if (req.headers.accept && req.headers.accept.indexOf('text/event-stream') >= 0) {
+      handleSSE(req, res)
+      sendSSE(JSON.stringify(live))
+      return
+    }
     return file.serve(req, res)
   })
 
@@ -79,9 +84,34 @@ async function start (env = process.env, memory) {
     Object.keys(live).forEach(visitor => {
       if (live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
     })
+    sendSSE(JSON.stringify(live))
   }, 5000)
 
   console.log(`listening on http://127.0.0.1:${options.HTTP_PORT}`)
   server.listen(options.HTTP_PORT)
   return { server, memory }
+
+  function handleSSE (req, res) {
+    console.log('handle sse')
+    connections.push(res)
+    res.on('close', () => {
+      console.log('sse close')
+      connections.splice(connections.findIndex(c => res === c), 1)
+    })
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive'
+    })
+  }
+
+  function sendSSE (data) {
+    connections.forEach(connection => {
+      if (!connection) return
+      const id = new Date().toISOString()
+      console.log('send connection', id, data)
+      connection.write('id: ' + id + '\n')
+      connection.write('data: ' + data + '\n\n')
+    })
+  }
 }
