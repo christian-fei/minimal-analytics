@@ -48,6 +48,26 @@ export default function ({ data, filters = {}, toggleFilter }) {
           }, `${c} · ${p}`)
         )
       )
+    ].filter(Boolean)),
+    h('div', { class: 'contain', id: 'live-referrers' }, [
+      Object.keys(live).length > 0 && h('h2', {}, ['Live referrers ', h('span', { class: 'live-dot' }, [])]),
+      h('ul', {}, Object.keys(live).reduce((acc, curr) => {
+        const existing = acc.find(({ r }) => r === live[curr].pageview.r)
+        if (existing) {
+          existing.c++
+          return acc
+        }
+        return acc.concat([{ r: live[curr].pageview.r, c: 1 }])
+      }, [])
+        .sort((a, b) => a.c - b.c)
+        .map(({ r, c }) =>
+          h('li', {
+            class: `filterable ${filters.r === r && 'active'}`,
+            onClick: () => toggleFilter('r', r),
+            key: r
+          }, `${c} · ${(r || '').replace('https://', '').replace('http://', '') || 'none'}`)
+        )
+      )
     ].filter(Boolean))
   ].filter(Boolean))
 }

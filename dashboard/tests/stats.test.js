@@ -20,11 +20,12 @@ describe('Stats', () => {
   })
 
   test('renders live visitors', () => {
-    const context = shallow(<Stats data={{ live: { 123: { pageview: { p: '/about' } } }, visitorsCount: 42, pageviewsCount: 50 }} />)
+    const context = shallow(<Stats data={{ live: { 123: { pageview: { p: '/about', r: 'https://google.com' } } }, visitorsCount: 42, pageviewsCount: 50 }} />)
 
     expect(context.find('#visitors-count').text()).toEqual('42')
     expect(context.find('#pageviews-count').text()).toEqual('50')
     expect(context.find('#live').text()).toEqual('1')
     expect(context.find('#live-pages li').text()).toEqual('1 · /about')
+    expect(context.find('#live-referrers li').text()).toEqual('1 · google.com')
   })
 })
