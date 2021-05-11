@@ -56,6 +56,7 @@ async function start (env = process.env, memory) {
         if (err) return console.error('error parsing pageview', err.message)
         trackPageview(pageview, options, memory, live)
         console.log(pageview.d, pageview.p, pageview.v)
+        sendSSE(JSON.stringify(live), connections)
       })
       return res.end()
     }
