@@ -30,7 +30,7 @@ export default class App extends Component {
     }
     setInterval(() => this.getData(), 60 * 1000)
 
-    const eventSource = new window.EventSource('/sse')
+    const eventSource = new window.EventSource('/')
 
     eventSource.onmessage = (message) => {
       if (!message || !message.data) return console.error('skipping empty message')

@@ -73,9 +73,8 @@ async function start (env = process.env, memory) {
       return res.end(CLIENT_JS)
     }
     if (req.headers.accept && req.headers.accept.indexOf('text/event-stream') >= 0) {
-      handleSSE(req, res)
-      sendSSE(JSON.stringify(live))
-      return
+      handleSSE(res, connections)
+      return sendSSE(JSON.stringify(live), [res])
     }
     return file.serve(req, res)
   })
@@ -84,14 +83,14 @@ async function start (env = process.env, memory) {
     Object.keys(live).forEach(visitor => {
       if (live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
     })
-    sendSSE(JSON.stringify(live))
+    sendSSE(JSON.stringify(live), connections)
   }, 5000)
 
   console.log(`listening on http://127.0.0.1:${options.HTTP_PORT}`)
   server.listen(options.HTTP_PORT)
   return { server, memory }
 
-  function handleSSE (req, res) {
+  function handleSSE (res, connections = []) {
     console.log('handle sse')
     connections.push(res)
     res.on('close', () => {
@@ -105,7 +104,7 @@ async function start (env = process.env, memory) {
     })
   }
 
-  function sendSSE (data) {
+  function sendSSE (data, connections = []) {
     connections.forEach(connection => {
       if (!connection) return
       const id = new Date().toISOString()
