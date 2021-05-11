@@ -1,4 +1,4 @@
-;(async () => {
+;(function () {
   if (/(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.host)) return
   setTimeout(function () {
     track({
