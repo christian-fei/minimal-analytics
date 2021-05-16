@@ -13,7 +13,7 @@
   function heartbeat (i = 0) {
     if (i > 30) return
     setTimeout(heartbeat, 10000, i++)
-    if (document.visibilityState && document.visibilityState !== 'visible') { return }
+    if (document.hidden) { return }
     track({
       t: 'heartbeat',
       r: document.referrer,
