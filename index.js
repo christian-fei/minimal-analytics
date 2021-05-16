@@ -81,6 +81,7 @@ async function start (env = process.env, memory) {
   })
 
   setInterval(() => {
+    console.log(JSON.stringify(live, null, 2))
     Object.keys(live).forEach(visitor => {
       if (!live[visitor]) return
       if (live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
