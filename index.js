@@ -83,9 +83,8 @@ async function start (env = process.env, memory) {
   setInterval(() => {
     console.log(JSON.stringify(live, null, 2))
     Object.keys(live).forEach(visitor => {
-      if (!live[visitor]) return
-      if (live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
-      if (live[visitor].firstSeenAt < Date.now() - 1000 * 60 * 15) delete live[visitor]
+      if (live[visitor] && live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
+      if (live[visitor] && live[visitor].firstSeenAt < Date.now() - 1000 * 60 * 15) delete live[visitor]
     })
     sendSSE(JSON.stringify(live), connections)
   }, 5000)
