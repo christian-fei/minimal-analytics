@@ -82,6 +82,7 @@ async function start (env = process.env, memory) {
 
   setInterval(() => {
     Object.keys(live).forEach(visitor => {
+      if (!live[visitor]) return
       if (live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
       if (live[visitor].firstSeenAt < Date.now() - 1000 * 60 * 15) delete live[visitor]
     })
