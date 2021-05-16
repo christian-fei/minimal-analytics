@@ -111,7 +111,6 @@ async function start (env = process.env, memory) {
     connections.forEach(connection => {
       if (!connection) return
       const id = new Date().toISOString()
-      console.log('send connection', id, data)
       connection.write('id: ' + id + '\n')
       connection.write('data: ' + data + '\n\n')
     })
