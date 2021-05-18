@@ -38,12 +38,12 @@ body > * {
   padding-top: 4em;
 }
 @media all and (max-width: 50em) {
-  #pageviews-chart {
+  /* #pageviews-chart {
     overflow-x: scroll;
   }
   .charts-css {
     min-width: 150vw;
-  }
+  } */
 }
 
 #pageviews-chart tr:hover {
@@ -90,6 +90,11 @@ select {
 }
 .w-50-lg {
   width: 100%;
+}
+@media all and (max-width: 60em) {
+  .w-50 {
+    width: 100%;
+  }
 }
 @media all and (min-width: 60em) {
   .grid-lg {
