@@ -25,6 +25,10 @@ export default function ({ data, filters = {}, toggleFilter }) {
         h('div', { id: 'pageviews-count' }, data.pageviewsCount)
       ]),
       h('div', { class: 'w-50' }, [
+        h('h2', {}, 'Bounce rate'),
+        h('div', { id: 'bounce-rate' }, (data.visitorsCount / data.pageviewsCount * 100).toFixed(0) + '%')
+      ]),
+      h('div', { class: 'w-50' }, [
         h('h2', {}, 'Live'),
         h('div', { id: 'live' }, Object.keys(live).length)
       ])

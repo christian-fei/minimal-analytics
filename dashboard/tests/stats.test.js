@@ -16,6 +16,7 @@ describe('Stats', () => {
     expect(context.find('#visitors-count').text()).toEqual('42')
     expect(context.find('#pageviews-count').text()).toEqual('50')
     expect(context.find('#live').text()).toEqual('0')
+    expect(context.find('#bounce-rate').text()).toEqual('84%')
     expect(context.find('#live-pages').text()).toEqual('')
   })
 
