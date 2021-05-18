@@ -7,8 +7,7 @@
 .contain {
   max-width: 60em;
   margin: 0 auto;
-  padding-top: 2em;
-  padding-bottom: 2em;
+  padding: 2em 0.5em;
   transition: opacity 0.2 ease;
 }
 
@@ -18,24 +17,28 @@ html {
 }
 body {
   overflow-y: scroll;
+  margin: 0;
 }
-body > * {
-  padding: 1rem;
-}
-.sticky-top {
+.static {
+  background-color: white;
   position: sticky;
   top: 0;
-  background: #fff;
+  left: 0;
+  right: 0;
   z-index: 9000;
-  box-shadow: 0 1em 2.9em #f7f7f7;
+  box-shadow: -1px 13px 8px 3px white;
+  border-bottom: 1px solid #ccc;
 }
 
 #pageviews-chart {
   --color: #222;
   height: 20rem;
-  margin: 1em auto;
+  margin: 0 auto;
   overflow: hidden;
   padding-top: 4em;
+}
+.text-lg {
+  font-size: 1.3rem;
 }
 @media all and (max-width: 50em) {
   /* #pageviews-chart {
@@ -44,7 +47,11 @@ body > * {
   .charts-css {
     min-width: 150vw;
   } */
+  .text-lg {
+    font-size: 1.15rem;
+  }
 }
+
 
 #pageviews-chart tr:hover {
   background: #eee;
@@ -83,6 +90,9 @@ select {
 
 .grid {
   display: flex;
+}
+.grid > * {
+  padding: .25rem;
 }
 
 .w-50 {

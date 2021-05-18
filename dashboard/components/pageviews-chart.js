@@ -19,7 +19,7 @@ export default function ({ data, filters = {} }) {
 
   const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
   return h('div', { id: 'pageviews-chart' }, [
-    h('table', { class: smallWindow ? 'charts-css line' : 'charts-css column show-labels show-primary-axis' }, [
+    h('table', { class: (smallWindow && false) ? 'charts-css line' : 'charts-css column show-labels show-primary-axis' }, [
       h('thead', {}, [
         h('tr', {}, [
           h('th', { scope: 'col' }, 'Date'),

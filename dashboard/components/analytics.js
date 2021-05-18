@@ -10,15 +10,17 @@ export default class Analytics extends Component {
     if (Object.keys(data).length === 0) return null
 
     return h('div', { class: `${loading && 'loading'}` }, [
-      h(Filters, {
-        updateResolution: updateResolution,
-        updateTimeframe: updateTimeframe,
-        filters: filters
-      }, []),
-      h(PageviewsChart, {
-        filters: filters,
-        data: data
-      }, []),
+      h('div', { class: 'static' }, [
+        h(PageviewsChart, {
+          filters: filters,
+          data: data
+        }, []),
+        h(Filters, {
+          updateResolution: updateResolution,
+          updateTimeframe: updateTimeframe,
+          filters: filters
+        }, [])
+      ]),
       h(Stats, {
         toggleFilter: toggleFilter,
         filters: filters,

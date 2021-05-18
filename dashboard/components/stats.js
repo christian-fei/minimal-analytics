@@ -15,7 +15,7 @@ export default function ({ data, filters = {}, toggleFilter }) {
   }
 
   return h('div', {}, [
-    h('div', { class: 'grid contain' }, [
+    h('div', { class: 'grid contain text-lg' }, [
       h('div', { class: 'w-50' }, [
         h('h2', {}, 'Visitors'),
         h('div', { id: 'visitors-count' }, data.visitorsCount)
