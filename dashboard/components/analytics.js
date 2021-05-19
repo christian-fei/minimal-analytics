@@ -15,12 +15,12 @@ export default class Analytics extends Component {
           filters: filters,
           data: data
         }, []),
-        h(Filters, {
-          updateResolution: updateResolution,
-          updateTimeframe: updateTimeframe,
-          filters: filters
-        }, [])
       ]),
+      h(Filters, {
+        updateResolution: updateResolution,
+        updateTimeframe: updateTimeframe,
+        filters: filters
+      }, []),
       h(Stats, {
         toggleFilter: toggleFilter,
         filters: filters,
