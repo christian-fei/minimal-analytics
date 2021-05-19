@@ -1,6 +1,6 @@
 import { h } from '../modules/preact.js'
 
-export default function ({ data, filters = {} }) {
+export default function ({ data, filters = {}, updateCustomTimeframe }) {
   if (!data) return null
   if (!Array.isArray(data.chartData)) return null
 
@@ -15,11 +15,9 @@ export default function ({ data, filters = {} }) {
     ])
   }
 
-  const smallWindow = window.innerWidth < 600
-
   const chartMaxPageviews = Math.max(...data.chartData.map(d => d[1]))
   return h('div', { id: 'pageviews-chart' }, [
-    h('table', { class: (smallWindow && false) ? 'charts-css line' : 'charts-css column show-labels show-primary-axis' }, [
+    h('table', { class: 'charts-css column show-labels show-primary-axis' }, [
       h('thead', {}, [
         h('tr', {}, [
           h('th', { scope: 'col' }, 'Date'),
@@ -27,11 +25,14 @@ export default function ({ data, filters = {} }) {
         ])
       ]),
       h('tbody', {}, data.chartData.map((d, i) =>
-        h('tr', { key: d[0] }, [
+        h('tr', {
+          key: d[0],
+          onClick: () => updateCustomTimeframe(+new Date(d[0]))
+        }, [
           h('td', {
             style: { '--start': i === 0 ? 0 : data.chartData[i - 1][1] / chartMaxPageviews, '--size': d[1] / chartMaxPageviews }
           }, [
-            data.chartData.length < 50 && !smallWindow && h('span', { class: 'data' }, d[1]),
+            data.chartData.length < 50 && h('span', { class: 'data' }, d[1]),
             h('span', { class: 'tooltip' }, [
               formatDate(d[0], filters.resolution),
               h('br', {}, null),

@@ -77,6 +77,23 @@ export default class App extends Component {
     this.setState({ data: Object.assign({}, this.state.data, {live}) })
   }
 
+  clearCustomTimeframe () {
+    const newFilters = Object.assign({}, this.state.filters, {timeframe: 'past-day'})
+    delete newFilters.from
+    delete newFilters.to
+    this.setState({ filters: newFilters }, () => 
+      route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
+    )
+  }
+  updateCustomTimeframe (customFrom, customTo = Date.now()) {
+    if (!Number.isFinite(+new Date(customFrom))) return
+    if (!Number.isFinite(+new Date(customTo))) return
+    const newFilters = Object.assign({}, this.state.filters, { from: customFrom, to: customTo })
+    delete newFilters.timeframe
+    this.setState({ filters: newFilters }, () => 
+      route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
+    )    
+  }
 
   updateTimeframe (timeframe) {
     const newFilters = Object.assign({}, this.state.filters, { timeframe })
@@ -126,6 +143,8 @@ export default class App extends Component {
           loading: this.state.loading,
           updateResolution: this.updateResolution.bind(this),
           updateTimeframe: this.updateTimeframe.bind(this),
+          updateCustomTimeframe: this.updateCustomTimeframe.bind(this),
+          clearCustomTimeframe: this.clearCustomTimeframe.bind(this),
           toggleFilter: this.toggleFilter.bind(this),
           path: '/'
         }, [])

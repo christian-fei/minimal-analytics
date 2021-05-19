@@ -1,8 +1,8 @@
 import { h } from '../modules/preact.js'
 
-export default function ({ updateTimeframe, updateResolution, filters }) {
+export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, updateResolution, filters }) {
   return h('div', { class: 'grid-lg contain' }, [
-    h('div', { class: 'w-50-lg' }, [
+    (!filters.from && !filters.to) && h('div', { class: 'w-50-lg' }, [
       h('h4', {}, 'Timeframe'),
       h('div', {}, [
         h('span', {
@@ -39,7 +39,7 @@ export default function ({ updateTimeframe, updateResolution, filters }) {
         }, 'Past 6 months')
       ])
     ]),
-    h('div', { class: 'w-50-lg' }, [
+    (!filters.from && !filters.to) && h('div', { class: 'w-50-lg' }, [
       h('h4', {}, 'Resolution'),
       h('div', {}, [
         ['past-year'].includes(filters.timeframe) &&
@@ -71,6 +71,50 @@ export default function ({ updateTimeframe, updateResolution, filters }) {
               id: 'minutes'
             }, 'Minutes')
       ].filter(Boolean))
+    ]),
+    (filters.from || filters.to) && h('div', { class: 'w-50-lg' }, [
+      h('h4', {}, 'Resolution'),
+      h('div', {}, [
+        h('span', {
+          onClick: () => updateResolution('daily'),
+          class: `select-resolution filterable static-filter ${filters.resolution === 'daily' && 'active'}`,
+          name: 'daily',
+          id: 'daily'
+        }, 'Daily'),
+        h('span', {
+          onClick: () => updateResolution('hourly'),
+          class: `select-resolution filterable static-filter ${filters.resolution === 'hourly' && 'active'}`,
+          name: 'hourly',
+          id: 'hourly'
+        }, 'Hourly')
+      ])
+    ]),
+    filters.from && h('div', {}, [
+      filters.from && h('span', { class: 'filterable static-filter' }, 'From '),
+      filters.from && h('input', {
+        type: 'datetime-local',
+        onChange: e => {
+          // console.log(e.target.value)
+          updateCustomTimeframe(+new Date(e.target.value))
+        },
+        value: new Date(+filters.from).toISOString().substring(0, 16)
+      })
+    ]),
+    (filters.from && filters.to) && h('div', {}, [
+      filters.to && h('span', { class: 'filterable static-filter' }, 'To '),
+      filters.to && h('input', {
+        type: 'datetime-local',
+        onChange: e => {
+          updateCustomTimeframe(filters.from, +new Date(e.target.value))
+        },
+        value: new Date(+filters.to).toISOString().substring(0, 16)
+      })
+    ]),
+    (filters.from || filters.to) && h('div', {
+      class: 'filterable static-filter',
+      onClick: () => clearCustomTimeframe()
+    }, [
+      'Clear [x]'
     ])
-  ])
+  ].filter(Boolean))
 }
