@@ -6,18 +6,8 @@ import Breakdown from './breakdown.js'
 import History from './history.js'
 
 export default class Analytics extends Component {
-  render ({ data, filters, loading, mini, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter } = {}) {
+  render ({ data, filters, loading, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter } = {}) {
     if (Object.keys(data).length === 0) return null
-    if (mini) {
-      return h('div', { class: `${loading && 'loading'}` }, [
-        h(Stats, {
-          toggleFilter: toggleFilter,
-          filters: filters,
-          data: data
-        }, [])
-      ])
-    }
-
     return h('div', { class: `${loading && 'loading'}` }, [
       h('div', { class: 'static' }, [
         h(PageviewsChart, {

@@ -14,9 +14,7 @@ const initialState = {
 }
 
 if (localStorage.getItem('state')) {
-  Object.assign(initialState, JSON.parse(localStorage.getItem('state')), {
-    mini: window.location.toString().includes('mini-view')
-  })
+  Object.assign(initialState, JSON.parse(localStorage.getItem('state')))
 }
 
 export default class App extends Component {
@@ -137,14 +135,12 @@ export default class App extends Component {
   }
 
   render () {
-    console.log(this.state.mini)
     return h('div', {id: 'app'}, [
       h(Router, {onChange: this.handleRoute.bind(this)}, [
         h(Analytics, {          
           data: this.state.data,
           filters: this.state.filters,
           loading: this.state.loading,
-          mini: this.state.mini,
           updateResolution: this.updateResolution.bind(this),
           updateTimeframe: this.updateTimeframe.bind(this),
           updateCustomTimeframe: this.updateCustomTimeframe.bind(this),
