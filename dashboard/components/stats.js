@@ -8,7 +8,7 @@ export default function ({ data, filters = {}, toggleFilter }) {
   let live = data.live || {}
   if (Object.keys(filters).length > 2) {
     live = Object.keys(live).reduce((acc, key) => {
-      const filterKeys = Object.keys(filters).filter(k => !['timeframe', 'resolution'].includes(k))
+      const filterKeys = Object.keys(filters).filter(k => ['p', 'r', 'v'].includes(k))
       if (!filterKeys.every(f => live[key].pageview[f] === filters[f])) return acc
       return Object.assign(acc, { [key]: live[key] })
     }, {})
