@@ -69,14 +69,6 @@ export default class App extends Component {
     this.setState({ data, loading: false }, () => localStorage.setItem('state', JSON.stringify(this.state)))
   }
 
-  async getLive () {
-    if (this.state.loading) return
-    const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
-    const req = await window.fetch(host + '/live')
-    const live = await req.json()
-    this.setState({ data: Object.assign({}, this.state.data, {live}) })
-  }
-
   clearCustomTimeframe () {
     const newFilters = Object.assign({}, this.state.filters, {timeframe: 'past-day'})
     delete newFilters.from
