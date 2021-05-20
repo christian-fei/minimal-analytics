@@ -17,7 +17,7 @@ export default class Analytics extends Component {
           updateCustomTimeframe: updateCustomTimeframe
         }, [])
       ]),
-      h(Filters, {
+      !mini && h(Filters, {
         updateResolution: updateResolution,
         updateTimeframe: updateTimeframe,
         updateCustomTimeframe: updateCustomTimeframe,
