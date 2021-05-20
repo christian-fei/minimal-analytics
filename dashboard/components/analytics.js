@@ -8,16 +8,25 @@ import History from './history.js'
 export default class Analytics extends Component {
   render ({ data, filters, loading, mini, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter } = {}) {
     if (Object.keys(data).length === 0) return null
+    if (mini) {
+      return h('div', { class: `${loading && 'loading'}` }, [
+        h(Stats, {
+          toggleFilter: toggleFilter,
+          filters: filters,
+          data: data
+        }, [])
+      ])
+    }
 
     return h('div', { class: `${loading && 'loading'}` }, [
-      !mini && h('div', { class: 'static' }, [
+      h('div', { class: 'static' }, [
         h(PageviewsChart, {
           filters: filters,
           data: data,
           updateCustomTimeframe: updateCustomTimeframe
         }, [])
       ]),
-      !mini && h(Filters, {
+      h(Filters, {
         updateResolution: updateResolution,
         updateTimeframe: updateTimeframe,
         updateCustomTimeframe: updateCustomTimeframe,
@@ -29,12 +38,12 @@ export default class Analytics extends Component {
         filters: filters,
         data: data
       }, []),
-      !mini && h(Breakdown, {
+      h(Breakdown, {
         data: data,
         filters: filters,
         toggleFilter: toggleFilter
       }, []),
-      !mini && h(History, {
+      h(History, {
         data: data,
         filters: filters,
         toggleFilter: toggleFilter
