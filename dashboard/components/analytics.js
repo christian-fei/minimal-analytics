@@ -6,11 +6,11 @@ import Breakdown from './breakdown.js'
 import History from './history.js'
 
 export default class Analytics extends Component {
-  render ({ data, filters, loading, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter } = {}) {
+  render ({ data, filters, loading, mini, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter } = {}) {
     if (Object.keys(data).length === 0) return null
 
     return h('div', { class: `${loading && 'loading'}` }, [
-      h('div', { class: 'static' }, [
+      !mini && h('div', { class: 'static' }, [
         h(PageviewsChart, {
           filters: filters,
           data: data,
@@ -29,16 +29,16 @@ export default class Analytics extends Component {
         filters: filters,
         data: data
       }, []),
-      h(Breakdown, {
+      !mini && h(Breakdown, {
         data: data,
         filters: filters,
         toggleFilter: toggleFilter
       }, []),
-      h(History, {
+      !mini && h(History, {
         data: data,
         filters: filters,
         toggleFilter: toggleFilter
       }, [])
-    ])
+    ].filter(Boolean))
   }
 }
