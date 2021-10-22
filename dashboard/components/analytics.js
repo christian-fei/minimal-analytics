@@ -9,19 +9,17 @@ export default class Analytics extends Component {
   render ({ data, filters, loading, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter } = {}) {
     if (Object.keys(data).length === 0) return null
     return h('div', { class: `${loading && 'loading'}` }, [
-      h('div', { class: 'static' }, [
-        h(PageviewsChart, {
-          filters: filters,
-          data: data,
-          updateCustomTimeframe: updateCustomTimeframe
-        }, [])
-      ]),
       h(Filters, {
         updateResolution: updateResolution,
         updateTimeframe: updateTimeframe,
         updateCustomTimeframe: updateCustomTimeframe,
         clearCustomTimeframe: clearCustomTimeframe,
         filters: filters
+      }, []),
+      h(PageviewsChart, {
+        filters: filters,
+        data: data,
+        updateCustomTimeframe: updateCustomTimeframe
       }, []),
       h(Stats, {
         toggleFilter: toggleFilter,
