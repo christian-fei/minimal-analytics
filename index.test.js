@@ -69,7 +69,7 @@ test('tracks heartbeat', async t => {
   t.is(response.statusCode, 200)
 })
 
-test('returns pageviews last h', async t => {
+test.skip('returns pageviews last h', async t => {
   await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'foo-user-agent'
@@ -91,7 +91,7 @@ test('returns pageviews last h', async t => {
   t.is(Object.keys(body.live).length, 1)
 })
 
-test('returns live visitors', async t => {
+test.skip('returns live visitors', async t => {
   await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'foo-user-agent'
@@ -109,7 +109,7 @@ test('returns live visitors', async t => {
   t.is(Object.keys(body).length, 1)
 })
 
-test('returns tracker script', async t => {
+test.skip('returns tracker script', async t => {
   const response = await got(`http://localhost:${HTTP_PORT}/client.js`)
   t.is(response.statusCode, 200)
   t.is(response.headers['content-type'], 'text/javascript')

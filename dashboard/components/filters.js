@@ -36,7 +36,13 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
           class: `select-timeframe filterable static-filter ${filters.timeframe === 'past-6-months' && 'active'}`,
           name: 'past-6-months',
           id: 'past-6-months'
-        }, 'Past 6 months')
+        }, 'Past 6 months'),
+        h('span', {
+          onClick: () => updateTimeframe('past-year'),
+          class: `select-timeframe filterable static-filter ${filters.timeframe === 'past-year' && 'active'}`,
+          name: 'past-year',
+          id: 'past-year'
+        }, 'Past Year'),
       ])
     ]),
     (!filters.from && !filters.to) && h('div', { class: 'w-50-lg' }, [
