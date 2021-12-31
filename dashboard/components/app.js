@@ -36,7 +36,6 @@ export default class App extends Component {
       if (!message || !message.data) return console.error('skipping empty message')
       try {
         const live = JSON.parse(message.data, {})
-        console.log('sse live', live)
         this.setState({ data: Object.assign({}, this.state.data, {live}) })
 
       } catch (err) {

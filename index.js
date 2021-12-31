@@ -81,7 +81,6 @@ async function start (env = process.env, memory) {
   })
 
   setInterval(() => {
-    console.log(JSON.stringify(live, null, 2))
     Object.keys(live).forEach(visitor => {
       if (live[visitor] && live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
     })
@@ -93,10 +92,8 @@ async function start (env = process.env, memory) {
   return { server, memory }
 
   function handleSSE (res, connections = []) {
-    console.log('handle sse')
     connections.push(res)
     res.on('close', () => {
-      console.log('sse close')
       connections.splice(connections.findIndex(c => res === c), 1)
     })
     res.writeHead(200, {
