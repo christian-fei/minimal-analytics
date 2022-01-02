@@ -11,6 +11,7 @@ const migrate = require('./lib/migrate')
 const backup = require('./lib/backup')
 const parsePageview = require('./lib/parse-pageview')
 const readMemory = require('./lib/read-memory')
+const cacheScheduler = require('./lib/cache-scheduler')
 
 module.exports = {
   start
@@ -30,12 +31,13 @@ async function start (env = process.env, memory) {
 
   await migrate.start(options)
   backup.start(options)
-
+  
   const file = new (nodeStatic.Server)(path.resolve(__dirname, 'dashboard'))
-
+  
   const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
-
+  
   memory = readMemory(options, memory)
+  cacheScheduler.start(memory)
 
   const live = {}
   const connections = []
