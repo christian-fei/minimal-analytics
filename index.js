@@ -6,7 +6,7 @@ const path = require('path')
 const isBot = require('./lib/is-bot')
 const trackPageview = require('./lib/track-pageview')
 const parseOptions = require('./lib/parse-options')
-const analytics = require('./lib/analytics')
+const analyticsCache = require('./lib/analytics-cache')
 const migrate = require('./lib/migrate')
 const backup = require('./lib/backup')
 const parsePageview = require('./lib/parse-pageview')
@@ -65,7 +65,7 @@ async function start (env = process.env, memory) {
       return res.end(JSON.stringify(live))
     }
     if (req.method === 'GET' && /^\/api/.test(req.url)) {
-      const result = analytics.getAll(req.url, memory, live)
+      const result = analyticsCache.getAll(req.url, memory, live)
       res.setHeader('Content-type', 'application/json')
       return res.end(JSON.stringify(result))
     }
