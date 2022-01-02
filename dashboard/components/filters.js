@@ -100,8 +100,8 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
       filters.from && h('input', {
         type: 'datetime-local',
         onChange: e => {
-          // console.log(e.target.value)
-          updateCustomTimeframe(+new Date(e.target.value))
+          console.log(e.target.value)
+          updateCustomTimeframe(+new Date(e.target.value), +filters.to)
         },
         value: new Date(+filters.from).toISOString().substring(0, 16)
       })
@@ -111,7 +111,8 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
       filters.to && h('input', {
         type: 'datetime-local',
         onChange: e => {
-          updateCustomTimeframe(filters.from, +new Date(e.target.value))
+          console.log(e.target.value)
+          updateCustomTimeframe(+filters.from, +new Date(e.target.value))
         },
         value: new Date(+filters.to).toISOString().substring(0, 16)
       })

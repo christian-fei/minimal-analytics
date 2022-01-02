@@ -77,6 +77,7 @@ export default class App extends Component {
     )
   }
   updateCustomTimeframe (customFrom, customTo = Date.now()) {
+    // debugger
     if (!Number.isFinite(+new Date(customFrom))) return
     if (!Number.isFinite(+new Date(customTo))) return
     const newFilters = Object.assign({}, this.state.filters, { from: customFrom, to: customTo })
