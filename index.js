@@ -29,7 +29,7 @@ async function start (env = process.env, memory) {
 
   console.log('starting', JSON.stringify(options))
 
-  await migrate.start(options)
+  // await migrate.start(options)
   backup.start(options)
   
   const file = new (nodeStatic.Server)(path.resolve(__dirname, 'dashboard'))
