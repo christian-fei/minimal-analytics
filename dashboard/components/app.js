@@ -10,7 +10,8 @@ const initialState = {
   filters: {
     timeframe: 'today',
     resolution: 'hourly'  
-  }
+  },
+  theme: 'light'
 }
 
 if (localStorage.getItem('state')) {
@@ -125,19 +126,23 @@ export default class App extends Component {
       route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     )
   }
-
+  toggleTheme () {
+    this.setState({theme: this.state.theme === 'dark' ? 'light' : 'dark'})
+  }
   render () {
-    return h('div', {id: 'app'}, [
+    return h('div', {id: 'app', class: `theme-${this.state.theme}`}, [
       h(Router, {onChange: this.handleRoute.bind(this)}, [
         h(Analytics, {          
           data: this.state.data,
           filters: this.state.filters,
           loading: this.state.loading,
+          theme: this.state.theme,
           updateResolution: this.updateResolution.bind(this),
           updateTimeframe: this.updateTimeframe.bind(this),
           updateCustomTimeframe: this.updateCustomTimeframe.bind(this),
           clearCustomTimeframe: this.clearCustomTimeframe.bind(this),
           toggleFilter: this.toggleFilter.bind(this),
+          toggleTheme: this.toggleTheme.bind(this),
           path: '/'
         }, [])
       ])

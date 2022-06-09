@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 .debug * {
-    outline: 1px solid red;
+  outline: 1px solid red;
 }
 .contain {
   max-width: 60em;
@@ -30,13 +30,6 @@ body {
   border-bottom: 1px solid #ccc;
 }
 
-#pageviews-chart {
-  --color: #222;
-  height: 20rem;
-  margin: 0 auto;
-  overflow: hidden;
-  padding-top: 4em;
-}
 .text-lg {
   font-size: 1.3rem;
 }
@@ -53,9 +46,6 @@ body {
 }
 
 
-#pageviews-chart tr:hover {
-  background: #eee;
-}
 ul, ol {
   margin-left: 0;
   padding-left: 0;
@@ -114,6 +104,16 @@ select {
     width: 50%;
   }
 }
+
+
+
+
+
+
+
+/*
+FILTERS
+*/
 .filterable::before {
   content: '';
   display: inline-block;
@@ -139,6 +139,9 @@ select {
 .filterable.active {
   background: #fe1;
 }
+.theme-dark .filterable.active, .theme-dark .filterable:hover {
+  color: black;
+}
 .filterable.active:not(.static-filter) {
   padding-left: 2em;
 }
@@ -150,7 +153,6 @@ select {
   bottom: 0;
   height: 100%;
   width: 1.8em;
-  vertical-align: middle;
   content: '[x]';
   background-color: white !important;
 }
@@ -188,6 +190,16 @@ select {
     max-width: 100%;
   }
 }
+
+
+
+
+
+
+
+
+
+
 #notice {
   border: 1px solid #000;
   padding: 1em 0.5em;
@@ -205,6 +217,12 @@ details {
   margin-top: 1em;
 }
 
+
+
+/*
+HISTORY
+*/
+
 .visitor {
   width: 1em;
   height: 1em;
@@ -219,12 +237,34 @@ details {
   margin: 0;
   padding: 0;
 }
+
+
+
+
+
+
+
+
+
+/*
+CHART
+*/
+
+.charts-css {
+  --color: #222;
+  height: 25rem;
+  margin: 0 auto;
+  overflow: hidden;
+  padding-top: 1em;
+  padding-bottom: 4em;
+}
+
 .charts-css tr {
   position: relative;
 }
 .charts-css td {
   color: #fff;
-  position: inherit;
+  /* position: inherit; */
 }
 .charts-css.line .data {
   /* display: none; */
@@ -250,17 +290,27 @@ details {
   border-bottom: 2px solid black;;
 }
 .charts-css .tooltip {
+  position: absolute;
   transition: none !important;
-  top: -4em;
-  bottom: auto;
+  bottom: -4em;
 }
 .charts-css .tooltip::after {
   display: none;
 }
 
-.charts-css td {
-  /* transition: all 0.25s ease; */
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 h1, h2, h3, h4, h5, h6 {
   font-size: 1em;
 }
@@ -293,4 +343,30 @@ h1, h2, h3, h4, h5, h6 {
 
 #live-pages {
   min-height: 10em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+THEME
+*/
+.theme-toggle {
+  float: right;
+  padding: 1em;
+  user-select: none;
+}
+/* .theme-light {} */
+.theme-dark {
+  background: #111;
+  color: white;
 }
