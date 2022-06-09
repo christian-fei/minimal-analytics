@@ -4,7 +4,7 @@ COPY ./package.* /app
 
 WORKDIR /app
 
-RUN npm install
+RUN npm install --omit=dev
 
 COPY ./ /app
 
