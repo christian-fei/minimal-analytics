@@ -6,12 +6,18 @@ import { shallow } from 'enzyme'
 describe('ThemeToggle', () => {
   test('switches theme on click', () => {
     const state = {
-      theme: 'light'
+      theme: 'light',
+      toggleTheme: () => {
+        state.theme = (state.theme === 'dark') ? 'light' : 'dark'
+      }
     }
-    const context = shallow(<ThemeToggle theme={state.theme} toggleTheme={() => state.theme = (state.theme === 'dark') ? 'light' : 'dark'} />)
+    const context = shallow(<ThemeToggle theme={state.theme} toggleTheme={state.toggleTheme} />)
 
+    expect(state.theme).toEqual('light')
     expect(context.text()).toEqual('dark theme')
-    // context.find('.theme-toggle').at(0).simulate('click')
+    context.simulate('click')
+    expect(state.theme).toEqual('dark')
+    // context.update()
     // expect(context.text()).toEqual('light theme')
   })
 })
