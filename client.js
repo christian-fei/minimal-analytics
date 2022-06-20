@@ -23,10 +23,21 @@
   }
 
   function track (data) {
-    const req = new window.XMLHttpRequest()
-    req.open('POST', '{{STATS_BASE_URL}}/p', true)
-    req.setRequestHeader('Content-Type', 'text/plain')
-    req.send(JSON.stringify(data))
-    req.onreadystatechange = Function.prototype
+    const baseUrl = '{{STATS_BASE_URL}}/p'
+    if (window.fetch) {
+      window.fetch(baseUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'text/plain'
+        },
+        method: 'POST'
+      })
+    } else {
+      const req = new window.XMLHttpRequest()
+      req.open('POST', baseUrl, true)
+      req.setRequestHeader('Content-Type', 'text/plain')
+      req.send(JSON.stringify(data))
+      req.onreadystatechange = Function.prototype
+    }
   }
 })()
