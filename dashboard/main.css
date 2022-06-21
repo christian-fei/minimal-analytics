@@ -261,6 +261,9 @@ CHART
   padding-right: 8em;
 }
 
+.charts-css {
+  position: relative;
+}
 .charts-css tr {
   position: relative;
 }
@@ -271,9 +274,6 @@ CHART
 .charts-css.line .data {
   /* display: none; */
   color: #333;
-}
-.charts-css tbody tr td {
-  position: static;
 }
 .charts-css tr:hover td {
   background: #333 !important;
@@ -298,7 +298,24 @@ CHART
 
 
 
-
+@media all and (max-width: 60em) {
+  .charts-css {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .charts-css tr {
+    position: initial;
+  }  
+  .charts-css.column tbody tr {
+    position: initial !important;
+  }
+  .charts-css.column tbody tr td {
+    position: initial !important;
+  }  
+  .charts-css .tooltip {
+    bottom: 0;
+  }
+}
 
 
 
