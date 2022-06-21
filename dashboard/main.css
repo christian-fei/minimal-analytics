@@ -257,6 +257,8 @@ CHART
   overflow: hidden;
   padding-top: 1em;
   padding-bottom: 4em;
+  padding-left: 8em;
+  padding-right: 8em;
 }
 
 .charts-css tr {
@@ -279,12 +281,6 @@ CHART
 .charts-css tr:hover .tooltip {
   visibility: visible;
   opacity: 1;
-}
-.charts-css tbody tr:first-of-type .tooltip {
-  left: 6em;
-}
-.charts-css tbody tr:last-of-type .tooltip {
-  left: -3em;
 }
 .active {
   border-bottom: 2px solid black;;
