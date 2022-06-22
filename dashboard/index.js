@@ -1,5 +1,5 @@
-import { h, Component, render } from './modules/preact.js';
-import htm from './modules/htm.js';
+import { h, Component, render } from 'preact';
+import htm from 'htm';
 
 import App from './components/app.js'
 

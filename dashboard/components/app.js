@@ -1,5 +1,5 @@
-import { h, Component } from '../modules/preact.js'
-import { Router, route } from '../modules/preact-router.js'
+import { h, Component } from 'preact'
+import { Router, route } from 'preact-router'
 
 import Analytics from './analytics.js'
 

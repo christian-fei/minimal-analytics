@@ -1,4 +1,4 @@
-import { h, Component } from '../modules/preact.js'
+import { h, Component } from 'preact'
 import Filters from './filters.js'
 import ThemeToggle from './theme-toggle.js'
 import PageviewsChart from './pageviews-chart.js'

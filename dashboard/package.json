@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
+    "build": "parcel build index.html",
     "test": "jest"
   },
   "eslintConfig": {
@@ -14,13 +14,11 @@
     ]
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-preact-pure": "^3.1.0",
     "jest": "^27.3.1",
     "jest-preset-preact": "^4.0.5",
-    "rollup": "^2.75.7",
-    "rollup-plugin-terser": "^7.0.2"
+    "parcel": "^2.6.2"
   },
   "jest": {
     "preset": "jest-preset-preact",
@@ -31,7 +29,7 @@
   },
   "dependencies": {
     "htm": "^3.1.1",
-    "preact": "^10.8.1",
+    "preact": "^10.8.2",
     "preact-router": "^4.0.1"
   }
 }

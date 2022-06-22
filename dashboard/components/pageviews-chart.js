@@ -1,4 +1,4 @@
-import { h } from '../modules/preact.js'
+import { h } from 'preact'
 
 export default function ({ data, filters = {}, updateCustomTimeframe }) {
   if (!data) return null
