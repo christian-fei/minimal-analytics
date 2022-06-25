@@ -8,6 +8,8 @@ See [Minimal Analytics in action](https://s.cri.dev)
 
 ## installation
 
+## data
+
 create the `data` directory with 
 
 ```
@@ -20,7 +22,45 @@ create an empty `data/data.ljson` file with
 touch data/data.ljson
 ```
 
-### running with docker-compose
+## dependencies
+
+install the server dependencies with
+
+```
+npm i
+```
+
+and then install the client dependencies in the `dashboard` directory
+
+```
+cd dashboard
+npm i
+```
+
+## build client
+
+the client uses `parcel` as a asset bundler.
+
+you can run a build of the dashboard, the output will be in `dashboard/dist` and served from `http://127.0.0.1:8080`
+
+```
+cd dashboard
+npm run build
+```
+
+# running with npm
+
+Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run `npm start`, e.g.
+
+```bash
+SITE_BASE_URL=http://127.0.0.1:8081 STATS_BASE_URL=http://127.0.0.1:8080 npm start
+```
+
+The configured site to track is running on `http://127.0.0.1:8081`, described by `SITE_BASE_URL` 
+
+The minimal-analytics server runs at `STATS_BASE_URL` `http://127.0.0.1:8080`
+
+# running with docker-compose
 
 configure the environment variables in `docker-compose.yml` regarding `STATS_BASE_URL` and `SITE_BASE_URL`.
 
@@ -34,18 +74,8 @@ Run the service with
 docker-compose up -d --build --remove-orphans --renew-anon-volumes
 ```
 
-### running with npm
 
-Install the dependencies for the server with `npm i`.
-
-Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run it, e.g.
-
-```bash
-SITE_BASE_URL=http://127.0.0.1:8081 STATS_BASE_URL=http://127.0.0.1:8080 npm start
-```
-
-
-## tests
+# tests
 
 Run `npm t` in the root of the project to run the server tests. 
 
