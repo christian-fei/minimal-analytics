@@ -41,14 +41,14 @@ npm i
 
 the client uses `parcel` as a asset bundler.
 
-you can run a build of the dashboard, the output will be in `dashboard/dist` and served from `http://127.0.0.1:8080`
+you can run a build of the dashboard, the output will be in `dashboard/dist` and served from `http://127.0.0.1:8080` when starting the server
 
 ```
 cd dashboard
 npm run build
 ```
 
-# running with npm
+# start minimal-analytics - with npm
 
 Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run `npm start`, e.g.
 
@@ -60,7 +60,7 @@ The configured site to track is running on `http://127.0.0.1:8081`, described by
 
 The minimal-analytics server runs at `STATS_BASE_URL` `http://127.0.0.1:8080`
 
-# running with docker-compose
+# start minimal-analytics - with docker-compose
 
 configure the environment variables in `docker-compose.yml` regarding `STATS_BASE_URL` and `SITE_BASE_URL`.
 
