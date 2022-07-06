@@ -24,7 +24,7 @@
 
   function track (data) {
     const baseUrl = '{{STATS_BASE_URL}}/p'
-    if (window.fetch) {
+    try {
       window.fetch(baseUrl, {
         body: JSON.stringify(data),
         headers: {
@@ -32,7 +32,7 @@
         },
         method: 'POST'
       })
-    } else {
+    } catch (err) {
       const req = new window.XMLHttpRequest()
       req.open('POST', baseUrl, true)
       req.setRequestHeader('Content-Type', 'text/plain')
