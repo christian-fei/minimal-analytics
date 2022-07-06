@@ -60,7 +60,7 @@ async function start (env = process.env, memory) {
         console.log(pageview.d, pageview.p, pageview.v)
         sendSSE(JSON.stringify(live), connections)
       })
-      return res.end()
+      return res.end('ok')
     }
     if (req.method === 'GET' && /^\/live/.test(req.url)) {
       res.setHeader('Content-type', 'application/json')
