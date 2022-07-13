@@ -118,5 +118,5 @@ out
 
 
 deploy
-data/
+data/*
 # dashboard/dist

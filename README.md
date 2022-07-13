@@ -6,7 +6,14 @@ Read more about the project at [cri.dev - "Making Minimal Analytics"](https://cr
 
 See [Minimal Analytics in action](https://s.cri.dev)
 
-## installation
+# Table of contents
+
+- [Introduction](#introduction)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+- [Usage](#usage)
+
+# installation
 
 ## data
 

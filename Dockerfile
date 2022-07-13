@@ -8,6 +8,9 @@ RUN npm install
 
 COPY ./ /app
 
+CMD mkdir -p /app/data
+CMD touch /app/data/data.ljson
+
 EXPOSE 8080
 
 ENTRYPOINT ["/app/index.js"]
