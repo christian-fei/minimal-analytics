@@ -40,51 +40,18 @@ run the `update.sh` script to start the server
 configure the nginx reverse proxy like so:
 
 ```
-sudo vim /etc/nginx/sites-available/minimal_analytics
+sudo cp nginx.conf /etc/nginx/sites-available/minimal_analytics
 ```
 
-with the following content, changing `YOUR_STATS_DOMAIN` to e.g. `stats.example.com`
+changing the placeholder `YOUR_STATS_DOMAIN` to e.g. `stats.example.com`, in the `/etc/nginx/sites-available/minimal_analytics` file.
 
-```
-upstream minimal {
-    server 127.0.0.1:3008 max_fails=5 fail_timeout=60s;
-}
-
-server {
-    server_name    YOUR_STATS_DOMAIN;
-
-    listen         80;
-    listen         [::]:80;
-
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_buffers 16 8k;
-    gzip_http_version 1.1;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript application/activity+json application/atom+xml;
-
-    client_max_body_size 16m;
-    ignore_invalid_headers off;
-
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-    location / {
-        proxy_pass http://minimal;
-    }
-}
-```
-
-link to the enabled sites
+then link to the enabled sites
 
 ```
 sudo ln -s /etc/nginx/sites-available/minimal_analytics /etc/nginx/sites-enabled/minimal_analytics
 ```
 
-reload nginx
+and reload nginx
 
 ```
 sudo systemctl reload nginx
