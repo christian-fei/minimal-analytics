@@ -88,6 +88,8 @@ npm run build
 
 # start minimal-analytics - with npm
 
+Run `touch data/data.ljson` to create an empty file used to keep track of pageviews.
+
 Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run `npm start`, e.g.
 
 ```bash
@@ -114,6 +116,8 @@ docker-compose up -d --build --remove-orphans --renew-anon-volumes
 
 
 # tests
+
+Run `touch data/test.ljson` to create an empty file used for tests
 
 Run `npm t` in the root of the project to run the server tests. 
 

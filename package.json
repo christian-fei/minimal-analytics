@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "touch data/data.ljson; node index.js",
-    "test": "touch data/test.ljson; APPEND_SYNC=1 ava lib/**/*.test.js *.test.js --verbose --serial"
+    "start": "node index.js",
+    "test": "APPEND_SYNC=1 ava lib/**/*.test.js *.test.js --verbose --serial"
   },
   "keywords": [],
   "author": "Christian Fei",
