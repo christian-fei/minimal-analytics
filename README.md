@@ -9,7 +9,7 @@ See [Minimal Analytics in action](https://s.cri.dev)
 # Table of contents
 
 - [how to self-host](#how-to-self-host)
-- [installation](#installation)
+- [local installation](#local-installation)
 - [tests](#tests)
 
 
@@ -60,7 +60,7 @@ sudo nginx -s reload
 ```
 
 
-# installation
+# local installation
 
 install the server dependencies with
 
