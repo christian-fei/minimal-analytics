@@ -35,7 +35,15 @@ change the environment variable `SITE_BASE_URL` to your own domain for the site 
 
 run the `update.sh` script to start the server
 
-## optional: 4. configure nginx
+## 4. include `client.js` in your site
+
+replace `STATS_BASE_URL` with your own domain for minimal-analytics, e.g. `https://stats.example.com` and include the following in your site
+
+```
+<script async defer src="https://STATS_BASE_URL/client.js"></script>
+```
+
+## optional: 5. configure nginx
 
 configure the nginx reverse proxy like so:
 
