@@ -104,6 +104,8 @@ Set the environment variables `STATS_BASE_URL` and `SITE_BASE_URL` and run `npm 
 SITE_BASE_URL=http://127.0.0.1:8081 STATS_BASE_URL=http://127.0.0.1:8080 npm start
 ```
 
+alternatively, using [direnv](https://direnv.net/), create a `.env` file by copying the example file: `cp .env.example .env` and configure the variables.
+
 The configured site to track is running on `http://127.0.0.1:8081`, described by `SITE_BASE_URL` 
 
 The minimal-analytics server runs at `STATS_BASE_URL` `http://127.0.0.1:8080`

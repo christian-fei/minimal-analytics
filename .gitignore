@@ -120,3 +120,6 @@ out
 deploy
 data/*
 # dashboard/dist
+
+.env
+!.env.example
