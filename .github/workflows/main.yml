@@ -1,12 +1,21 @@
 name: test
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x, 18.x]
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          ref: refs/heads/main
+          node-version: ${{ matrix.node-version }}
       - name: install
         run: |
           npm install
@@ -14,11 +23,16 @@ jobs:
         run: |
           npm test
   dashboard_test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x, 18.x]
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          ref: refs/heads/main
+          node-version: ${{ matrix.node-version }}
       - name: dashboard install
         run: |
           cd dashboard
