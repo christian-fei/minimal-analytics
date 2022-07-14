@@ -2,6 +2,7 @@
   "name": "minimal-analytics",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -16,7 +17,7 @@
   },
   "devDependencies": {
     "ava": "^4.3.1",
-    "got": "^11.8.5"
+    "got": "^12.1.0"
   },
   "ava": {
     "ignoredByWatcher": [
