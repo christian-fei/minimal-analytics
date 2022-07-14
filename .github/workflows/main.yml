@@ -13,6 +13,12 @@ jobs:
       - name: test
         run: |
           npm test
+  dashboard_test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@main
+        with:
+          ref: refs/heads/main
       - name: dashboard install
         run: |
           cd dashboard
