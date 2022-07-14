@@ -1,23 +1,25 @@
 #!/usr/bin/env node
-const http = require('http')
-const fs = require('fs')
-const path = require('path')
-const finalhandler = require('finalhandler')
-const serveStatic = require('serve-static')
-const isBot = require('./lib/is-bot')
-const trackPageview = require('./lib/track-pageview')
-const parseOptions = require('./lib/parse-options')
-const analyticsCache = require('./lib/analytics-cache')
-const backup = require('./lib/backup')
-const parsePageview = require('./lib/parse-pageview')
-const readMemory = require('./lib/read-memory')
-const cacheScheduler = require('./lib/cache-scheduler')
 
-module.exports = {
+import fs from 'fs'
+import http from 'http'
+import serveStatic from 'serve-static'
+import finalhandler from 'finalhandler'
+import { URL } from 'url'
+
+import isBot from './lib/is-bot.js'
+import trackPageview from './lib/track-pageview.js'
+import parseOptions from './lib/parse-options.js'
+import parsePageview from './lib/parse-pageview.js'
+import readMemory from './lib/read-memory.js'
+import * as analyticsCache from './lib/analytics-cache.js'
+import * as backup from './lib/backup.js'
+import * as cacheScheduler from './lib/cache-scheduler.js'
+
+export {
   start
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   start(process.env)
 }
 
@@ -33,8 +35,7 @@ async function start (env = process.env, memory) {
   
   const serve = serveStatic('dashboard/dist')
 
-  
-  const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
+  const CLIENT_JS = fs.readFileSync(new URL('./client.js', import.meta.url).pathname, 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
   
   memory = readMemory(options, memory)
   cacheScheduler.start(memory)

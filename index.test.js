@@ -1,6 +1,7 @@
-const { serial: test } = require('ava')
-const got = require('got')
-const app = require('.')
+import test from 'ava'
+import got from 'got'
+
+import * as app from './index.js'
 
 const HTTP_PORT = 3001
 const STATS_BASE_URL = `http://localhost:${HTTP_PORT}`
@@ -14,14 +15,14 @@ test.beforeEach(async () => {
 })
 test.afterEach(() => server.close())
 
-test('starts server (port 3001)', async t => {
+test.serial('starts server (port 3001)', async t => {
   t.is(server.address().port, HTTP_PORT)
   const response = await got(`http://localhost:${HTTP_PORT}`)
   t.is(response.statusCode, 200)
   t.is(response.headers['content-type'], 'text/html; charset=UTF-8')
 })
 
-test('blocks bot', async t => {
+test.serial('blocks bot', async t => {
   const response = await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'HeadlessChrome User Agent'
@@ -36,7 +37,7 @@ test('blocks bot', async t => {
   t.deepEqual(memory, [])
 })
 
-test('tracks pageview', async t => {
+test.serial('tracks pageview', async t => {
   const response = await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'foo-user-agent'
@@ -54,7 +55,7 @@ test('tracks pageview', async t => {
   t.truthy(memory[0].d)
 })
 
-test('tracks heartbeat', async t => {
+test.serial('tracks heartbeat', async t => {
   const response = await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'foo-user-agent'
@@ -69,7 +70,7 @@ test('tracks heartbeat', async t => {
   t.is(response.statusCode, 200)
 })
 
-test('returns pageviews last h', async t => {
+test.serial('returns pageviews last h', async t => {
   await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'foo-user-agent'
@@ -91,7 +92,7 @@ test('returns pageviews last h', async t => {
   t.is(Object.keys(body.live).length, 1)
 })
 
-test('returns live visitors', async t => {
+test.serial('returns live visitors', async t => {
   await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
       'User-Agent': 'foo-user-agent'
@@ -109,7 +110,7 @@ test('returns live visitors', async t => {
   t.is(Object.keys(body).length, 1)
 })
 
-test('returns tracker script', async t => {
+test.serial('returns tracker script', async t => {
   const response = await got(`http://localhost:${HTTP_PORT}/client.js`)
   t.is(response.statusCode, 200)
   t.is(response.headers['content-type'], 'text/javascript')

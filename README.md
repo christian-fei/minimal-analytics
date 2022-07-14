@@ -15,7 +15,7 @@ See [Minimal Analytics in action](https://s.cri.dev)
 
 # requirements
 
-- node.js 16+
+- node.js 16+ (16.16.0 lts recommended)
 
 # how to self-host
 
