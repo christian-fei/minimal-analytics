@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:18-alpine
 RUN mkdir /app
 COPY ./package.* /app
 
