@@ -8,10 +8,14 @@ See [Minimal Analytics in action](https://s.cri.dev)
 
 # Table of contents
 
+- [requirements](#requirements)
 - [how to self-host](#how-to-self-host)
 - [local installation](#local-installation)
 - [tests](#tests)
 
+# requirements
+
+- node.js 16+
 
 # how to self-host
 
