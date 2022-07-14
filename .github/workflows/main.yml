@@ -4,9 +4,9 @@ jobs:
   test:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
         with:
-          ref: refs/heads/master
+          ref: refs/heads/main
       - name: install
         run: |
           npm install
