@@ -18,7 +18,7 @@ test('starts server (port 3001)', async t => {
   t.is(server.address().port, HTTP_PORT)
   const response = await got(`http://localhost:${HTTP_PORT}`)
   t.is(response.statusCode, 200)
-  t.is(response.headers['content-type'], 'text/html')
+  t.is(response.headers['content-type'], 'text/html; charset=UTF-8')
 })
 
 test('blocks bot', async t => {

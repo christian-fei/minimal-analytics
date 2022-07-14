@@ -11,7 +11,8 @@
   "author": "Christian Fei",
   "license": "MIT",
   "dependencies": {
-    "node-static": "^0.7.11"
+    "finalhandler": "^1.2.0",
+    "serve-static": "^1.15.0"
   },
   "devDependencies": {
     "ava": "^4.3.1",

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 const http = require('http')
-const nodeStatic = require('node-static')
 const fs = require('fs')
 const path = require('path')
+const finalhandler = require('finalhandler')
+const serveStatic = require('serve-static')
 const isBot = require('./lib/is-bot')
 const trackPageview = require('./lib/track-pageview')
 const parseOptions = require('./lib/parse-options')
 const analyticsCache = require('./lib/analytics-cache')
-const migrate = require('./lib/migrate')
 const backup = require('./lib/backup')
 const parsePageview = require('./lib/parse-pageview')
 const readMemory = require('./lib/read-memory')
@@ -29,10 +29,10 @@ async function start (env = process.env, memory) {
 
   console.log('starting', JSON.stringify(options))
 
-  // await migrate.start(options)
   backup.start(options)
   
-  const file = new (nodeStatic.Server)(path.resolve(__dirname, 'dashboard', 'dist'))
+  const serve = serveStatic('dashboard/dist')
+
   
   const CLIENT_JS = fs.readFileSync(path.resolve(__dirname, 'client.js'), 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
   
@@ -79,7 +79,7 @@ async function start (env = process.env, memory) {
       handleSSE(res, connections)
       return sendSSE(JSON.stringify(live), [res])
     }
-    return file.serve(req, res)
+    return serve(req, res, finalhandler(req, res))
   })
 
   setInterval(() => {
