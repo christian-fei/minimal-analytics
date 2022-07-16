@@ -12,7 +12,7 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
       h('div', {}, [
         timeframeSelection('past-month', 'Past month'),
         timeframeSelection('past-6-months', 'Past 6 months'),
-        timeframeSelection('past-year', 'Past year'),
+        timeframeSelection('past-year', 'Past year')
       ])
     ]),
     (!filters.from && !filters.to) && h('div', { class: 'w-50-lg' }, [
@@ -78,5 +78,5 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
       name: resolution,
       id: resolution
     }, label)
-  }  
+  }
 }

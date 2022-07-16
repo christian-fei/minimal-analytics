@@ -11,35 +11,35 @@ export default class Analytics extends Component {
     if (Object.keys(data).length === 0) return null
     return h('div', { class: `${loading && 'loading'}` }, [
       h(ThemeToggle, {
-        theme: theme,
-        toggleTheme: toggleTheme
+        theme,
+        toggleTheme
       }, []),
       h(Filters, {
-        updateResolution: updateResolution,
-        updateTimeframe: updateTimeframe,
-        updateCustomTimeframe: updateCustomTimeframe,
-        clearCustomTimeframe: clearCustomTimeframe,
-        filters: filters
+        updateResolution,
+        updateTimeframe,
+        updateCustomTimeframe,
+        clearCustomTimeframe,
+        filters
       }, []),
       h(PageviewsChart, {
-        filters: filters,
-        data: data,
-        updateCustomTimeframe: updateCustomTimeframe
+        filters,
+        data,
+        updateCustomTimeframe
       }, []),
       h(Stats, {
-        toggleFilter: toggleFilter,
-        filters: filters,
-        data: data
+        toggleFilter,
+        filters,
+        data
       }, []),
       h(Breakdown, {
-        data: data,
-        filters: filters,
-        toggleFilter: toggleFilter
+        data,
+        filters,
+        toggleFilter
       }, []),
       h(History, {
-        data: data,
-        filters: filters,
-        toggleFilter: toggleFilter
+        data,
+        filters,
+        toggleFilter
       }, [])
     ].filter(Boolean))
   }

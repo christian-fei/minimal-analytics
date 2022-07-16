@@ -9,7 +9,7 @@ const initialState = {
   loading: false,
   filters: {
     timeframe: 'today',
-    resolution: 'hourly'  
+    resolution: 'hourly'
   },
   theme: 'light'
 }
@@ -24,7 +24,7 @@ export default class App extends Component {
   componentDidMount () {
     if (window.location.search) {
       const query = window.location.search.substring(1)
-      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
+      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, { [k[0]]: decodeURIComponent(k[1]) }), {})
       this.setState({ mounted: true, filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
     } else {
       this.setState({ mounted: true }, () => this.getData())
@@ -37,19 +37,18 @@ export default class App extends Component {
       if (!message || !message.data) return console.error('skipping empty message')
       try {
         const live = JSON.parse(message.data, {})
-        this.setState({ data: Object.assign({}, this.state.data, {live}) })
-
+        this.setState({ data: Object.assign({}, this.state.data, { live }) })
       } catch (err) {
         console.error('sse parse error', err)
       }
     }
   }
 
-  async handleRoute(e) {
+  async handleRoute (e) {
     if (!this.state.mounted) return
     if (window.location.search) {
       const query = window.location.search.substring(1)
-      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, {[k[0]]: decodeURIComponent(k[1])}), {})
+      const initialFilters = query.split('&').map(q => q.split('=')).reduce((acc, k) => Object.assign(acc, { [k[0]]: decodeURIComponent(k[1]) }), {})
       this.setState({ filters: Object.assign({}, this.state.filters, initialFilters) }, () => this.getData())
     } else {
       this.getData()
@@ -61,7 +60,7 @@ export default class App extends Component {
     this.setState({ loading: true })
     let query = ''
     if (Object.keys(this.state.filters).length > 0) {
-      query = `?` + Object.keys(this.state.filters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(this.state.filters[curr])}`]), []).join('&')
+      query = '?' + Object.keys(this.state.filters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(this.state.filters[curr])}`]), []).join('&')
     }
     const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
     const req = await window.fetch(host + '/api/' + query)
@@ -70,22 +69,23 @@ export default class App extends Component {
   }
 
   clearCustomTimeframe () {
-    const newFilters = Object.assign({}, this.state.filters, {timeframe: 'past-day'})
+    const newFilters = Object.assign({}, this.state.filters, { timeframe: 'past-day' })
     delete newFilters.from
     delete newFilters.to
-    this.setState({ filters: newFilters }, () => 
+    this.setState({ filters: newFilters }, () =>
       route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     )
   }
+
   updateCustomTimeframe (customFrom, customTo = Date.now()) {
     // debugger
     if (!Number.isFinite(+new Date(customFrom))) return
     if (!Number.isFinite(+new Date(customTo))) return
     const newFilters = Object.assign({}, this.state.filters, { from: customFrom, to: customTo })
     delete newFilters.timeframe
-    this.setState({ filters: newFilters }, () => 
+    this.setState({ filters: newFilters }, () =>
       route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
-    )    
+    )
   }
 
   updateTimeframe (timeframe) {
@@ -105,16 +105,18 @@ export default class App extends Component {
     if (['past-year'].includes(timeframe) && ['minutes', 'hourly', 'daily'].includes(newFilters.resolution)) {
       newFilters.resolution = 'monthly'
     }
-    this.setState({ filters: newFilters }, () => 
+    this.setState({ filters: newFilters }, () =>
       route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     )
   }
+
   updateResolution (resolution) {
     const newFilters = Object.assign({}, this.state.filters, { resolution })
-    this.setState({ filters: newFilters }, () => 
+    this.setState({ filters: newFilters }, () =>
       route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     )
   }
+
   toggleFilter (type, value) {
     const newFilters = Object.assign({}, this.state.filters)
     if (newFilters[type] === value) {
@@ -122,17 +124,19 @@ export default class App extends Component {
     } else {
       newFilters[type] = value
     }
-    this.setState({ filters: newFilters }, () => 
+    this.setState({ filters: newFilters }, () =>
       route('?' + Object.keys(newFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(newFilters[curr])}`]), []).join('&'))
     )
   }
+
   toggleTheme () {
-    this.setState({theme: this.state.theme === 'dark' ? 'light' : 'dark'})
+    this.setState({ theme: this.state.theme === 'dark' ? 'light' : 'dark' })
   }
+
   render () {
-    return h('div', {id: 'app', class: `theme-${this.state.theme}`}, [
-      h(Router, {onChange: this.handleRoute.bind(this)}, [
-        h(Analytics, {          
+    return h('div', { id: 'app', class: `theme-${this.state.theme}` }, [
+      h(Router, { onChange: this.handleRoute.bind(this) }, [
+        h(Analytics, {
           data: this.state.data,
           filters: this.state.filters,
           loading: this.state.loading,

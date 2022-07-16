@@ -32,11 +32,11 @@ async function start (env = process.env, memory) {
   console.log('starting', JSON.stringify(options))
 
   backup.start(options)
-  
+
   const serve = serveStatic('dashboard/dist')
 
   const CLIENT_JS = fs.readFileSync(new URL('./client.js', import.meta.url).pathname, 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
-  
+
   memory = readMemory(options, memory)
   cacheScheduler.start(memory)
 

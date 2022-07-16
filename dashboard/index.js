@@ -1,8 +1,8 @@
-import { h, Component, render } from 'preact';
-import htm from 'htm';
+import { h, Component, render } from 'preact'
+import htm from 'htm'
 
 import App from './components/app.js'
 
-const html = htm.bind(h);
+const html = htm.bind(h)
 
-render(html`<${App}/>`, document.body);
+render(html`<${App}/>`, document.body)
