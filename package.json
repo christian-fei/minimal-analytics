@@ -24,5 +24,8 @@
       "**/*.ljson",
       "**/*.ljson.bkp"
     ]
+  },
+  "engines": {
+    "node": ">= 16"
   }
 }
