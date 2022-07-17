@@ -96,7 +96,7 @@ export default class App extends Component {
     if (['past-week'].includes(timeframe) && ['minutes', 'monthly'].includes(newFilters.resolution)) {
       newFilters.resolution = 'daily'
     }
-    if (['past-month'].includes(timeframe) && ['minutes', 'monthly'].includes(newFilters.resolution)) {
+    if (['past-month'].includes(timeframe) && ['minutes', ,'hourly', 'monthly'].includes(newFilters.resolution)) {
       newFilters.resolution = 'daily'
     }
     if (['past-6-months'].includes(timeframe) && ['minutes', 'hourly'].includes(newFilters.resolution)) {
