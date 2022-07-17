@@ -64,16 +64,18 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
   ].filter(Boolean))
 
   function timeframeSelection (timeframe, label) {
-    return h('span', {
-      onClick: () => updateTimeframe(timeframe),
+    return h('a', {
+      href: '#',
+      onClick: (e) => {e.preventDefault(); updateTimeframe(timeframe)},
       class: `select-timeframe filterable static-filter ${filters.timeframe === timeframe && 'active'}`,
       name: timeframe,
       id: timeframe
     }, label)
   }
   function resolutionSelection (resolution, label) {
-    return h('span', {
-      onClick: () => updateResolution(resolution),
+    return h('a', {
+      href: '#',
+      onClick: (e) => {e.preventDefault(); updateResolution(resolution)},
       class: `select-resolution filterable static-filter ${filters.resolution === resolution && 'active'}`,
       name: resolution,
       id: resolution
