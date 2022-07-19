@@ -11,7 +11,8 @@ const initialState = {
     timeframe: 'today',
     resolution: 'hourly'
   },
-  theme: 'light'
+  theme: 'light',
+  report: {}
 }
 
 if (localStorage.getItem('state')) {

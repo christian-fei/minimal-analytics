@@ -5,9 +5,10 @@ import PageviewsChart from './pageviews-chart.js'
 import Stats from './stats.js'
 import Breakdown from './breakdown.js'
 import History from './history.js'
+import Report from './report.js'
 
 export default class Analytics extends Component {
-  render ({ data, filters, loading, theme, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter, toggleTheme } = {}) {
+  render ({ data, filters, loading, theme, report, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter, toggleTheme } = {}) {
     if (Object.keys(data).length === 0) return null
     return h('div', { class: `${loading && 'loading'}` }, [
       h(ThemeToggle, {
@@ -15,21 +16,26 @@ export default class Analytics extends Component {
         toggleTheme
       }, []),
       h(Filters, {
+        filters,
+        clearCustomTimeframe,
         updateResolution,
         updateTimeframe,
-        updateCustomTimeframe,
-        clearCustomTimeframe,
-        filters
+        updateCustomTimeframe
       }, []),
       h(PageviewsChart, {
-        filters,
         data,
+        filters,
         updateCustomTimeframe
       }, []),
       h(Stats, {
-        toggleFilter,
+        data,
         filters,
-        data
+        toggleFilter
+      }, []),
+      h(Report, {
+        data,
+        report,
+        filters
       }, []),
       h(Breakdown, {
         data,
@@ -44,3 +50,4 @@ export default class Analytics extends Component {
     ].filter(Boolean))
   }
 }
+
