@@ -29,7 +29,10 @@ async function start (env = process.env, memory) {
   if (!options.STATS_BASE_URL) throw new Error('MISSING_STATS_BASE_URL')
   if (!options.SITE_BASE_URL) throw new Error('MISSING_SITE_BASE_URL')
 
-  console.log('starting', JSON.stringify(options))
+  process.stdout.write(`starting with options ${JSON.stringify(options)}\n\n`)
+  process.stdout.write(`
+minimal-analytics listening on ${options.STATS_BASE_URL}
+tracking pageviews from ${options.SITE_BASE_URL}\n`)
 
   backup.start(options)
 
@@ -52,13 +55,13 @@ async function start (env = process.env, memory) {
     res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'OPTIONS') return res.end()
 
-    console.log(new Date().toISOString(), req.method, req.url)
+    process.stdout.write(`${new Date().toISOString()} ${req.method} ${req.url}`)
 
     if (req.method === 'POST' && req.url === '/p') {
       parsePageview(req, (err, pageview) => {
         if (err) return console.error('error parsing pageview', err.message)
         trackPageview(pageview, options, memory, live)
-        console.log(pageview.d, pageview.p, pageview.v)
+        process.stdout.write(`${pageview.d} ${pageview.p} ${pageview.v}`)
         sendSSE(JSON.stringify(live), connections)
       })
       return res.end('ok')
@@ -90,7 +93,7 @@ async function start (env = process.env, memory) {
     sendSSE(JSON.stringify(live), connections)
   }, 5000)
 
-  console.log(`listening on http://127.0.0.1:${options.HTTP_PORT}`)
+  process.stdout.write(`listening on http://127.0.0.1:${options.HTTP_PORT}\n`)
   server.listen(options.HTTP_PORT)
   return { server, memory }
 

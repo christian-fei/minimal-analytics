@@ -2,7 +2,6 @@ import { h } from 'preact'
 
 export default function ({ report, data, filters, loading }) {
   // if (!report) return null
-  console.log(filters)
 
   return h('div', { class: 'grid contain text-lg' }, [
     h('details', { class: `${loading && 'loading'}`, open: true }, [
