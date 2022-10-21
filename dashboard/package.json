@@ -18,7 +18,7 @@
     "enzyme-adapter-preact-pure": "^3.1.0",
     "jest": "^27.3.1",
     "jest-preset-preact": "^4.0.5",
-    "parcel": "^2.6.2"
+    "parcel": "^2.7.0"
   },
   "jest": {
     "preset": "jest-preset-preact",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "htm": "^3.1.1",
-    "preact": "^10.8.2",
+    "preact": "^10.11.2",
     "preact-router": "^4.0.1"
   }
 }
