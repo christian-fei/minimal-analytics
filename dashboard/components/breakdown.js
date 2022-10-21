@@ -1,4 +1,5 @@
 import { h } from 'preact'
+import { domainFromUrl } from '../lib/domain-from-url'
 
 export default function ({ data, loading, filters = {}, toggleFilter }) {
   if (!data) return null
@@ -12,7 +13,7 @@ export default function ({ data, loading, filters = {}, toggleFilter }) {
       h('div', { class: 'w-50-lg', id: 'referrers' }, [
         h('h2', {}, 'Top Referrers'),
         h('ul', { id: 'top-referrers' }, referrers.map((d) => {
-          const favicon = `https://icons.duckduckgo.com/ip3/${domain(d.r)}.ico`
+          const favicon = `https://icons.duckduckgo.com/ip3/${domainFromUrl(d.r)}.ico`
           return h('li', {
             key: d.r,
             class: `filterable ${filters.r === d.r && 'active'}`,
@@ -48,11 +49,4 @@ export default function ({ data, loading, filters = {}, toggleFilter }) {
       ])
     ])
   ])
-}
-
-function domain (url) {
-  if (!url) return '/'
-  const a = document.createElement('a')
-  a.href = url
-  return a.hostname
 }
