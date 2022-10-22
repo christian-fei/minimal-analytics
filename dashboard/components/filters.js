@@ -18,13 +18,13 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
     (!filters.from && !filters.to) && h('div', { class: 'w-50-lg' }, [
       h('h4', {}, 'Resolution'),
       h('div', {}, [
-        ['past-year'].includes(filters.timeframe) &&
+        ['past-year', 'past-6-months'].includes(filters.timeframe) &&
           resolutionSelection('monthly', 'Monthly'),
         ['past-week', 'past-month', 'past-6-months', 'past-year'].includes(filters.timeframe) &&
             resolutionSelection('daily', 'Daily'),
-        ['today', 'past-day', 'past-week', 'past-month'].includes(filters.timeframe) &&
+        ['today', 'past-day', 'past-week', 'past-month', 'past-6-months'].includes(filters.timeframe) &&
             resolutionSelection('hourly', 'Hourly'),
-        ['today', 'past-day'].includes(filters.timeframe) &&
+        ['today', 'past-day', 'past-month'].includes(filters.timeframe) &&
             resolutionSelection('minutes', 'Minutes')
       ].filter(Boolean))
     ]),
