@@ -13,6 +13,7 @@ import parsePageview from './lib/parse-pageview.js'
 import readMemory from './lib/read-memory.js'
 import * as analyticsCache from './lib/analytics-cache.js'
 import * as backup from './lib/backup.js'
+import * as cacheScheduler from './lib/cache-scheduler.js'
 
 export {
   start
@@ -40,6 +41,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
   const CLIENT_JS = fs.readFileSync(new URL('./client.js', import.meta.url).pathname, 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
 
   memory = readMemory(options, memory)
+  cacheScheduler.start(memory)
 
   const live = {}
   const connections = []
