@@ -22,7 +22,7 @@ export default function ({ updateTimeframe, updateCustomTimeframe, clearCustomTi
           resolutionSelection('monthly', 'Monthly'),
         ['past-week', 'past-month', 'past-6-months', 'past-year'].includes(filters.timeframe) &&
             resolutionSelection('daily', 'Daily'),
-        ['today', 'past-day', 'past-week', 'past-month'].includes(filters.timeframe) &&
+        ['today', 'past-day', 'past-week', 'past-month', 'past-6-months'].includes(filters.timeframe) &&
             resolutionSelection('hourly', 'Hourly'),
         ['today', 'past-day', 'past-week'].includes(filters.timeframe) &&
             resolutionSelection('minutes', 'Minutes')

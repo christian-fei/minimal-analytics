@@ -55,15 +55,15 @@ describe('Filters', () => {
 
     context = shallow(<Filters filters={{ timeframe: 'past-month' }} />)
 
-    expect(context.find('#hourly')).toEqual({})
     expect(context.find('#minutes')).toEqual({})
+    expect(context.find('#hourly').text()).toEqual('Hourly')
     expect(context.find('#daily').text()).toEqual('Daily')
     expect(context.find('#monthly')).toEqual({})
 
     context = shallow(<Filters filters={{ timeframe: 'past-6-months' }} />)
 
-    expect(context.find('#hourly')).toEqual({})
     expect(context.find('#minutes')).toEqual({})
+    expect(context.find('#hourly').text()).toEqual('Hourly')
     expect(context.find('#daily').text()).toEqual('Daily')
     expect(context.find('#monthly').text()).toEqual('Monthly')
 
