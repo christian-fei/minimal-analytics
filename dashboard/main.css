@@ -33,6 +33,9 @@ body {
 a {
   color: black;
 }
+.theme-dark a {
+  color: white;
+}
 
 .text-lg {
   font-size: 1.3rem;
