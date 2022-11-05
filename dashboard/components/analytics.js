@@ -15,6 +15,11 @@ export default class Analytics extends Component {
         theme,
         toggleTheme
       }, []),
+      h(Report, {
+        data,
+        report,
+        filters
+      }, []),
       h(Filters, {
         filters,
         clearCustomTimeframe,
@@ -31,11 +36,6 @@ export default class Analytics extends Component {
         data,
         filters,
         toggleFilter
-      }, []),
-      h(Report, {
-        data,
-        report,
-        filters
       }, []),
       h(Breakdown, {
         data,

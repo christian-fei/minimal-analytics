@@ -3,7 +3,7 @@ import { domainFromUrl } from '../lib/domain-from-url'
 
 export default function ({ data, filters, loading }) {
   return h('div', { class: 'grid contain text-lg' }, [
-    h('details', { class: `${loading && 'loading'}`, open: true }, [
+    h('details', { class: `${loading && 'loading'}`, open: false }, [
       h('summary', { class: '', id: 'report' }, [
         h('span', {}, 'Textual report')
       ]),
