@@ -74,10 +74,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
       const [_, url] = req.url.match(/^\/api\/pageviews(\/.*)/)
       const result = analyticsCache.getAll(`/?timeframe=all&p=${url}`, memory, live)
       res.setHeader('Content-type', 'application/json')
-      return res.end(JSON.stringify({
-        count: result.pageviewsCount,
-        url
-      }))
+      return res.end(JSON.stringify(result.pageviewsCount))
     }
     if (req.method === 'GET' && /^\/api/.test(req.url)) {
       const result = analyticsCache.getAll(req.url, memory, live)

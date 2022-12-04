@@ -96,8 +96,7 @@ test.serial('returns pageviews for url', async t => {
   const response = await got(`http://localhost:${HTTP_PORT}/api/pageviews/baz`)
   t.is(response.statusCode, 200)
   const body = JSON.parse(response.body)
-  t.is(body.count, 0)
-  t.is(body.url, '/baz')
+  t.is(body, 0)
 })
 
 test.serial('returns live visitors', async t => {
