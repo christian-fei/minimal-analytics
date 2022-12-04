@@ -7,8 +7,10 @@ import finalhandler from 'finalhandler'
 import { URL } from 'url'
 
 import isBot from './lib/is-bot.js'
+import trackEvent from './lib/track-event.js'
 import trackPageview from './lib/track-pageview.js'
 import parseOptions from './lib/parse-options.js'
+import parseEvent from './lib/parse-event.js'
 import parsePageview from './lib/parse-pageview.js'
 import readMemory from './lib/read-memory.js'
 import * as analyticsCache from './lib/analytics-cache.js'
@@ -62,6 +64,15 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
         if (err) return console.error('error parsing pageview', err.message)
         trackPageview(pageview, options, memory, live)
         process.stdout.write(`${pageview.d} ${pageview.p} ${pageview.v}`)
+        sendSSE(JSON.stringify(live), connections)
+      })
+      return res.end('ok')
+    }
+    if (req.method === 'POST' && req.url === '/e') {
+      parseEvent(req, (err, event) => {
+        if (err) return console.error('error parsing event', err.message)
+        trackEvent(event, options, memory, live)
+        process.stdout.write(`${event.d} ${event.p} ${event.v}`)
         sendSSE(JSON.stringify(live), connections)
       })
       return res.end('ok')

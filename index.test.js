@@ -70,6 +70,27 @@ test.serial('tracks heartbeat', async t => {
   t.is(response.statusCode, 200)
 })
 
+test.serial('tracks event', async t => {
+  const response = await got.post(`http://localhost:${HTTP_PORT}/e`, {
+    headers: {
+      'User-Agent': 'foo-user-agent'
+    },
+    body: JSON.stringify({
+      t: 'event',
+      r: undefined,
+      p: 'http://foo.bar/baz',
+      w: 1280,
+      e: 'foo'
+    })
+  })
+  t.is(response.statusCode, 200)
+  t.is(memory.length, 1)
+  t.is(memory[0].w, 1280)
+  t.is(memory[0].p, 'http://foo.bar/baz')
+  t.truthy(memory[0].d)
+})
+
+
 test.serial('returns pageviews last h', async t => {
   await got.post(`http://localhost:${HTTP_PORT}/p`, {
     headers: {
