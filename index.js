@@ -70,6 +70,15 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
       res.setHeader('Content-type', 'application/json')
       return res.end(JSON.stringify(live))
     }
+    if (req.method === 'GET' && /^\/api\/pageviews\/.*/.test(req.url)) {
+      const [_, url] = req.url.match(/^\/api\/pageviews(\/.*)/)
+      const result = analyticsCache.getAll(`/?timeframe=all&p=${url}`, memory, live)
+      res.setHeader('Content-type', 'application/json')
+      return res.end(JSON.stringify({
+        count: result.pageviewsCount,
+        url
+      }))
+    }
     if (req.method === 'GET' && /^\/api/.test(req.url)) {
       const result = analyticsCache.getAll(req.url, memory, live)
       res.setHeader('Content-type', 'application/json')
