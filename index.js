@@ -66,7 +66,8 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
         process.stdout.write(`${pageview.d} ${pageview.p} ${pageview.v}`)
         sendSSE(JSON.stringify(live), connections)
       })
-      return res.end('ok')
+      res.setHeader('Content-type', 'application/json')
+      return res.end('"ok"')
     }
     if (req.method === 'POST' && req.url === '/e') {
       parseEvent(req, (err, event) => {
@@ -75,7 +76,8 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
         process.stdout.write(`${event.d} ${event.p} ${event.v}`)
         sendSSE(JSON.stringify(live), connections)
       })
-      return res.end('ok')
+      res.setHeader('Content-type', 'application/json')
+      return res.end('"ok"')
     }
     if (req.method === 'GET' && /^\/live/.test(req.url)) {
       res.setHeader('Content-type', 'application/json')
