@@ -88,6 +88,7 @@ test.serial('tracks event', async t => {
   t.is(memory[0].w, 1280)
   t.is(memory[0].p, 'http://foo.bar/baz')
   t.truthy(memory[0].d)
+  t.is(memory[0].e, 'foo')
 })
 
 
