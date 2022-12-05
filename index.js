@@ -43,7 +43,8 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
   const CLIENT_JS = fs.readFileSync(new URL('./client.js', import.meta.url).pathname, 'utf-8').replace('{{STATS_BASE_URL}}', options.STATS_BASE_URL)
 
   memory = readMemory(options, memory)
-  cacheScheduler.start(memory)
+  console.log('memory read', memory.length)
+  // cacheScheduler.start(memory)
 
   const live = {}
   const connections = []

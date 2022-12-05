@@ -16,7 +16,13 @@ export default function ({ data, filters, loading }) {
         data.pages[0] && h('li', { class: '' }, `${data.pages[0].views} - ${data.pages[0].p}`),
         data.pages[1] && h('li', { class: '' }, `${data.pages[1].views} - ${data.pages[1].p}`),
         data.pages[2] && h('li', { class: '' }, `${data.pages[2].views} - ${data.pages[2].p}`)
-      ])
+      ]),
+      h('h2', { class: '' }, 'The three most occurred events are'),
+      h('ul', { class: '' }, Array.isArray(data.events) && [
+        data.events[0] && h('li', { class: '' }, `${data.events[0].views} - ${data.events[0].e}`),
+        data.events[1] && h('li', { class: '' }, `${data.events[1].views} - ${data.events[1].e}`),
+        data.events[2] && h('li', { class: '' }, `${data.events[2].views} - ${data.events[2].e}`)
+      ]),
     ].filter(Boolean))
   ])
 }

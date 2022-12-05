@@ -7,7 +7,7 @@ export default function ({ data, filters = {}, toggleFilter }) {
   if (!Array.isArray(data.data)) return null
   return h('div', { class: 'contain' }, [
     h('ul', {},
-      data.data.map((d, i) =>
+      data.data.map((d, i) => d.t !== 'event' && 
         h('li', { class: 'pageview', key: d.d }, [
           h('div', { class: `filterable ${filters.v === d.v && 'active'}`, onClick: () => toggleFilter('v', d.v) }, [
             h('time', {}, d.d.substring(0, 19)),
