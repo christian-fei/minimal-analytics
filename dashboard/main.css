@@ -5,7 +5,7 @@
   outline: 1px solid red;
 }
 .contain {
-  max-width: 60em;
+  max-width: 70em;
   margin: 0 auto;
   padding: 2em 0.5em;
   transition: opacity 0.2 ease;
@@ -98,7 +98,7 @@ select {
 .w-50-lg {
   width: 100%;
 }
-@media all and (max-width: 60em) {
+@media all and (max-width: 70em) {
   .w-50 {
     width: 100%;
   }
@@ -254,7 +254,11 @@ HISTORY
 
 
 
-
+@media all and (max-width: 40em) {
+  .charts-css.line .data {
+    display: none;
+  }
+}
 
 /*
 CHART
@@ -308,7 +312,7 @@ CHART
 
 
 
-@media all and (max-width: 60em) {
+@media all and (max-width: 70em) {
   .charts-css {
     padding-left: 0;
     padding-right: 0;
@@ -324,6 +328,9 @@ CHART
   }  
   .charts-css .tooltip {
     bottom: 0;
+  }
+  .charts-css.column tbody tr td .data {
+    display: none;
   }
 }
 
