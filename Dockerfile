@@ -11,6 +11,8 @@ COPY ./ /app
 CMD mkdir -p /app/data
 CMD touch /app/data/data.ljson
 
+CMD cd /dashboard && npm install && npm run build
+
 EXPOSE 8080
 
 ENTRYPOINT ["/app/index.js"]
