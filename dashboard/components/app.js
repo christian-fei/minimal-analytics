@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import { Router, route } from 'preact-router'
 
-import Analytics from './analytics.js'
+import Dashboard from './dashboard.js'
 
 const initialState = {
   data: {},
@@ -58,6 +58,24 @@ export default class App extends Component {
   async getData () {
     if (this.state.loading) return
     this.setState({ loading: true })
+
+    if (this.state.filters.s !== '') {
+      console.log('filtering by search term')
+      let query = ''
+      const cleanFilters = Object.assign({}, this.state.filters)
+      delete cleanFilters.p
+      delete cleanFilters.r
+      delete cleanFilters.v
+      if (Object.keys(cleanFilters).length > 0) {
+        query = '?' + Object.keys(cleanFilters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(cleanFilters[curr])}`]), []).join('&')
+      }
+      const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
+      const req = await window.fetch(host + '/api/' + query)
+      const data = await req.json()
+      this.setState({ data, loading: false }, () => localStorage.setItem('state', JSON.stringify(this.state)))
+  
+      return
+    }
     let query = ''
     if (Object.keys(this.state.filters).length > 0) {
       query = '?' + Object.keys(this.state.filters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(this.state.filters[curr])}`]), []).join('&')
@@ -132,11 +150,19 @@ export default class App extends Component {
   toggleTheme () {
     this.setState({ theme: this.state.theme === 'dark' ? 'light' : 'dark' })
   }
+  
+  updateSearchTerm (searchTerm = '') {
+    const filters = Object.assign({}, this.state.filters, { s: searchTerm })
+    this.setState({ filters }, () =>
+      route('?' + Object.keys(this.state.filters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(this.state.filters[curr])}`]), []).join('&'))
+    )
+
+  }
 
   render () {
     return h('div', { id: 'app', class: `theme-${this.state.theme}` }, [
       h(Router, { onChange: this.handleRoute.bind(this) }, [
-        h(Analytics, {
+        h(Dashboard, {
           data: this.state.data,
           filters: this.state.filters,
           loading: this.state.loading,
@@ -147,6 +173,7 @@ export default class App extends Component {
           clearCustomTimeframe: this.clearCustomTimeframe.bind(this),
           toggleFilter: this.toggleFilter.bind(this),
           toggleTheme: this.toggleTheme.bind(this),
+          updateSearchTerm: this.updateSearchTerm.bind(this),
           path: '/'
         }, [])
       ])
