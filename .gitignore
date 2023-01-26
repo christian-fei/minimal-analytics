@@ -123,3 +123,4 @@ data/*
 
 .env
 !.env.example
+dashboard/dist
