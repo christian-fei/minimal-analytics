@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build --no-content-hash index.html",
+    "build": "parcel build index.html",
     "test": "jest"
   },
   "eslintConfig": {
