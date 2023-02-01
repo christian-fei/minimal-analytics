@@ -56,11 +56,11 @@ export default function ({ data, loading, filters = {}, toggleFilter }) {
         h('ul', { id: 'top-events' }, events.map((d) => {
           return h('li', {
             key: d.e,
-            // class: `filterable ${filters.e === d.e && 'active'}`,
+            class: `filterable ${filters.e === d.e && 'active'}`,
             style: {
               '--data-percentage': (100 - d.views * 80 / maxEvents) + '%'
             },
-            // onClick: () => toggleFilter('e', d.e)
+            onClick: () => toggleFilter('e', d.e)
           }, [
             h('div', {}, [
               h('b', { class: 'views' }, d.views),
