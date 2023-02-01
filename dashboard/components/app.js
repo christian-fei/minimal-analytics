@@ -159,24 +159,26 @@ export default class App extends Component {
 
   }
 
-  render () {
-    return h('div', { id: 'app', class: `theme-${this.state.theme}` }, [
-      h(Router, { onChange: this.handleRoute.bind(this) }, [
-        h(Dashboard, {
-          data: this.state.data,
-          filters: this.state.filters,
-          loading: this.state.loading,
-          theme: this.state.theme,
-          updateResolution: this.updateResolution.bind(this),
-          updateTimeframe: this.updateTimeframe.bind(this),
-          updateCustomTimeframe: this.updateCustomTimeframe.bind(this),
-          clearCustomTimeframe: this.clearCustomTimeframe.bind(this),
-          toggleFilter: this.toggleFilter.bind(this),
-          toggleTheme: this.toggleTheme.bind(this),
-          updateSearchTerm: this.updateSearchTerm.bind(this),
-          path: '/'
-        }, [])
-      ])
-    ])
+  render() {
+    return (
+      <div id="app" className={`theme-${this.state.theme}`}>
+        <Router onChange={this.handleRoute.bind(this)}>
+          <Dashboard
+            data={this.state.data}
+            filters={this.state.filters}
+            loading={this.state.loading}
+            theme={this.state.theme}
+            updateResolution={this.updateResolution.bind(this)}
+            updateTimeframe={this.updateTimeframe.bind(this)}
+            updateCustomTimeframe={this.updateCustomTimeframe.bind(this)}
+            clearCustomTimeframe={this.clearCustomTimeframe.bind(this)}
+            toggleFilter={this.toggleFilter.bind(this)}
+            toggleTheme={this.toggleTheme.bind(this)}
+            updateSearchTerm={this.updateSearchTerm.bind(this)}
+            path="/"
+          />
+        </Router>
+      </div>
+    )
   }
 }

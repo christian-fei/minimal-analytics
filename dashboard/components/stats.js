@@ -14,64 +14,84 @@ export default function ({ data, filters = {}, toggleFilter }) {
     }, {})
   }
 
-  return h('div', {}, [
-    h('div', { class: 'grid contain text-lg' }, [
-      h('div', { class: 'w-50' }, [
-        h('h2', {}, 'Visitors'),
-        h('div', { id: 'visitors-count' }, data.visitorsCount)
-      ]),
-      h('div', { class: 'w-50' }, [
-        h('h2', {}, 'Pageviews'),
-        h('div', { id: 'pageviews-count' }, data.pageviewsCount)
-      ]),
-      h('div', { class: 'w-50' }, [
-        h('h2', {}, 'Bounce rate'),
-        h('div', { id: 'bounce-rate' }, (data.visitorsCount / data.pageviewsCount * 100).toFixed(0) + '%')
-      ]),
-      h('div', { class: 'w-50' }, [
-        h('h2', {}, 'Live'),
-        h('div', { id: 'live' }, Object.keys(live).length)
-      ])
-    ]),
-    h('div', { class: 'contain', id: 'live-pages' }, [
-      Object.keys(live).length > 0 && h('h2', {}, ['Live pages ', h('span', { class: 'live-dot' }, [])]),
-      h('ul', {}, Object.keys(live).reduce((acc, curr) => {
-        const existing = acc.find(({ p }) => p === live[curr].pageview.p)
-        if (existing) {
-          existing.c++
-          return acc
-        }
-        return acc.concat([{ p: live[curr].pageview.p, c: 1 }])
-      }, [])
-        .sort((a, b) => a.c - b.c)
-        .map(({ p, c }) =>
-          h('li', {
-            class: `filterable ${filters.p === p && 'active'}`,
-            onClick: () => toggleFilter('p', p),
-            key: p
-          }, `${c} · ${p}`)
-        )
-      )
-    ].filter(Boolean)),
-    h('div', { class: 'contain', id: 'live-referrers' }, [
-      Object.keys(live).length > 0 && h('h2', {}, ['Live referrers ', h('span', { class: 'live-dot' }, [])]),
-      h('ul', {}, Object.keys(live).reduce((acc, curr) => {
-        const existing = acc.find(({ r }) => r === live[curr].pageview.r)
-        if (existing) {
-          existing.c++
-          return acc
-        }
-        return acc.concat([{ r: live[curr].pageview.r, c: 1 }])
-      }, [])
-        .sort((a, b) => a.c - b.c)
-        .map(({ r, c }) =>
-          h('li', {
-            class: `filterable ${filters.r === r && 'active'}`,
-            onClick: () => toggleFilter('r', r),
-            key: r
-          }, `${c} · ${(r || '').replace('https://', '').replace('http://', '') || 'none'}`)
-        )
-      )
-    ].filter(Boolean))
-  ].filter(Boolean))
+  return (
+    <div>
+      <div className="grid contain text-lg">
+        <div className="w-50">
+          <h2>Visitors</h2>
+          <div id="visitors-count">{data.visitorsCount}</div>
+        </div>
+        <div className="w-50">
+          <h2>Pageviews</h2>
+          <div id="pageviews-count">{data.pageviewsCount}</div>
+        </div>
+        <div className="w-50">
+          <h2>Bounce rate</h2>
+          <div id="bounce-rate">{(data.visitorsCount / data.pageviewsCount * 100).toFixed(0) + '%'}</div>
+        </div>
+        <div className="w-50">
+          <h2>Live</h2>
+          <div id="live">{Object.keys(live).length}</div>
+        </div>
+      </div>
+      <div className="contain" id="live-pages">
+        {Object.keys(live).length > 0 && (
+          <div>
+            <h2>
+              Live pages <span className="live-dot" />
+            </h2>
+            <ul>
+              {Object.keys(live).reduce((acc, curr) => {
+                const existing = acc.find(({ p }) => p === live[curr].pageview.p)
+                if (existing) {
+                  existing.c++
+                  return acc
+                }
+                return acc.concat([{ p: live[curr].pageview.p, c: 1 }])
+              }, [])
+                .sort((a, b) => a.c - b.c)
+                .map(({ p, c }) => (
+                  <li
+                    className={`filterable ${filters.p === p && 'active'}`}
+                    onClick={() => toggleFilter('p', p)}
+                    key={p}
+                  >
+                    {`${c} · ${p}`}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div className="contain" id="live-referrers">
+        {Object.keys(live).length > 0 && (
+          <div>
+            <h2>
+              Live referrers <span className="live-dot" />
+            </h2>
+            <ul>
+              {Object.keys(live).reduce((acc, curr) => {
+                const existing = acc.find(({ r }) => r === live[curr].pageview.r)
+                if (existing) {
+                  existing.c++
+                  return acc
+                }
+                return acc.concat([{ r: live[curr].pageview.r, c: 1 }])
+              }, [])
+                .sort((a, b) => a.c - b.c)
+                .map(({ r, c }) => (
+                  <li
+                    className={`filterable ${filters.r === r && 'active'}`}
+                    onClick={() => toggleFilter('r', r)}
+                    key={r}
+                  >
+                    {`${c} · ${(r || '').replace('https://', '').replace('http://', '') || 'none'}`}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }

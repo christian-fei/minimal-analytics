@@ -10,43 +10,22 @@ import History from './history.js'
 export default class Analytics extends Component {
   render ({ data, filters, loading, theme, searchTerm, updateResolution, updateTimeframe, updateCustomTimeframe, clearCustomTimeframe, toggleFilter, toggleTheme, updateSearchTerm } = {}) {
     if (Object.keys(data).length === 0) return null
-    return h('div', { class: `${loading && 'loading'}` }, [
-      h(ThemeToggle, {
-        theme,
-        toggleTheme
-      }, []),
-      h(Search, {
-        searchTerm,
-        updateSearchTerm
-      }, []),
-      h(Filters, {
-        filters,
-        clearCustomTimeframe,
-        updateResolution,
-        updateTimeframe,
-        updateCustomTimeframe
-      }, []),
-      h(PageviewsChart, {
-        data,
-        filters,
-        updateCustomTimeframe
-      }, []),
-      h(Stats, {
-        data,
-        filters,
-        toggleFilter
-      }, []),
-      h(Breakdown, {
-        data,
-        filters,
-        toggleFilter
-      }, []),
-      h(History, {
-        data,
-        filters,
-        toggleFilter
-      }, [])
-    ].filter(Boolean))
+    return (
+      <div className={`${loading && 'loading'}`}>
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+        <Search searchTerm={searchTerm} updateSearchTerm={updateSearchTerm} />
+        <Filters
+          filters={filters}
+          clearCustomTimeframe={clearCustomTimeframe}
+          updateResolution={updateResolution}
+          updateTimeframe={updateTimeframe}
+          updateCustomTimeframe={updateCustomTimeframe}
+        />
+        <PageviewsChart data={data} filters={filters} updateCustomTimeframe={updateCustomTimeframe} />
+        <Stats data={data} filters={filters} toggleFilter={toggleFilter} />
+        <Breakdown data={data} filters={filters} toggleFilter={toggleFilter} />
+        <History data={data} filters={filters} toggleFilter={toggleFilter} />
+      </div>
+    )
   }
 }
-
