@@ -14,9 +14,6 @@ const initialState = {
   theme: 'light'
 }
 
-if (localStorage.getItem('state')) {
-  Object.assign(initialState, JSON.parse(localStorage.getItem('state')))
-}
 
 export default class App extends Component {
   state = initialState
@@ -72,7 +69,7 @@ export default class App extends Component {
       const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
       const req = await window.fetch(host + '/api/' + query)
       const data = await req.json()
-      this.setState({ data, loading: false }, () => localStorage.setItem('state', JSON.stringify(this.state)))
+      this.setState({ data, loading: false })
   
       return
     }
@@ -83,7 +80,7 @@ export default class App extends Component {
     const host = /(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.origin) ? 'http://127.0.0.1:8080' : window.location.origin
     const req = await window.fetch(host + '/api/' + query)
     const data = await req.json()
-    this.setState({ data, loading: false }, () => localStorage.setItem('state', JSON.stringify(this.state)))
+    this.setState({ data, loading: false })
   }
 
   clearCustomTimeframe () {
