@@ -1,5 +1,6 @@
 ;(function () {
   if (/(localhost|127\.0\.0\.1|0\.0\.0\.0|github\.dev)/.test(window.location.host)) return
+  if (localStorage && localStorage.getItem && localStorage.getItem('analytics') === 'false') return
   setTimeout(function () {
     track({
       r: document.referrer,
