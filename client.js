@@ -1,5 +1,5 @@
 ;(function () {
-  if (/(localhost|127\.0\.0\.1|0\.0\.0\.0)/.test(window.location.host)) return
+  if (/(localhost|127\.0\.0\.1|0\.0\.0\.0|github\.dev)/.test(window.location.host)) return
   setTimeout(function () {
     track({
       r: document.referrer,
