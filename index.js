@@ -52,10 +52,10 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
   const server = http.createServer(function (req, res) {
     if (isBot(req.headers['user-agent'])) return res.end()
 
-    res.setHeader('Access-Control-Allow-Origin', options.SITE_BASE_URL)
-    res.setHeader('Access-Control-Request-Method', 'POST,GET')
-    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
-    res.setHeader('Access-Control-Allow-Headers', '*')
+    // res.setHeader('Access-Control-Allow-Origin', options.SITE_BASE_URL)
+    // res.setHeader('Access-Control-Request-Method', 'POST,GET')
+    // res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
+    // res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'OPTIONS') return res.end()
 
     process.stdout.write(`${new Date().toISOString()} ${req.method} ${req.url}`)
