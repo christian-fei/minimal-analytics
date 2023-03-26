@@ -9,6 +9,7 @@ const SITE_BASE_URL = `http://localhost:${HTTP_PORT}`
 
 let server, memory
 test.beforeEach(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 200))
   const result = await app.start({ HTTP_PORT, STATS_BASE_URL, SITE_BASE_URL, DATA_PATH: 'data/test.ljson' }, [])
   server = result.server
   memory = result.memory
