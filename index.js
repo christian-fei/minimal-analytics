@@ -58,7 +58,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
     // res.setHeader('Access-Control-Allow-Headers', '*')
     if (req.method === 'OPTIONS') return res.end()
 
-    process.stdout.write(`${new Date().toISOString()} ${req.method} ${req.url}`)
+    process.stdout.write(`${new Date().toISOString()} ${req.method} ${req.url}\n`)
 
     if (req.method === 'POST' && req.url === '/p') {
       parsePageview(req, (err, pageview) => {

@@ -56,7 +56,8 @@ export default class App extends Component {
     if (this.state.loading) return
     this.setState({ loading: true })
 
-    if (this.state.filters.s !== '') {
+
+    if (this.state.filters.s && this.state.filters.s !== '') {
       console.log('filtering by search term')
       let query = ''
       const cleanFilters = Object.assign({}, this.state.filters)
@@ -73,6 +74,7 @@ export default class App extends Component {
   
       return
     }
+
     let query = ''
     if (Object.keys(this.state.filters).length > 0) {
       query = '?' + Object.keys(this.state.filters).reduce((acc, curr) => acc.concat([`${curr}=${encodeURIComponent(this.state.filters[curr])}`]), []).join('&')
