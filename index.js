@@ -108,7 +108,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
 
   setInterval(() => {
     Object.keys(live).forEach(visitor => {
-      if (live[visitor] && live[visitor].heartbeat < Date.now() - 15000) delete live[visitor]
+      if (live[visitor] && live[visitor].heartbeat < Date.now() - 60000) delete live[visitor]
     })
     sendSSE(JSON.stringify(live), connections)
   }, 5000)
