@@ -44,7 +44,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
 
   memory = readMemory(options, memory)
   console.log('memory read', memory.length)
-  // cacheScheduler.start(memory)
+  cacheScheduler.start(memory)
 
   const live = {}
   const connections = []
