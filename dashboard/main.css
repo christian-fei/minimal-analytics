@@ -314,16 +314,6 @@ CHART
 }
 
 
-/*
-stats container
-*/
-
-.stats {
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-
-
 @media all and (max-width: 70em) {
   .charts-css {
     padding-left: 0;
@@ -348,6 +338,17 @@ stats container
 
 
 
+
+
+
+/*
+stats container
+*/
+
+.stats {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
 
 
 
