@@ -65,7 +65,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
         if (err) return console.error('error parsing pageview', err.message)
         trackPageview(pageview, options, memory, live)
         process.stdout.write(`${pageview.d} ${pageview.p} ${pageview.v}`)
-        sendSSE(JSON.stringify(live), connections)
+        broadcastSSE(JSON.stringify(live), connections)
       })
       res.setHeader('Content-type', 'application/json')
       return res.end('"ok"')
@@ -75,25 +75,21 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
         if (err) return console.error('error parsing event', err.message)
         trackEvent(event, options, memory, live)
         process.stdout.write(`${event.d} ${event.p} ${event.v}`)
-        sendSSE(JSON.stringify(live), connections)
+        broadcastSSE(JSON.stringify(live), connections)
       })
-      res.setHeader('Content-type', 'application/json')
-      return res.end('"ok"')
+      return replyJSON(res, 'ok')
     }
     if (req.method === 'GET' && /^\/live/.test(req.url)) {
-      res.setHeader('Content-type', 'application/json')
-      return res.end(JSON.stringify(live))
+      return replyJSON(res, live)
     }
     if (req.method === 'GET' && /^\/api\/pageviews\/.*/.test(req.url)) {
       const [_, url] = req.url.match(/^\/api\/pageviews(\/.*)/)
       const result = analyticsCache.getAll(`/?timeframe=all&p=${url}`, memory, live)
-      res.setHeader('Content-type', 'application/json')
-      return res.end(JSON.stringify(result.pageviewsCount))
+      return replyJSON(res, result.pageviewsCount)
     }
     if (req.method === 'GET' && /^\/api/.test(req.url)) {
       const result = analyticsCache.getAll(req.url, memory, live)
-      res.setHeader('Content-type', 'application/json')
-      return res.end(JSON.stringify(result))
+      return replyJSON(res, result)
     }
     if (req.method === 'GET' && req.url === '/client.js') {
       res.setHeader('Content-type', 'text/javascript')
@@ -101,7 +97,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
     }
     if (req.headers.accept && req.headers.accept.indexOf('text/event-stream') >= 0) {
       handleSSE(res, connections)
-      return sendSSE(JSON.stringify(live), [res])
+      return broadcastSSE(JSON.stringify(live), [res])
     }
     return serve(req, res, finalhandler(req, res))
   })
@@ -110,7 +106,7 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
     Object.keys(live).forEach(visitor => {
       if (live[visitor] && live[visitor].heartbeat < Date.now() - 60000) delete live[visitor]
     })
-    sendSSE(JSON.stringify(live), connections)
+    broadcastSSE(JSON.stringify(live), connections)
   }, 5000)
 
   process.stdout.write(`listening on http://127.0.0.1:${options.HTTP_PORT}\n`)
@@ -129,12 +125,17 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
     })
   }
 
-  function sendSSE (data, connections = []) {
+  function broadcastSSE (data, connections = []) {
     connections.forEach(connection => {
       if (!connection) return
       const id = new Date().toISOString()
       connection.write('id: ' + id + '\n')
       connection.write('data: ' + data + '\n\n')
     })
+  }
+
+  function replyJSON (res, obj) {
+    res.setHeader('Content-type', 'application/json')
+    res.end(JSON.stringify(obj))
   }
 }
