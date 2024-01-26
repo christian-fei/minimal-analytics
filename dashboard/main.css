@@ -309,7 +309,14 @@ CHART
 }
 
 
+/*
+stats container
+*/
 
+.stats {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 
 
 @media all and (max-width: 70em) {

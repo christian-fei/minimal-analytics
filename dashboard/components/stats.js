@@ -15,7 +15,7 @@ export default function ({ data, filters = {}, toggleFilter }) {
   }
 
   return (
-    <div>
+    <div className="stats">
       <div className="grid contain text-lg">
         <div className="w-50">
           <h2>Visitors</h2>
