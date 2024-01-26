@@ -264,6 +264,11 @@ HISTORY
 CHART
 */
 
+#pageviews-chart {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 .charts-css {
   --color: #222;
   height: 25rem;
