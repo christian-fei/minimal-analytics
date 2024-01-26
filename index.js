@@ -136,6 +136,6 @@ tracking pageviews from ${options.SITE_BASE_URL}\n`)
 
   function replyJSON (res, obj) {
     res.setHeader('Content-type', 'application/json')
-    res.end(JSON.stringify(obj))
+    return res.end(JSON.stringify(obj))
   }
 }
