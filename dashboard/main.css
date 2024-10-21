@@ -41,12 +41,12 @@ a {
   font-size: 1.3rem;
 }
 @media all and (max-width: 50em) {
-  /* #pageviews-chart {
+  #pageviews-chart {
     overflow-x: scroll;
   }
   .charts-css {
     min-width: 150vw;
-  } */
+  }
   .text-lg {
     font-size: 1.15rem;
   }
