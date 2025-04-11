@@ -19,6 +19,14 @@ See [Minimal Analytics in action](https://s.cri.dev)
 
 # how to self-host
 
+## with docker
+
+```
+docker run -p 8080:8080 -v /path/to/your/data/folder/for/persistence:/app/data christianfei/minimal-analytics:latest
+```
+
+## manually
+
 ## 1. clone the repo
 
 ```
