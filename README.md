@@ -22,7 +22,11 @@ See [Minimal Analytics in action](https://s.cri.dev)
 ## with docker
 
 ```
-docker run -p 8080:8080 -v /path/to/your/data/folder/for/persistence:/app/data christianfei/minimal-analytics:latest
+docker run -p 8080:8080 \
+ -v /path/to/your/data/folder/for/persistence:/app/data \
+ -e STATS_BASE_URL=https://stats.example.com \
+ -e SITE_BASE_URL=https://example.com \
+ christianfei/minimal-analytics:latest
 ```
 
 ## manually
